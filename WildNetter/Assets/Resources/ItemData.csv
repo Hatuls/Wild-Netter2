@@ -1,0 +1,16 @@
+﻿ID,Type Of Item,Name,Location,SellPriceReduction,Price,Rarity Level
+10000,1,Wolfsbane,1-2,0.2,1 - 1,1
+10001,1,Thistle, 1-2-3,0.2, 1-1,1
+10002,1,wood, 1-2-5 ,0.2, 1-1,1
+10003,1,coal, 1-2-5,0.2, 3 - 1,1
+10004,1,apple, 1 - 2 -5 ,0.2, 2 - 1,1
+10005,1,peach, 1 - 2 ,0.2, 2 - 1,1
+10006,1,poppy, 2 - 4,0.2, 5 - 1,2
+10007,1,lupine, 1- 2,0.2, 6 - 1,2
+10008,1,hemp, 1- 2,0.2, 2 - 1,1
+10009,1,Sugar cane, 1-2,0.2, 4 - 1,1
+20000,2,Wooden spear,,0.2,,1
+20001,2,Bronze dagger,,0.2,,1
+20002,2,Darts*4,,0.2,,2
+20003,2,Blow-gun,,0.2,,1
+
