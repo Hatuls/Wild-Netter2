@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     //PlayerGFX _playerGFX;
     PlayerInventory _playerInventory;
     PlayerCombat _playerCombat;
+    PlayerStats _playerStats;
 
 
     //EventsAndAction
@@ -17,6 +18,10 @@ public class PlayerManager : MonoBehaviour
     //Getter And Setter
     public PlayerCombat GetPlayerCombat { get { return _playerCombat; } }
     public PlayerInventory GetPlayerInventoryScript { get { return _playerInventory; } }
+
+    public PlayerStats GetPlayerStatsScript { get { return _playerStats; } }
+
+    public Transform GetPlayerTransform { get { return transform; } }
 
     //Functions:
 
@@ -49,7 +54,10 @@ public class PlayerManager : MonoBehaviour
         _playerInventory = GetComponent<PlayerInventory>();
       _playerMovement = GetComponent<PlayerMovement>();
         _playerCombat = GetComponent<PlayerCombat>();
-       // _playerGFX = GetComponentInChildren<PlayerGFX>();
+        // _playerGFX = GetComponentInChildren<PlayerGFX>();
+        _playerStats = GetComponent<PlayerStats>();
       
     }
+
+
 }

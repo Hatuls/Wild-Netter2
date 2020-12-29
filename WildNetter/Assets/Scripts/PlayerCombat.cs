@@ -52,6 +52,18 @@ public class PlayerCombat : MonoBehaviour
     {
         SetAttackAction();
         Attack();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            DeployTotem(TotemType.detection);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            DeployTotem(TotemType.healing);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            DeployTotem(TotemType.prey);
+        }
     }
 
     private void Attack() {  
@@ -60,10 +72,6 @@ public class PlayerCombat : MonoBehaviour
             AttackAction();
         }
     }
-
-
-
-
 
     public void MeleeAttack() {
         Debug.Log("SWord AttacK");
@@ -75,12 +83,12 @@ public class PlayerCombat : MonoBehaviour
         Debug.Log("Range AttacK");
 
     }
-    public void DeployTotem()
-    {
-        Debug.Log("DeployTotem");
 
-    
+    public void DeployTotem(TotemType type)
+    {
+        TotemManager._instance.DeployAtLocation(transform.position + TotemManager._instance.totemOffset, type);
     }
+
     public void SetAttackAction() {
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
@@ -100,7 +108,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ResetAttackAction();
-            AttackAction += DeployTotem;
+            //AttackAction += DeployTotem;
             Debug.Log("Deploy Totem");
         }
     
@@ -112,7 +120,7 @@ public class PlayerCombat : MonoBehaviour
     private void ResetAttackAction()
     {
         AttackAction -= RangeAttack;
-        AttackAction -= DeployTotem;
+        //AttackAction -= DeployTotem;
         AttackAction -= MeleeAttack;
     }
 

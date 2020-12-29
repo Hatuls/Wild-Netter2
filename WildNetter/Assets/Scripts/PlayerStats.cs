@@ -12,8 +12,8 @@ public class PlayerStats : MonoBehaviour
     int currentEXP;
     int expToNextLevel;
     int abilityPoints;
-    int currentHealth;
-    int maxHealth;
+   [SerializeField] int currentHealth = 1;
+    int maxHealth = 125;
     int armorPoints;
 
     //Component References:

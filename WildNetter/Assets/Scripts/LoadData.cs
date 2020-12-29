@@ -25,7 +25,7 @@ public class LoadData
         itemData =  Resources.Load<TextAsset>("ItemData").text.Split(new char[] { '\n' });
         weaponData = Resources.Load<TextAsset>("WeaponData").text.Split(new char[] { '\n' });
         //elixerData = Resources.Load<TextAsset>("elixerData").text.Split(new char[] { '\n' });
-       // totemData = Resources.Load<TextAsset>("totemData").text.Split(new char[] { '\n' });;
+       totemData = Resources.Load<TextAsset>("TotemData").text.Split(new char[] { '\n' });;
     }
   
     
@@ -92,7 +92,7 @@ public class LoadData
     }
 
 
-    public string[] GetItemDataFromCVSFile(int id)
+    public string[] GetItemDataFromCSVFile(int id)
     {
         try
         {

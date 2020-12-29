@@ -26,7 +26,7 @@ public class ItemFactory : MonoBehaviour
     public Item GenerateItem(int id)
     {
         Item itemToGenerate = null;
-        string[] data =LoadData.GetInstance().GetItemDataFromCVSFile(id);
+        string[] data =LoadData.GetInstance().GetItemDataFromCSVFile(id);
         if (int.TryParse(data[1], out int Type))
         {
             switch (Type)
@@ -41,7 +41,7 @@ public class ItemFactory : MonoBehaviour
                    // itemToGenerate = new ElixersSO();
                     break;
                 case 4:
-                   // itemToGenerate = new TotemSO();
+                   itemToGenerate = new TotemSO(data, LoadData.GetInstance().GetTypeOfItemDataFromOtherTable(Type, id));
                     break;
                 default:
                     Debug.Log("Cant Generate That type id please check the data base");

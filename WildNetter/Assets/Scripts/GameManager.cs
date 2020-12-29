@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         playersWeapon.Print();
 
         PlayerManager.GetInstance().Init(playersWeapon as WeaponSO);
-
+        TotemManager._instance.Init();
 
   
        
