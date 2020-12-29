@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.UIElements;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeaponSO : Item
 {
@@ -15,15 +11,15 @@ public class WeaponSO : Item
     public float HitSpeed;
     public int[] ItemsIDToBuildThis;
     public enum WeaponType { Melee, Range };
-
+   // public int amount = 1;
     public WeaponType weaponType;
 
 
 
     // the 6 first elements of the dataFiles go to item!
-    public WeaponSO(string[] itemData, string[] weaponData): base(itemData)
+    public WeaponSO(string[] itemData, string[] weaponData) : base(itemData)
     {
-      
+
         this.isStackable = true;
 
         if (weaponData != null)
@@ -32,8 +28,8 @@ public class WeaponSO : Item
             if (weaponData[1] != "" && weaponData[1] != null)
             {
                 string[] dmgCache = weaponData[1].Split(new char[] { '-' });
-                int.TryParse(dmgCache[0],out minDMG);
-                int.TryParse(dmgCache[1],out maxDMG);
+                int.TryParse(dmgCache[0], out minDMG);
+                int.TryParse(dmgCache[1], out maxDMG);
             }
 
             //set attack speed
@@ -43,7 +39,7 @@ public class WeaponSO : Item
             }
 
             //set weapon type range or melee
-            if (weaponData[3] != ""  && weaponData[3] != null)
+            if (weaponData[3] != "" && weaponData[3] != null)
             {
                 if (weaponData[3] == "1")
                 {
@@ -56,10 +52,11 @@ public class WeaponSO : Item
             }
 
             // set hands
-            if (weaponData[4] != "" && weaponData[4] != null) {
+            if (weaponData[4] != "" && weaponData[4] != null)
+            {
 
                 int.TryParse(weaponData[4], out Hands);
-            
+
             }
             // set minimum level
             if (weaponData[5] != "" && weaponData[5] != null)
@@ -69,18 +66,18 @@ public class WeaponSO : Item
             // set bonus?
             if (weaponData[6] != "" && weaponData[6] != null)
             {
-               //  to be done when its filled
+                //  to be done when its filled
             }
 
             //    ItemsIDToBuildThis
             if (weaponData[7] != "" && weaponData[7] != null)
             {
-            //    ItemsIDToBuildThis
+                //    ItemsIDToBuildThis
             }
             // remarks
             if (weaponData[8] != "" && weaponData[8] != null)
             {
-           // remarks
+                // remarks
             }
             if (weaponData[9] != "" && weaponData[9] != null)
             {
@@ -89,11 +86,12 @@ public class WeaponSO : Item
         }
 
 
-      
+
     }
 
 
-    public void PrintWeaponSO() {
+    public void PrintWeaponSO()
+    {
 
         Debug.Log("MinimumPlayerLevel : " + this.MinimumPlayerLevel
             + "\n minDMG : " + this.minDMG
@@ -102,20 +100,5 @@ public class WeaponSO : Item
             + "\n CritChance : " + this.CritChance
             + "\n HitSpeed : " + this.HitSpeed
             + "\n weaponType : " + this.weaponType);
-
-
-
-       
-}
-
-
-    public override void PickUp()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Destroy(GameObject objectToDestroy)
-    {
-        throw new System.NotImplementedException();
     }
 }

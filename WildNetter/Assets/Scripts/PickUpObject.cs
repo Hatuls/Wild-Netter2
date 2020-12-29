@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PickUpObject : MonoBehaviour
 {
+    
    [SerializeField]  static Transform pickUpContianer;
    [SerializeField] GameObject ItemPrefab;
     Item item;
@@ -38,8 +39,8 @@ public class PickUpObject : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (Vector3.Distance(transform.position , playerPos.position) < 2f)
         {
-           // need to add logic if the player can add this item or maybe he has max capcity on it
-            PlayerInventory.AddToInventory(item);
+        
+            PlayerInventory.GetInstance.AddToInventory(GetItem());
             Destroy(this.gameObject);
 
         }

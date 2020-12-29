@@ -14,9 +14,10 @@ public class TotemSO : Item
     public float range;
     public int MinimumPlayerLevel;
     public int currentZone;
-
+   // public int amount = 0;
     public TotemSO(string[] lootData, string[] totemData) : base(lootData)
     {
+       
         if (totemData == null)
             return;
         if (totemData[1] != "")
@@ -61,13 +62,4 @@ public class TotemSO : Item
         }
     }
 
-    public override void PickUp()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Destroy(GameObject objectToDestroy)
-    {
-        throw new System.NotImplementedException();
-    }
 }
