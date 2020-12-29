@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
         direction = targetVector * GetSetPlayerSpeed;
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
 
         //if (direction.magnitude >= 1)
         //{
@@ -92,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
-        Debug.Log(direction);
+        //Debug.Log(direction);
 
     }
 

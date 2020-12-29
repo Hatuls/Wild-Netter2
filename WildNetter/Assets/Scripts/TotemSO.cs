@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Totem", fileName = "Totem Name")]
-public class TotemSO : Item
+public abstract class TotemSO : Item
 {
     // Object References:
     public Item[] itemsToBuildThis;
@@ -14,6 +14,7 @@ public class TotemSO : Item
     public float range;
     public int MinimumPlayerLevel;
     public int currentZone;
+    public Animator _animator;
 
     public TotemSO(string[] lootData, string[] totemData) : base(lootData)
     {
@@ -68,6 +69,103 @@ public class TotemSO : Item
 
     public override void Destroy(GameObject objectToDestroy)
     {
+        Destroy(objectToDestroy);
+    }
+
+    public abstract void DoEffect(Vector3 totemLocation, Vector3 targetLocation);
+    public abstract void DoEffect(Vector3 totemLocation);
+    public bool CheckRange(Vector3 totemLocation, Vector3 targetLocation, float _range)
+    {
+        bool isRange = (Vector3.Distance(totemLocation, targetLocation) < _range);
+        return isRange;
+    }
+
+    public virtual void PlayAnimation(string animName)
+    {
+        _animator.Play(animName);
+    }
+}
+
+public class TotemOfHealing : TotemSO
+{
+    int healingPrecentage = 5;
+    public TotemOfHealing(string[] lootData, string[] totemData) : base (lootData, totemData)
+    {
+        //healingPrecentage = goes up per level
+    }
+       
+    public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
+    {
+        if (CheckRange(totemLocation, targetLocation, range))
+        {   
+            PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance().GetPlayerStatsScript.GetSetMaxHealth) / 100);
+            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth);
+        }
+    }
+
+    public override void DoEffect(Vector3 totemLocation)
+    {
         throw new System.NotImplementedException();
+    }
+}
+
+public class TotemOfDetection : TotemSO
+{
+    // ***** check if collider needs to be on the totem or in a sub class *****
+    public TotemOfDetection(string[] lootData, string[] totemData) : base (lootData, totemData)
+    {
+
+    }
+    public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
+    {
+        throw new System.NotImplementedException();
+    }
+    public override void DoEffect(Vector3 totemLocation)
+    {
+        Collider[] objectCollider;
+        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+        foreach (Collider col in objectCollider)
+        {
+            if (CheckRange(totemLocation, col.transform.parent.position, range))
+            {
+                Debug.Log("Beast was found!");
+            }
+        }
+    }
+}
+
+public class TotemOfPrey : TotemSO
+{
+    private bool pull;
+    public TotemOfPrey(string[] lootData, string[] totemData) : base(lootData, totemData)
+    {
+
+    }
+    public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void DoEffect(Vector3 totemLocation)
+    {
+        Collider[] objectCollider;
+        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+        foreach (Collider col in objectCollider)
+        {
+            if (CheckRange(totemLocation, col.transform.position, range) && !pull)
+            {
+                pull = true;
+            }
+
+            if (pull)
+            {
+                //remove from here when enemy is done
+                col.transform.position = Vector3.MoveTowards(col.transform.position, totemLocation, 5 * Time.deltaTime);
+                if (CheckRange(totemLocation, col.transform.position, range / 3))
+                {
+                    pull = false;
+                }
+            }
+        }
     }
 }
