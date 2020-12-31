@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe086513882fee42bf45ae3c83f6191, type: 3}
   m_Name: Orc
   m_EditorClassIdentifier: 
-  enemyName: 
+  enemyName: OrcPrototype
   maxHealth: 30
   level: 1
   attackDMG: 20
@@ -31,9 +31,11 @@ MonoBehaviour:
   Attack2_RangeFromSource: 0
   Attack2_AnimDelay: 0.5
   attack2_animLenght: 1
-  lootDropsID: 
+  lootDropsID: 12270000
   enemyAnim: []
   attackType: 1
   enemyVulnerability: 3
   habitats: 
   enemyState: 1
+  enemySize: 0
+  enemyDifficulty: 0

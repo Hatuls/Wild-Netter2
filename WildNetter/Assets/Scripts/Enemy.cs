@@ -188,7 +188,7 @@ public abstract class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.lured:
-                Debug.Log("Lured");
+                
                 break;
 
             case EnemyState.None:
@@ -202,7 +202,7 @@ public abstract class Enemy : MonoBehaviour
         Collider[] Found = Physics.OverlapSphere(CurrentPos, _enemySheet.sightRange, TargetLayer);
         foreach (Collider found in Found)
         {
-            if (found != null)
+            if (found != null&& _enemySheet.enemyState != EnemyState.lured)
             {
             _enemySheet.enemyState = EnemyState.Chase;
             TargetAquierd = found.gameObject;
@@ -265,8 +265,13 @@ public abstract class Enemy : MonoBehaviour
     public void DropLoot()
     {
 
-
-        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory.GetInstance().GenerateItem(_enemySO.lootDropsID[dropLevel]), RetrieveDeathLocation(), TargetAquierd.transform);
+        if(TargetAquierd==null)
+        {
+           
+                TargetFinder();
+                
+        }
+        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory.GetInstance().GenerateItem(_enemySO.lootDropsID[dropLevel-1]), RetrieveDeathLocation(), TargetAquierd.transform);
 
         Dropable.GetComponent<PickUpObject>().GetItem().amount = dropAmont;
 

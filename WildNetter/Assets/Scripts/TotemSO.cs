@@ -160,7 +160,7 @@ public class TotemOfPrey : TotemSO
             if (pull)
             {
                 //remove from here when enemy is done
-                col.transform.position = Vector3.MoveTowards(col.transform.position, totemLocation, 5 * Time.deltaTime);
+              
                 Enemy enemyCatched;
                 enemyCatched = col.GetComponent<Enemy>();
                 enemyCatched._enemySheet.enemyState = EnemyState.lured;

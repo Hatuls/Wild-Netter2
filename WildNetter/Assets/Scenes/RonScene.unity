@@ -5152,7 +5152,7 @@ GameObject:
   - component: {fileID: 993860770}
   - component: {fileID: 993860768}
   - component: {fileID: 993860767}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Orc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5206,7 +5206,7 @@ MonoBehaviour:
     Attack2_RangeFromSource: 0
     Attack2_AnimDelay: 0.5
     attack2_animLenght: 2
-    lootDropsID: 
+    lootDropsID: eb030000
     enemyAnim: []
     attackType: 0
     enemyVulnerability: 0
@@ -5224,7 +5224,7 @@ MonoBehaviour:
   currentHP: 0
   TargetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
 --- !u!4 &993860769
 Transform:
   m_ObjectHideFlags: 0
@@ -7865,7 +7865,7 @@ GameObject:
   - component: {fileID: 1517068485}
   - component: {fileID: 1517068484}
   - component: {fileID: 1517068482}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

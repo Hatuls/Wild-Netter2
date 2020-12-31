@@ -37,5 +37,5 @@ MonoBehaviour:
   enemyVulnerability: 3
   habitats: 00000000010000000200000003000000
   enemyState: 1
-  enemySize: 1
-  enemyDifficulty: 1
+  enemySize: 0
+  enemyDifficulty: 0
