@@ -18,7 +18,10 @@ public class PlayerCombat : MonoBehaviour
     public string currentWeaponName;
     event Action AttackAction;
 
-
+    public void GetHit()
+    {
+        Debug.Log("playerGotHit");
+    }
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
         get { return _equippedWeapon; }

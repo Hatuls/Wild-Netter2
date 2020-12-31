@@ -161,6 +161,10 @@ public class TotemOfPrey : TotemSO
             {
                 //remove from here when enemy is done
                 col.transform.position = Vector3.MoveTowards(col.transform.position, totemLocation, 5 * Time.deltaTime);
+                Enemy enemyCatched;
+                enemyCatched = col.GetComponent<Enemy>();
+                enemyCatched._enemySheet.enemyState = EnemyState.lured;
+                enemyCatched.agent.SetDestination(totemLocation);
                 if (CheckRange(totemLocation, col.transform.position, range / 3))
                 {
                     pull = false;

@@ -1,7 +1,16 @@
-﻿using UnityEditor;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu (menuName = "Enemy", fileName = "Enemy")]
-public class EnemySO : ScriptableObject
+public enum AttackType { None, Shock, Fire, Cold, Poison }
+public enum Vulnerability { None, Fire, Poison, Cold }
+public enum Habitat { Forest, Mountain, GrassLands, Deserts };
+public enum EnemyState { None, Idle, Chase ,Attack,lured};
+
+public enum Size { Small,Medium,Large }
+public enum Difficulty {Easy,Hard,Challange }
+
+[System.Serializable]
+public class EnemySheet
 {
     [Header("rawData")]
     public string enemyName;
@@ -14,8 +23,9 @@ public class EnemySO : ScriptableObject
     public float attackSpeed;
     public float wanderRadius;
 
+
     [Header("SetAttack1")]
-   
+    
     [Tooltip("CD Starts At Lunch")]
     public float Attack1_Cd;
     public float Attack1_Range;
@@ -30,6 +40,8 @@ public class EnemySO : ScriptableObject
     public float Attack2_RangeFromSource;
     public float Attack2_AnimDelay;
     public float attack2_animLenght;
+    
+
 
     [Header("Components")]
     public int[] lootDropsID;
@@ -42,13 +54,4 @@ public class EnemySO : ScriptableObject
     public EnemyState enemyState;
     public Size enemySize;
     public Difficulty enemyDifficulty;
-
-
-
-
-
-
-
-
-
 }
