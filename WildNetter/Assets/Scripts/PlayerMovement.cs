@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
         direction = targetVector * GetSetPlayerSpeed;
 
-        Debug.Log(direction);
+       // Debug.Log(direction);
 
      
         if (Input.GetKey(KeyCode.LeftShift)) { isSprinting = true; } else { isSprinting = false; }
@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
-        Debug.Log(direction);
+ 
      
 
     }
