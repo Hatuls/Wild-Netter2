@@ -34,15 +34,15 @@ public class GameManager : MonoBehaviour
 
     private void Init()
     {
-       
 
+        UiManager._instance.Init();
 
       var playersWeapon = ItemFactory.GetInstance().GenerateItem( 20000);
         (playersWeapon as WeaponSO).PrintWeaponSO();
         playersWeapon.Print();
         Debug.ClearDeveloperConsole();
         PlayerInventory.GetInstance.PrintInventory();
-        PlayerManager.GetInstance().Init(playersWeapon as WeaponSO);
+        PlayerManager.GetInstance.Init(playersWeapon as WeaponSO);
         TotemManager._instance.Init();
         for (int i = 0; i < 3; i++)
         {

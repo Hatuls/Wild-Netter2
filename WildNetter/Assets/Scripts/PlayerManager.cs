@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
     PlayerInventory _playerInventory;
     PlayerCombat _playerCombat;
     PlayerStats _playerStats;
-
+    PlayerWallet _playerWallet;
 
     //EventsAndAction
 
@@ -25,13 +25,15 @@ public class PlayerManager : MonoBehaviour
 
     //Functions:
 
-    public static PlayerManager GetInstance() {
+    public static PlayerManager GetInstance {
+        get {
         if (_instance == null)
         {
             _instance = new PlayerManager();
 
         }
         return _instance;
+        }
     }
     private void Awake()
     {
@@ -56,7 +58,7 @@ public class PlayerManager : MonoBehaviour
         _playerCombat = GetComponent<PlayerCombat>();
         // _playerGFX = GetComponentInChildren<PlayerGFX>();
         _playerStats = GetComponent<PlayerStats>();
-      
+        _playerWallet = PlayerWallet.GetInstance;
     }
 
 

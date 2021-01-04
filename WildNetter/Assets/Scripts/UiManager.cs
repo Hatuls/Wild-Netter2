@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Diagnostics.Contracts;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,26 +18,23 @@ public class UiManager : MonoBehaviour
     TextMeshProUGUI currencyTMP;
     TextMeshProUGUI inventoryCapacityTMP;
     Sprite defaultSpriteForSlot;
-
+    Item[] inventory;
     //SerializeField] TextMeshProUGUI inventoryCapacityText;
-   
-    // PlayerInventory _playerInventory;
+
+     PlayerWallet wallet;
     // Variables:
 
     // Getter & Setters:
     private void Awake()
     {
         _instance = this;
-
     }
-    private void Start()
-    {
-        Init();
-    }
-
+   
     public void Init()
     {
+        wallet = PlayerWallet.GetInstance;
         _playerInventory = PlayerInventory.GetInstance;
+        inventory = _playerInventory.GetInventory;
          Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
         currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
         inventoryCapacityTMP= playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
@@ -57,9 +55,8 @@ public class UiManager : MonoBehaviour
         if (!playerInventoryUIWindow.activeSelf)
             return;
         
-        var inventory = _playerInventory.GetInventory;
         //Need to create PlayerWallet - > _wallet
-        //  currencyTMP.text = string.Format("Gold : {0}    Silver : {1}    Copper : {2}", _playerInventory.GetCoinCurrency()[2], _playerInventory.GetCoinCurrency()[1], _playerInventory.GetCoinCurrency()[0]);
+          currencyTMP.text = string.Format("Gold : {0}    Silver : {1}    Copper : {2}", wallet.GetSetPlayersGold, wallet.GetSetPlayersSilver, wallet.GetSetPlayersCopper);
         inventoryCapacityTMP.text= string.Format("{0}/{1}", inventory.Length - _playerInventory.GetAmountOfItem(null)  , inventory.Length);
         string text = " / " + _playerInventory.maxCapacityOfItemsInSlot;
     
@@ -111,19 +108,37 @@ public class UiManager : MonoBehaviour
 
 
     public void DropItemFromInventory(int i) {
-        if (_playerInventory.GetInventory[i] != null)
+        if (inventory[i] != null)
         {
-            _playerInventory.PrintInventory();
-            PickUpObject.SpawnItemInWorld(_playerInventory.GetInventory[i], PlayerManager.GetInstance().GetPlayerTransform.position, PlayerManager.GetInstance().GetPlayerTransform);
-            _playerInventory.RemoveItemFromInventory(_playerInventory.GetInventory[i]);
+            var itemToDrop = ItemFactory.GetInstance().GenerateItem(inventory[i].ID);
+            itemToDrop.amount = inventory[i].amount;
+            PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager.GetInstance.GetPlayerTransform.position, PlayerManager.GetInstance.GetPlayerTransform);
+            _playerInventory.RemoveItemFromInventory(inventory[i]);
             UpdateInventory();
 
-            _playerInventory.PrintInventory();
         }
-
-
-    
     }
 
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            wallet.ConvertMoney(CurrencyType.Copper, CurrencyType.Silver);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            wallet.ConvertMoney(CurrencyType.Silver, CurrencyType.Gold);
+
+        }else if(Input.GetKeyDown(KeyCode.I))
+        {
+            wallet.ConvertMoney(CurrencyType.Gold, CurrencyType.Copper);
+
+        }
+        else if (Input.GetKeyDown(KeyCode.U))
+        {
+            wallet.ConvertMoney(CurrencyType.Copper, CurrencyType.Gold);
+
+        }
+    }
 }

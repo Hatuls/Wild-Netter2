@@ -147,8 +147,9 @@ public class PlayerInventory
 
 
 
-        int remain = item.amount - itemAmountCount;
-        itemAmountCount = 0;
+
+        int test = item.amount - itemAmountCount;
+
         for (int i = 0; i < inventoryList.Length; i++)
         {
             if (inventoryList[i] == null)
@@ -159,31 +160,32 @@ public class PlayerInventory
                 if (inventoryList[i].amount == maxCapacityOfItemsInSlot)
                     continue;
 
-                if (remain + inventoryList[i].amount > maxCapacityOfItemsInSlot)
+                if (test + inventoryList[i].amount > maxCapacityOfItemsInSlot)
                 {
 
-                    remain = (inventoryList[i].amount + remain) - maxCapacityOfItemsInSlot ;
-                    itemAmountCount = maxCapacityOfItemsInSlot - inventoryList[i].amount;
+                    test = Mathf.Abs(maxCapacityOfItemsInSlot - (inventoryList[i].amount + test));
                     inventoryList[i].amount = maxCapacityOfItemsInSlot;
-                    item.amount = remain;
+                    item.amount = test;
                     AddAmountOfItem(item);
                     return;
                 }
-                else if (remain + inventoryList[i].amount == maxCapacityOfItemsInSlot)
+                else if (test + inventoryList[i].amount == maxCapacityOfItemsInSlot)
                 {
                     inventoryList[i].amount = maxCapacityOfItemsInSlot;
                     return;
                 }
-                else if (remain + inventoryList[i].amount < maxCapacityOfItemsInSlot)
+                else if (test + inventoryList[i].amount < maxCapacityOfItemsInSlot)
                 {
-                    inventoryList[i].amount += remain;
+                    inventoryList[i].amount += test;
                     return;
                 }
             }
         }
 
         //  inventoryList[GetItemIndexInArray(null)] = new ItemSlot(item.item, test); ;
-     //  item.amount = remain;
+          item.amount = test;
+   
+    
         inventoryList[GetItemIndexInArray(null)] = item;
 
     }
@@ -196,8 +198,6 @@ public class PlayerInventory
         if (CheckIfEnoughSpaceInInventory(item))
         {
             itemAmountCount = 0;
-            PrintInventory();
-            Debug.Log("**** ADDED******" + item.amount);
             AddAmountOfItem(item);
             UiManager._instance.UpdateInventory();
             return;
@@ -275,6 +275,7 @@ public class PlayerInventory
 
             }
         }
+ 
     }
 
     public void RemoveItemFromInventory(Item item)

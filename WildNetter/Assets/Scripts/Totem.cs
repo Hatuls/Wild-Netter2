@@ -75,7 +75,7 @@ public class Totem : MonoBehaviour
         type = relevantSO.totemType;
         if(playerTransform == null && type == TotemType.healing)
         {
-            playerTransform = PlayerManager.GetInstance().GetPlayerTransform;
+            playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
         }
         if (relevantSO.duration != null || relevantSO.duration > 0)
         {
@@ -118,8 +118,8 @@ public class Totem : MonoBehaviour
         if(Vector3.Distance(transform.position, playerTransform.position) < relevantSO.range)
         {
             int healingPrecentage = 5;
-            PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance().GetPlayerStatsScript.GetSetMaxHealth) / 100);
-            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth);
+            PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
+            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
         }
     }
 
