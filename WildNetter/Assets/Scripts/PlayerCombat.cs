@@ -18,6 +18,7 @@ public class PlayerCombat : MonoBehaviour
     public string currentWeaponName;
     event Action AttackAction;
 
+    //move to player manager
     public void GetHit()
     {
         Debug.Log("playerGotHit");
