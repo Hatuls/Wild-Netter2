@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviour
 
     private void AssignScriptsComponentsReferences()
     {
-        _playerInventory =  PlayerInventory.GetInstance ;
+        _playerInventory = GetComponent<PlayerInventory>();
       _playerMovement = GetComponent<PlayerMovement>();
         _playerCombat = GetComponent<PlayerCombat>();
         // _playerGFX = GetComponentInChildren<PlayerGFX>();

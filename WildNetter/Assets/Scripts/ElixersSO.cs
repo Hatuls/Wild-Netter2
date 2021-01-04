@@ -6,11 +6,21 @@ public class ElixersSO : Item
 {
    public enum ElixerType { };
    public ElixerType elixerType;
-    //public int amount = 1;;
+
     public int AmountOfBuff;
     Item[] ItemsToMakeThis;
 
 
-    public ElixersSO(string[] data) : base(data) { this.isStackable = true;  }
-   
+    public ElixersSO(string[] data) : base(data) { this.isStackable = true; }
+    public override void PickUp()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Destroy(GameObject objectToDestroy)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    
 }

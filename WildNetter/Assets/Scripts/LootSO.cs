@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class LootSO : Item
 {
-  //public int amount;
+   
 
 
     public LootSO(string[] lootData) : base(lootData) {
         this.isStackable = true;
-        //amount = 1;
     }
-
+    
+    public override void Destroy(GameObject objectToDestroy)
+    {
+        throw new System.NotImplementedException();
+    }
+    public int GetAmountOfItem() { return amount; }
+    public override void PickUp()
+    {
+        throw new System.NotImplementedException();
+    }
 }
