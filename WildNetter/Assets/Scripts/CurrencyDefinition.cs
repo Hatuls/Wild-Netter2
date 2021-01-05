@@ -1,14 +1,15 @@
 ﻿
 using UnityEngine;
 
-public class CurrencyDefinition 
-{
     public enum CurrencyType { Copper,Silver,Gold};
+public class CurrencyDefinition
+{
     public CurrencyType currency = CurrencyType.Copper;
     public int Price = 0;
 
 
-    public void SetCurrencyType(int type) {
+    public void SetCurrencyType(int type)
+    {
 
         switch (type)
         {
@@ -24,7 +25,7 @@ public class CurrencyDefinition
             default:
                 Debug.Log("Didnt Find The Right Type Of Currency Check Data Table");
                 break;
-               
+
         }
 
     }

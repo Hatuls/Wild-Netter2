@@ -62,16 +62,6 @@ public abstract class TotemSO : Item
         }
     }
 
-    public override void PickUp()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Destroy(GameObject objectToDestroy)
-    {
-        Destroy(objectToDestroy);
-    }
-
     public abstract void DoEffect(Vector3 totemLocation, Vector3 targetLocation);
     public abstract void DoEffect(Vector3 totemLocation);
     public bool CheckRange(Vector3 totemLocation, Vector3 targetLocation, float _range)
@@ -100,8 +90,8 @@ public class TotemOfHealing : TotemSO
     {
         if (CheckRange(totemLocation, targetLocation, range))
         {   
-            PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance().GetPlayerStatsScript.GetSetMaxHealth) / 100);
-            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth);
+            PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
+            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
         }
     }
 

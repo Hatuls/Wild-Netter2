@@ -68,19 +68,9 @@ public class PlayerMovement : MonoBehaviour
 
         direction = targetVector * GetSetPlayerSpeed;
 
-        //Debug.Log(direction);
+       // Debug.Log(direction);
 
-        //if (direction.magnitude >= 1)
-        //{
-        //    _RB.velocity = direction;
-        //    //transform.Translate(direction);
-
-        //}
-        //else
-        //{
-
-        // _RB.velocity = Vector3.zero;
-        //}
+     
         if (Input.GetKey(KeyCode.LeftShift)) { isSprinting = true; } else { isSprinting = false; }
         if (isSprinting)
         {
@@ -88,11 +78,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            velocity = direction.magnitude;
+            velocity = direction.magnitude /2;
         }
         
         PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
-        //Debug.Log(direction);
+ 
+     
 
     }
 

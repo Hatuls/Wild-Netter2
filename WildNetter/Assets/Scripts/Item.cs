@@ -2,7 +2,7 @@
 using UnityEngine;
 
 
-public abstract class Item { 
+public class Item { 
     public enum Rarity { Common , Uncommon, Rare, LegendREI}
     public enum ZoneLocation { Forest , GrassLands, Deserts, Mountains , Treant}
     public ZoneLocation[] location;
@@ -13,9 +13,9 @@ public abstract class Item {
     public float SellPriceReduction = 0;
     public CurrencyDefinition Price;
     public bool isStackable;
-    public int amount;
-   
-    
+    public int amount = 1;
+    //public int maxAmountToHoldInSlot;
+
     public Item(string[] itemData) {
         Price = new CurrencyDefinition(); 
         LoadItemData(itemData);
@@ -108,8 +108,6 @@ public abstract class Item {
                     }
 
                 }
-              
-                amount = 1;
             }
 
         }
@@ -147,8 +145,5 @@ public abstract class Item {
              
     
     }
-
-    public abstract void PickUp();
-    public abstract void Destroy(GameObject objectToDestroy);
 
 }
