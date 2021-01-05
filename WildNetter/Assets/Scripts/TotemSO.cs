@@ -128,7 +128,7 @@ public class TotemOfDetection : TotemSO
         objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
         foreach (Collider col in objectCollider)
         {
-            if (CheckRange(totemLocation, col.transform.parent.position, range))
+            if (CheckRange(totemLocation, col.transform.position, range))
             {
                 Debug.Log("Beast was found!");
             }

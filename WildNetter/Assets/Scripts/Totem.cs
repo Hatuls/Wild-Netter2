@@ -64,6 +64,7 @@ public class Totem : MonoBehaviour
         relevantSO = totemSO;
         gameObject.transform.position = location;
         Debug.Log(relevantSO.totemType);
+        gameObject.transform.GetChild(0).GetComponent<Transform>().localScale = new Vector3(relevantSO.range/2, relevantSO.range/2, 1);
         gameObject.SetActive(true);
         healingParticle = GetComponent<ParticleSystem>();
         type = relevantSO.totemType;
