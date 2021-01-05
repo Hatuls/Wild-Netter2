@@ -69,7 +69,7 @@ public class Totem : MonoBehaviour
         type = relevantSO.totemType;
         if(playerTransform == null && type == TotemType.healing)
         {
-            playerTransform = PlayerManager.GetInstance().GetPlayerTransform;
+            playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
             healingParticle.Play();
         }
         if (relevantSO.duration > 0)
