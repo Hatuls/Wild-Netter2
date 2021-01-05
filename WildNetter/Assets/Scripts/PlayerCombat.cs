@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     // Script References:
-    WeaponSO _equippedWeapon;
+    WeaponSO equippedWeaponSO;
+    PlayerMovement playerMovement;
     // Component References:
     
    [SerializeField] Collider _weaponCollider;
@@ -21,11 +22,11 @@ public class PlayerCombat : MonoBehaviour
 
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
-        get { return _equippedWeapon; }
+        get { return equippedWeaponSO; }
         set { 
             
-            _equippedWeapon = value;
-            currentWeaponName = _equippedWeapon.Name;
+            equippedWeaponSO = value;
+            currentWeaponName = equippedWeaponSO.Name;
         }
 
     }
@@ -42,6 +43,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void Init(WeaponSO startingWeapon)
     {
+        playerMovement = GetComponent<PlayerMovement>();
         Debug.Log(startingWeapon.GetType());
         canAttack = true;
         GetSetWeaponSO = startingWeapon;
@@ -89,7 +91,7 @@ public class PlayerCombat : MonoBehaviour
     {
 
         PlayerGFX._instance.SetAnimationTrigger("PlaceTotem");
-        TotemManager._instance.DeployAtLocation(transform.position + TotemManager._instance.totemOffset, type);
+        TotemManager._instance.DeployAtLocation((transform.position + playerMovement.GetAngleDirection()*2f), type);
     }
 
     public void SetAttackAction() {
@@ -138,12 +140,14 @@ public class PlayerCombat : MonoBehaviour
 
     // ienumerators:
     IEnumerator  MeleeAttackCoroutine() {
+       
         canAttack = false;
         ToggleWeaponCollider(true);
 
-        yield return new WaitForSeconds(_equippedWeapon.HitSpeed);
+        yield return new WaitForSeconds(equippedWeaponSO.HitSpeed);
         ToggleWeaponCollider(false);
         canAttack = true;
+      
     }
 
     private void OnDestroy()

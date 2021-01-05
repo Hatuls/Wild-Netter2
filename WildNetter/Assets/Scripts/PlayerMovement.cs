@@ -15,10 +15,10 @@ public class PlayerMovement : MonoBehaviour
 
 
     Vector3 direction;
-
+    Vector3 rotationAngle;
     public float velocity;
 
-    bool isSprinting = false;
+    [SerializeField] static bool isPlayerRotateAble = true;
 
     // Component References:
     Rigidbody _RB;
@@ -37,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
 
         set { sprintStamina = value; }
     }
+    public static bool SetPlayerRotateAble {
+        set { isPlayerRotateAble = value; }
+    }
 
     //functions
 
@@ -45,17 +48,12 @@ public class PlayerMovement : MonoBehaviour
     {
         
         if (_RB != null )
-            
         {
             Move();
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 RotatePlayer();
-
             }
-            
-
-        
         }
     }
 
@@ -68,23 +66,12 @@ public class PlayerMovement : MonoBehaviour
 
         direction = targetVector * GetSetPlayerSpeed;
 
-       // Debug.Log(direction);
 
      
-        if (Input.GetKey(KeyCode.LeftShift)) { isSprinting = true; } else { isSprinting = false; }
-        if (isSprinting)
-        {
-            velocity = direction.magnitude;
-        }
-        else
-        {
-            velocity = direction.magnitude /2;
-        }
+        if (Input.GetKey(KeyCode.LeftShift)) { Sprint(true); } else { Sprint(false); }
         
         PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
  
-     
-
     }
 
 
@@ -92,19 +79,42 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotatePlayer()
     {
-      
-        Vector3 newrotates = new Vector3((MyCamera._Instance._HitInfo.point.x - transform.position.x), 0, (MyCamera._Instance._HitInfo.point.z - transform.position.z));
 
-        transform.rotation = Quaternion.LookRotation(newrotates);
+        Vector3 MousPos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
+
+        if (Vector3.Distance(MousPos, transform.position) > 1.5f && isPlayerRotateAble)
+        {
+        rotationAngle = new Vector3(MousPos.x - transform.position.x, 0, MousPos.z - transform.position.z);
+
+         transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
+        }
+        
+
+        
        // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
 
     }
-    private void Sprint(bool ableto) { }
-  //  public Vector3 GetAngleDirection() { return Vector3.zero; }  < need to use later on 
+    private void Sprint(bool _isSprinting) {
+        if(_isSprinting)
+        {
+            velocity = direction.magnitude;
+        }
+        else
+        {
+            velocity = direction.magnitude / 2;
+        }
+    }
+    public Vector3 GetAngleDirection() {
+        if (rotationAngle == null)
+            return Vector2.zero;
+
+        return rotationAngle.normalized; 
+    
+    } 
     public void Init()
     {
-      
         _RB = GetComponent<Rigidbody>();
+
     }
 
 }
