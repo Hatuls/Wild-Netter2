@@ -12,6 +12,7 @@ public class Totem : MonoBehaviour
     public float currentRealTime;
     public TotemType type;
     private Transform playerTransform;
+    public ParticleSystem healingParticle;
 
     // Getter & Setters:
     public float GetCurrentTime()
@@ -33,6 +34,7 @@ public class Totem : MonoBehaviour
                     break;
                 case TotemType.healing:
                     relevantSO.DoEffect(transform.position);
+                    healingParticle.Play();
                     break;
                 case TotemType.detection:
                     relevantSO.DoEffect(transform.position);
@@ -63,10 +65,12 @@ public class Totem : MonoBehaviour
         gameObject.transform.position = location;
         Debug.Log(relevantSO.totemType);
         gameObject.SetActive(true);
+        healingParticle = GetComponent<ParticleSystem>();
         type = relevantSO.totemType;
         if(playerTransform == null && type == TotemType.healing)
         {
             playerTransform = PlayerManager.GetInstance().GetPlayerTransform;
+            healingParticle.Play();
         }
         if (relevantSO.duration > 0)
         {

@@ -88,7 +88,9 @@ public abstract class TotemSO : Item
 
 public class TotemOfHealing : TotemSO
 {
+    public ParticleSystem healingParticle;
     int healingPrecentage = 5;
+
     public TotemOfHealing(string[] lootData, string[] totemData) : base (lootData, totemData)
     {
         //healingPrecentage = goes up per level
@@ -105,7 +107,7 @@ public class TotemOfHealing : TotemSO
 
     public override void DoEffect(Vector3 totemLocation)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }
 
