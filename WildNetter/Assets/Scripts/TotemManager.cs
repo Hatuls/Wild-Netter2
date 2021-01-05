@@ -26,7 +26,7 @@ public class TotemManager : MonoBehaviour
 
     public void Init()
     {
-        Debug.Log(System.DateTime.Now);
+        //Debug.Log(System.DateTime.Now);
         LoadTotemData();
         for (int i = 0; i < totemContainer.childCount; i++)
         {
