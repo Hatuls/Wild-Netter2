@@ -109,13 +109,5 @@ public class WeaponSO : Item
 }
 
 
-    public override void PickUp()
-    {
-        throw new System.NotImplementedException();
-    }
 
-    public override void Destroy(GameObject objectToDestroy)
-    {
-        throw new System.NotImplementedException();
-    }
 }

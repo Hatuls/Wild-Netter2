@@ -148,7 +148,5 @@ public abstract class Item {
     
     }
 
-    public abstract void PickUp();
-    public abstract void Destroy(GameObject objectToDestroy);
-
+    
 }

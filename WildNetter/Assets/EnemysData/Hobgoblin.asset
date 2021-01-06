@@ -21,19 +21,19 @@ MonoBehaviour:
   movementSpeed: 5.42
   attackSpeed: 5
   wanderRadius: 20
-  Attack1_Cd: 5
+  Attack1_Cd: 4
   Attack1_Range: 2
-  Attack1_RangeFromSource: 1.5
+  Attack1_RangeFromSource: 3
   Attack1_AnimDelay: 1
-  attack1_animLenght: 0
-  Attack2_Cd: 5
-  Attack2_Range: 4
-  Attack2_RangeFromSource: 2
+  attack1_animLenght: 2
+  Attack2_Cd: 2
+  Attack2_Range: 1
+  Attack2_RangeFromSource: 1
   Attack2_AnimDelay: 1
-  attack2_animLenght: 0
+  attack2_animLenght: 1.5
   lootDropsID: 102700001127000012270000
   enemyAnim: []
-  attackType: 1
+  attackType: 0
   enemyVulnerability: 1
   habitats: 00000000010000000200000003000000
   enemyState: 1

@@ -39,7 +39,7 @@ public class PickUpObject : MonoBehaviour
         if (Vector3.Distance(transform.position , playerPos.position) < 2f)
         {
            // need to add logic if the player can add this item or maybe he has max capcity on it
-            PlayerInventory.AddToInventory(item);
+            PlayerInventory.GetInstance.AddToInventory(item);
             Destroy(this.gameObject);
 
         }

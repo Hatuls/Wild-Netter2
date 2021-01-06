@@ -11,13 +11,5 @@ public class LootSO : Item
         this.isStackable = true;
     }
     
-    public override void Destroy(GameObject objectToDestroy)
-    {
-        throw new System.NotImplementedException();
-    }
-    public int GetAmountOfItem() { return amount; }
-    public override void PickUp()
-    {
-        throw new System.NotImplementedException();
-    }
+
 }
