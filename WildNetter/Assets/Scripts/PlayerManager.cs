@@ -25,14 +25,19 @@ public class PlayerManager : MonoBehaviour
 
     //Functions:
 
-    public static PlayerManager GetInstance() {
-        if (_instance == null)
+    public static PlayerManager GetInstance
+    {
+        get
         {
-            _instance = new PlayerManager();
+            if (_instance == null)
+            {
+                _instance = new PlayerManager();
 
+            }
+            return _instance;
         }
-        return _instance;
     }
+  
     private void Awake()
     {
         _instance = this;

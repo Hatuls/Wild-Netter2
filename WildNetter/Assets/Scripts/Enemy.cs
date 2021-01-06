@@ -350,7 +350,7 @@ public abstract class Enemy : MonoBehaviour
     {
         float cooldown = 3f;
         
-        OnRecieveDmg(PlayerManager.GetInstance().GetPlayerCombat.GetSetAttackDMG);
+        OnRecieveDmg(PlayerManager.GetInstance.GetPlayerCombat.GetSetAttackDMG);
         yield return new WaitForSeconds(cooldown);
         _enemyHitTriggerCollider.enabled = true;
       isTriggered = false;

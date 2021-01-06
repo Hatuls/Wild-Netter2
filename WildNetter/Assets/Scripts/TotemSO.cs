@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Totem", fileName = "Totem Name")]
+
 public abstract class TotemSO : Item
 {
     // Object References:
@@ -98,8 +98,8 @@ public class TotemOfHealing : TotemSO
     {
         if (CheckRange(totemLocation, targetLocation, range))
         {   
-            PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance().GetPlayerStatsScript.GetSetMaxHealth) / 100);
-            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance().GetPlayerStatsScript.GetSetCurrentHealth);
+            PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
+            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
         }
     }
 

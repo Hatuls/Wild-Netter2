@@ -2973,7 +2973,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f323781df9156c43b9bb00751c6751a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyTypes: []
+  currentHabitat: 0
+  spawnPoints: []
+  spawnSequence: 
 --- !u!1 &637660465
 GameObject:
   m_ObjectHideFlags: 0
@@ -5214,6 +5216,7 @@ MonoBehaviour:
     enemyState: 0
     enemySize: 0
     enemyDifficulty: 0
+  enemytype: 0
   _enemyMesh: {fileID: 0}
   _enemyHitTriggerCollider: {fileID: 993860767}
   agent: {fileID: 993860770}
@@ -5222,6 +5225,7 @@ MonoBehaviour:
   rb: {fileID: 1517068482}
   showGizmos: 1
   currentHP: 0
+  wanderingEnabled: 0
   TargetLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -9678,6 +9682,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Camera: {fileID: 1845471544}
   mouseTransform: {fileID: 153662145}
+  playerTransform: {fileID: 0}
+  walkablePlane: {fileID: 0}
+  groupCamera: {fileID: 0}
+  cmv: {fileID: 0}
+  currentZoom: 0
+  maxZoomIn: 0
+  maxZoomOut: 0
+  zoomSpeed: 0
+  zoomAmount: 0
+  smoothTime: 0
 --- !u!114 &1845471542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11854,6 +11868,7 @@ MonoBehaviour:
     enemyState: 0
     enemySize: 0
     enemyDifficulty: 0
+  enemytype: 0
   _enemyMesh: {fileID: 0}
   _enemyHitTriggerCollider: {fileID: 2132800982}
   agent: {fileID: 2132800985}
@@ -11862,6 +11877,7 @@ MonoBehaviour:
   rb: {fileID: 1601698020}
   showGizmos: 1
   currentHP: 0
+  wanderingEnabled: 0
   TargetLayer:
     serializedVersion: 2
     m_Bits: 2048
