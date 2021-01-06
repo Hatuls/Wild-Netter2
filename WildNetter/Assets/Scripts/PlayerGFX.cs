@@ -39,7 +39,7 @@ public void UpdateAnimClipTimes()
 public void SetAnimationTrigger(string paramName) {
         _Animator.SetTrigger(paramName);
      
-        StartCoroutine(AnimCoru(paramName));
+        StartCoroutine(AnimCoru());
 
         
 
@@ -50,12 +50,12 @@ public void SetAnimationTrigger(string paramName) {
         _Animator.SetFloat(paramName, value);
 
     }
-    IEnumerator AnimCoru(string paramName) {
+    IEnumerator AnimCoru() {
 
 
                 PlayerMovement.SetPlayerRotateAble = false;
    
-                yield return new WaitForSeconds(_Animator.GetCurrentAnimatorClipInfo(0).Length - 0.15f);
+                yield return new WaitForSeconds(_Animator.GetCurrentAnimatorClipInfo(0).Length );
                 PlayerMovement.SetPlayerRotateAble = true;
                 Debug.Log("End");
 

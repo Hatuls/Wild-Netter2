@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Totem", fileName = "Totem Name")]
+
 public class TotemSO : Item
 {
     // Object References:

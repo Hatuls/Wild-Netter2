@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float rotaionSpeed;
 
-
+    Vector3 mousePos;
     Vector3 direction;
     Vector3 rotationAngle;
     public float velocity;
@@ -49,11 +49,15 @@ public class PlayerMovement : MonoBehaviour
         
         if (_RB != null )
         {
-            Move();
+           
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 RotatePlayer();
             }
+           
+            Move();
+
+            
         }
     }
 
@@ -75,16 +79,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    bool CheckIfMouseIsOnPlayer()  => Vector3.Distance(mousePos, transform.position) > 1.5f;
 
 
     private void RotatePlayer()
     {
 
-        Vector3 MousPos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
 
-        if (Vector3.Distance(MousPos, transform.position) > 1.5f && isPlayerRotateAble)
+        if (isPlayerRotateAble&&CheckIfMouseIsOnPlayer()  )
         {
-        rotationAngle = new Vector3(MousPos.x - transform.position.x, 0, MousPos.z - transform.position.z);
+        mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
+        rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
 
          transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
         }
