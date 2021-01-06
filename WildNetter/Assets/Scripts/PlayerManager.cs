@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
     PlayerInventory _playerInventory;
     PlayerCombat _playerCombat;
     PlayerStats _playerStats;
-
+    PlayerWallet _playerWallet;
 
     //EventsAndAction
 
@@ -25,19 +25,16 @@ public class PlayerManager : MonoBehaviour
 
     //Functions:
 
-    public static PlayerManager GetInstance
-    {
-        get
+    public static PlayerManager GetInstance {
+        get {
+        if (_instance == null)
         {
-            if (_instance == null)
-            {
-                _instance = new PlayerManager();
+            _instance = new PlayerManager();
 
-            }
-            return _instance;
+        }
+        return _instance;
         }
     }
-  
     private void Awake()
     {
         _instance = this;
@@ -56,12 +53,12 @@ public class PlayerManager : MonoBehaviour
 
     private void AssignScriptsComponentsReferences()
     {
-        _playerInventory = GetComponent<PlayerInventory>();
+        _playerInventory =  PlayerInventory.GetInstance ;
       _playerMovement = GetComponent<PlayerMovement>();
         _playerCombat = GetComponent<PlayerCombat>();
         // _playerGFX = GetComponentInChildren<PlayerGFX>();
         _playerStats = GetComponent<PlayerStats>();
-      
+        _playerWallet = PlayerWallet.GetInstance;
     }
 
 

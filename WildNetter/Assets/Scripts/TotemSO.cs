@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[CreateAssetMenu(menuName = "Totem", fileName = "Totem Name")]
 public abstract class TotemSO : Item
 {
     // Object References:
@@ -62,16 +62,6 @@ public abstract class TotemSO : Item
         }
     }
 
-    public override void PickUp()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Destroy(GameObject objectToDestroy)
-    {
-        Destroy(objectToDestroy);
-    }
-
     public abstract void DoEffect(Vector3 totemLocation, Vector3 targetLocation);
     public abstract void DoEffect(Vector3 totemLocation);
     public bool CheckRange(Vector3 totemLocation, Vector3 targetLocation, float _range)
@@ -88,7 +78,9 @@ public abstract class TotemSO : Item
 
 public class TotemOfHealing : TotemSO
 {
+    public ParticleSystem healingParticle;
     int healingPrecentage = 5;
+
     public TotemOfHealing(string[] lootData, string[] totemData) : base (lootData, totemData)
     {
         //healingPrecentage = goes up per level
@@ -105,7 +97,7 @@ public class TotemOfHealing : TotemSO
 
     public override void DoEffect(Vector3 totemLocation)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }
 
@@ -126,7 +118,7 @@ public class TotemOfDetection : TotemSO
         objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
         foreach (Collider col in objectCollider)
         {
-            if (CheckRange(totemLocation, col.transform.parent.position, range))
+            if (CheckRange(totemLocation, col.transform.position, range))
             {
                 Debug.Log("Beast was found!");
             }
@@ -160,13 +152,7 @@ public class TotemOfPrey : TotemSO
             if (pull)
             {
                 //remove from here when enemy is done
-              
-                Enemy enemyCatched;
-                enemyCatched = col.GetComponent<Enemy>();
-                enemyCatched._enemySheet.enemyState = EnemyState.lured;
-                enemyCatched.agent.SetDestination(totemLocation);
-                
-                
+                col.transform.position = Vector3.MoveTowards(col.transform.position, totemLocation, 5 * Time.deltaTime);
                 if (CheckRange(totemLocation, col.transform.position, range / 3))
                 {
                     pull = false;

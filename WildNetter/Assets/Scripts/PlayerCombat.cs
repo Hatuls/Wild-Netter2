@@ -74,6 +74,7 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
             AttackAction();
+            PlayerGFX._instance.SetAnimationTrigger("Attack");
         }
     }
 
@@ -90,6 +91,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void DeployTotem(TotemType type)
     {
+
+        PlayerGFX._instance.SetAnimationTrigger("PlaceTotem");
         TotemManager._instance.DeployAtLocation(transform.position + TotemManager._instance.totemOffset, type);
     }
 
