@@ -165,6 +165,8 @@ public class TotemOfPrey : TotemSO
                 enemyCatched = col.GetComponent<Enemy>();
                 enemyCatched._enemySheet.enemyState = EnemyState.lured;
                 enemyCatched.agent.SetDestination(totemLocation);
+                
+                
                 if (CheckRange(totemLocation, col.transform.position, range / 3))
                 {
                     pull = false;

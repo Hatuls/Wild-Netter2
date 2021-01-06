@@ -36,6 +36,7 @@ public class EnemySO : ScriptableObject
     public Animation[] enemyAnim;
 
     [Header("Categories")]
+   
     public AttackType attackType;
     public Vulnerability enemyVulnerability;
     public Habitat[] habitats;

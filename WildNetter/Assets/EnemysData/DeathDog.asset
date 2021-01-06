@@ -10,31 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fe086513882fee42bf45ae3c83f6191, type: 3}
-  m_Name: Hobgoblin
+  m_Name: DeathDog
   m_EditorClassIdentifier: 
-  enemyName: Hobogoblin
-  maxHealth: 100
+  enemyName: Deathdog
+  maxHealth: 75
   level: 1
-  attackDMG: 4
-  armor: 2
+  attackDMG: 3
+  armor: 1
   sightRange: 10
-  movementSpeed: 5.42
+  movementSpeed: 7
   attackSpeed: 5
-  wanderRadius: 20
-  Attack1_Cd: 5
-  Attack1_Range: 2
-  Attack1_RangeFromSource: 1.5
+  wanderRadius: 15
+  Attack1_Cd: 4
+  Attack1_Range: 1
+  Attack1_RangeFromSource: 1
   Attack1_AnimDelay: 1
-  attack1_animLenght: 0
-  Attack2_Cd: 5
-  Attack2_Range: 4
-  Attack2_RangeFromSource: 2
-  Attack2_AnimDelay: 1
-  attack2_animLenght: 0
-  lootDropsID: 102700001127000012270000
+  attack1_animLenght: 2
+  Attack2_Cd: 2
+  Attack2_Range: 3
+  Attack2_RangeFromSource: 0
+  Attack2_AnimDelay: 0.5
+  attack2_animLenght: 1
+  lootDropsID: 112700001227000010270000
   enemyAnim: []
-  attackType: 1
-  enemyVulnerability: 1
+  attackType: 2
+  enemyVulnerability: 2
   habitats: 00000000010000000200000003000000
   enemyState: 1
   enemySize: 0

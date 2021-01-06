@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Goblin : Enemy
+public class Hobogoblin : Enemy
 {
-    public Goblin() : base()
+    public Hobogoblin() : base()
     {
         
     }
-
+   
     public override IEnumerator Attack1()
     {
         

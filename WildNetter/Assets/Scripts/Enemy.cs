@@ -8,9 +8,10 @@ public abstract class Enemy : MonoBehaviour
 {
     // Script References:
     public Enemy _instance;
-    [SerializeField] EnemySO _enemySO;
+    public EnemySO _enemySO;
     public EnemySheet _enemySheet;
-
+    public EnemyType enemytype;
+    
     // Component References:
     public MeshRenderer _enemyMesh;
     public Collider _enemyHitTriggerCollider;
@@ -27,10 +28,11 @@ public abstract class Enemy : MonoBehaviour
     private int dropAmont;
     bool isTriggered = false;
     bool isHeading = false;
+
    internal bool attack1_inCd, attack2_inCd;
     Vector3 CurrentPos;
     Vector3 nextPos;
-    
+    public bool wanderingEnabled;
     public LayerMask TargetLayer;
 
     public enum EnemyAnimation { };
@@ -175,12 +177,21 @@ public abstract class Enemy : MonoBehaviour
         switch (state)
         {
             case EnemyState.Idle :
-                StartCoroutine(Iwander());
+               
+                StartCoroutine(Iwander(wanderingEnabled));
+               
+
+              
                 break; 
 
             case EnemyState.Chase :
+                
+                if (TargetAquierd.gameObject != null)
+                {
                 Move(TargetAquierd.transform.position);
                 AttacksAI();
+
+                }
                 break;
 
             case EnemyState.Attack:
@@ -344,20 +355,24 @@ public abstract class Enemy : MonoBehaviour
         _enemyHitTriggerCollider.enabled = true;
       isTriggered = false;
     }
-    public IEnumerator Iwander()
+    public IEnumerator Iwander(bool wander)
     {
-        
-        
+
+      
+
         if (agent.pathStatus == NavMeshPathStatus.PathComplete && agent.velocity.magnitude < 0.15f && _enemySheet.enemyState == EnemyState.Idle&&!isHeading)
         {
             isHeading = true;
             CurrentPos = transform.position;
             nextPos = CurrentPos + (Random.insideUnitSphere *_enemySheet.wanderRadius);
-
-            agent.SetDestination(nextPos);
+            if (wander)
+            {
+                agent.SetDestination(nextPos);
+            }
             yield return new WaitForSeconds(5);
             isHeading = false;
         }
+        
         yield return null;
        
     }
