@@ -41,7 +41,7 @@ public class ItemFactory : MonoBehaviour
                    // itemToGenerate = new ElixersSO();
                     break;
                 case 4:
-                   itemToGenerate = new TotemSO(data, LoadData.GetInstance().GetTypeOfItemDataFromOtherTable(Type, id));
+                   itemToGenerate = GenerateTotem(data, LoadData.GetInstance().GetTypeOfItemDataFromOtherTable(Type, id));
                     break;
                 default:
                     Debug.Log("Cant Generate That type id please check the data base");
@@ -49,6 +49,26 @@ public class ItemFactory : MonoBehaviour
             }
         }
         return itemToGenerate;
+    }
+
+    public Item GenerateTotem(string[] itemData, string[] totemData)
+    {
+        if(int.TryParse(totemData[1], out int totemType))
+        {
+            switch(totemType)
+            {
+                case 1:
+                    return new TotemOfDetection(itemData, totemData);
+                case 2:
+                    return new TotemOfHealing(itemData, totemData);
+                case 3:
+                    return new TotemOfPrey(itemData, totemData);
+                default:
+                    break;
+            }
+        }
+        Debug.Log("There is no such totem type in data!");
+        return null;
     }
 
 

@@ -9,19 +9,11 @@ public class Totem : MonoBehaviour
     public TotemSO relevantSO;
     // Component References:
     // Variables:
-    public Item[] itemsToBuildThis;
-    public Collider[] enemiesInPrey;
-    public Collider[] playerCollider;
-
-    private bool pull;
-    private bool isPlayer = false;
-    private bool isBeast = false;
-   
-
-
-    public float durationTimer;
+    public float currentRealTime;
     public TotemType type;
     private Transform playerTransform;
+    public ParticleSystem healingParticle;
+
     // Getter & Setters:
     public float GetCurrentTime()
     {
@@ -38,13 +30,14 @@ public class Totem : MonoBehaviour
             switch (totemType)
             {
                 case TotemType.prey:
-                    Prey();
+                    relevantSO.DoEffect(transform.position);
                     break;
                 case TotemType.healing:
-                    Healing();
+                    relevantSO.DoEffect(transform.position);
+                    healingParticle.Play();
                     break;
                 case TotemType.detection:
-                    Detection();
+                    relevantSO.DoEffect(transform.position);
                     break;
                 default:
                     break;
@@ -55,7 +48,7 @@ public class Totem : MonoBehaviour
                 StopCoroutine(ActivateTotemEffect(totemType));
                 break;
             }
-            durationTimer = GetCurrentTime();
+            currentRealTime = GetCurrentTime();
             yield return new WaitForSeconds(1);
         }
     }
@@ -71,13 +64,16 @@ public class Totem : MonoBehaviour
         relevantSO = totemSO;
         gameObject.transform.position = location;
         Debug.Log(relevantSO.totemType);
+        gameObject.transform.GetChild(0).GetComponent<Transform>().localScale = new Vector3(relevantSO.range/2, relevantSO.range/2, 1);
         gameObject.SetActive(true);
+        healingParticle = GetComponent<ParticleSystem>();
         type = relevantSO.totemType;
         if(playerTransform == null && type == TotemType.healing)
         {
             playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
+            healingParticle.Play();
         }
-        if (relevantSO.duration != null || relevantSO.duration > 0)
+        if (relevantSO.duration > 0)
         {
             StopCoroutine(TotemDuration(relevantSO.duration));
             StartCoroutine(TotemDuration(relevantSO.duration));
@@ -88,55 +84,5 @@ public class Totem : MonoBehaviour
         }
         StopCoroutine(ActivateTotemEffect(relevantSO.totemType));
         StartCoroutine(ActivateTotemEffect(relevantSO.totemType));
-    }
-
-    public void Prey()
-    {
-        // Change later to distance vector from enemy spawnerManager
-        enemiesInPrey = Physics.OverlapSphere(transform.position, 7, TotemManager._instance.enemiesLayer);
-        foreach  (Collider col in enemiesInPrey)
-        {
-            Debug.Log(Vector3.Distance(transform.position, col.transform.parent.position));
-            if(Vector3.Distance(transform.position,col.transform.parent.position) > 7 - 0.5f && !pull)
-            {
-                pull = true;
-            }
-
-            if(pull)
-            {
-                col.transform.parent.position = Vector3.MoveTowards(col.transform.parent.position, transform.position, 5 * Time.deltaTime);
-                if (Vector3.Distance(transform.position, col.transform.parent.position) < 2)
-                {
-                    pull = false;
-                }
-            }
-        }
-    }
-
-    public void Healing()
-    {
-        if(Vector3.Distance(transform.position, playerTransform.position) < relevantSO.range)
-        {
-            int healingPrecentage = 5;
-            PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
-            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
-        }
-    }
-
-    public void Detection()
-    {
-        enemiesInPrey = Physics.OverlapSphere(transform.position, 7, TotemManager._instance.enemiesLayer);
-        foreach (Collider col in enemiesInPrey)
-        {
-            if (Vector3.Distance(transform.position, col.transform.parent.position) < 7)
-            {
-                Debug.Log("Beast was found!");
-            }
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawSphere(transform.position, 7);
     }
 }
