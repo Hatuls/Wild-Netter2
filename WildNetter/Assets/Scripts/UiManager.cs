@@ -120,25 +120,4 @@ public class UiManager : MonoBehaviour
     }
 
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            wallet.ConvertMoney(CurrencyType.Copper, CurrencyType.Silver);
-        }
-        else if (Input.GetKeyDown(KeyCode.O))
-        {
-            wallet.ConvertMoney(CurrencyType.Silver, CurrencyType.Gold);
-
-        }else if(Input.GetKeyDown(KeyCode.I))
-        {
-            wallet.ConvertMoney(CurrencyType.Gold, CurrencyType.Copper);
-
-        }
-        else if (Input.GetKeyDown(KeyCode.U))
-        {
-            wallet.ConvertMoney(CurrencyType.Copper, CurrencyType.Gold);
-
-        }
-    }
 }

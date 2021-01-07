@@ -85,17 +85,17 @@ public class MyCamera : MonoBehaviour
         Vector3 MiddlePoint = new Vector3((mouseTransform.position.x + playerTransform.position.x) / 2, 0, (mouseTransform.position.z + playerTransform.position.z) / 2);
 
         float amount = 0 ;
-        if (Mathf.Abs(playerTransform.position.x)>90f || Mathf.Abs(playerTransform.position.z) > 35f)
+        if (Mathf.Abs(playerTransform.position.x)>130f || Mathf.Abs(playerTransform.position.z) > 65f)
         {
             amount = .3f;
 
         }
-        else if (Mathf.Abs(playerTransform.position.x) > 80f|| Mathf.Abs(playerTransform.position.z) > 30f)
+        else if (Mathf.Abs(playerTransform.position.x) > 110f|| Mathf.Abs(playerTransform.position.z) > 50f)
         {
             amount= 0.2f;
 
         }
-        if (Mathf.Abs(playerTransform.position.z) > 40f)
+        if (Mathf.Abs(playerTransform.position.z) > 80f)
         {
             if (playerTransform.position.z< 0 )
             {
@@ -103,9 +103,9 @@ public class MyCamera : MonoBehaviour
             }else
             amount =1f;
         }
-        else if (Mathf.Abs(playerTransform.position.z) > 37f)
+        else if (Mathf.Abs(playerTransform.position.z) > 70.5f)
         {
-            amount = 0.7f;
+            amount = 0.6f;
         }
 
         groupCamera.m_Targets[2].weight = Mathf.Lerp(groupCamera.m_Targets[2].weight, amount, Time.deltaTime * 2f);

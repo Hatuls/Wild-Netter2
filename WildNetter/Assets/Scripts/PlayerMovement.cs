@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
@@ -12,7 +13,7 @@ public class PlayerMovement : MonoBehaviour
     float sprintStamina;
 
     [SerializeField] float rotaionSpeed;
-
+    Vector3 inputVector;
     Vector3 mousePos;
     Vector3 direction;
     Vector3 rotationAngle;
@@ -42,9 +43,14 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //functions
+    public void Init()
+    {
+        _RB = GetComponent<Rigidbody>();
+
+    }
 
 
-    private void LateUpdate()
+    private void Update()
     {
         
         if (_RB != null )
@@ -55,50 +61,49 @@ public class PlayerMovement : MonoBehaviour
                 RotatePlayer();
             }
            
-            Move();
+            GetInput();
 
             
         }
     }
 
-    void Move() {
+    void GetInput() {
+
+         inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+
+        if (direction.magnitude > 1f)
+                   direction.Normalize();
+
+        inputVector = inputVector * GetSetPlayerSpeed;
         
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
 
-        Vector3 targetVector = new Vector3(xInput, 0, zInput);
-
-        direction = targetVector * GetSetPlayerSpeed;
-
-
-     
-        if (Input.GetKey(KeyCode.LeftShift)) { Sprint(true); } else { Sprint(false); }
+        Sprint(Input.GetButton("Sprint"));
         
-        PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
+        PlayerGFX._instance.SetAnimationFloat(_RB.velocity.z, "Forward");
  
     }
 
 
-    bool CheckIfMouseIsOnPlayer()  => Vector3.Distance(mousePos, transform.position) > 1.5f;
-
-
-    private void RotatePlayer()
+    private void FixedUpdate()
     {
-
-
-        if (isPlayerRotateAble&&CheckIfMouseIsOnPlayer()  )
-        {
-        mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
-        rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
-
-         transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
-        }
-        
-
-        
-       // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
-
+        MovePlayer();
     }
+
+    private void MovePlayer()
+    {
+        if (_RB == null)
+            return;
+
+        Vector3 moveVector = inputVector.z * transform.forward + 
+                             inputVector.x * transform.right;
+
+
+
+        _RB.AddForce(moveVector, ForceMode.Force);
+    
+    }
+
     private void Sprint(bool _isSprinting) {
         if(_isSprinting)
         {
@@ -116,9 +121,25 @@ public class PlayerMovement : MonoBehaviour
         return rotationAngle.normalized; 
     
     } 
-    public void Init()
+
+    bool CheckIfMouseIsOnPlayer()  => Vector3.Distance(mousePos, transform.position) > 1.8f;
+
+
+    private void RotatePlayer()
     {
-        _RB = GetComponent<Rigidbody>();
+
+        mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
+
+        if (isPlayerRotateAble&& CheckIfMouseIsOnPlayer()  )
+        {
+
+        rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
+         transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
+        }
+        
+
+        
+       // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
 
     }
 
