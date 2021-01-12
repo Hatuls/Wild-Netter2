@@ -13,6 +13,8 @@ public class Totem : MonoBehaviour
     public TotemType type;
     private Transform playerTransform;
     public ParticleSystem healingParticle;
+    //public ParticleSystem detectionParticle;
+    public ParticleSystem preyParticle;
 
     // Getter & Setters:
     public float GetCurrentTime()
@@ -34,10 +36,10 @@ public class Totem : MonoBehaviour
                     break;
                 case TotemType.healing:
                     relevantSO.DoEffect(transform.position);
-                    healingParticle.Play();
                     break;
                 case TotemType.detection:
                     relevantSO.DoEffect(transform.position);
+                    //detectionParticle.Play();
                     break;
                 default:
                     break;
@@ -66,12 +68,18 @@ public class Totem : MonoBehaviour
         Debug.Log(relevantSO.totemType);
         gameObject.transform.GetChild(0).GetComponent<Transform>().localScale = new Vector3(relevantSO.range/2, relevantSO.range/2, 1);
         gameObject.SetActive(true);
-        healingParticle = GetComponent<ParticleSystem>();
+        //detectionParticle = GetComponent<ParticleSystem>();
         type = relevantSO.totemType;
         if(playerTransform == null && type == TotemType.healing)
         {
             playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
+            healingParticle = this.transform.Find("HealingParticle").GetComponent<ParticleSystem>();
             healingParticle.Play();
+        }
+        if (type == TotemType.prey)
+        {
+            preyParticle = this.transform.Find("PreyParticle").GetComponent<ParticleSystem>();
+            preyParticle.Play();
         }
         if (relevantSO.duration > 0)
         {

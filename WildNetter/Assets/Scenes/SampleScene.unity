@@ -3008,6 +3008,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4916618904356778480, guid: d678dd9afd6a1b9488ed4caa95571c31,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4921780675817557972, guid: d678dd9afd6a1b9488ed4caa95571c31,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3067,6 +3072,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TotemContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212648991067596033, guid: d678dd9afd6a1b9488ed4caa95571c31,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6cefa45fc3e90714abda4e84cd2d90ce, type: 2}
+    - target: {fileID: 5396834266000441316, guid: d678dd9afd6a1b9488ed4caa95571c31,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5396834266000441316, guid: d678dd9afd6a1b9488ed4caa95571c31,
+        type: 3}
+      propertyPath: looping
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
@@ -7216,7 +7236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5662602, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.500229, y: -132.90002}
+  m_AnchoredPosition: {x: 3.5002441, y: -132.90002}
   m_SizeDelta: {x: 1.8499756, y: 262.21094}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1721875338
@@ -9051,7 +9071,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5662602, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.3078461, y: 0}
+  m_AnchoredPosition: {x: 1.3078613, y: 0}
   m_SizeDelta: {x: -2.5344543, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009509080
