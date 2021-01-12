@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
     }
     public void SpawnBeast(int Rank)
     {
-
+        Debug.Log("spawn0");
 
         //for (int i = 0; i < spawnSequence.Count; i++)
         //{
@@ -51,7 +51,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-       //     SpawnBeast();
+          
             
         }   
     }

@@ -28,9 +28,9 @@ public class EnemyManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.T))
         {
-            
+            GetBeastSettings(Difficulty.Easy, Size.Small, 30);
         }
     }
     private void Start()
@@ -52,11 +52,12 @@ public class EnemyManager : MonoBehaviour
         float rankStep = 100 / _enemySpawner.EnemyDic.Count;
         
         
-        for (int x = 1; x>= 100/rankStep; x++)
+        for (int x = 0; x<= 100/rankStep; x++)
         {
-
-            for (float y= x*rankStep; y < x*rankStep+1; y++)
+         
+            for (float y= x*rankStep; y < (x + 1 )* rankStep; y++)
             {
+               
                 if (y == spawnRank)
                 {
                     _enemySpawner.SpawnBeast(x);
