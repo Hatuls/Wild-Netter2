@@ -78,7 +78,6 @@ public abstract class TotemSO : Item
 
 public class TotemOfHealing : TotemSO
 {
-    public ParticleSystem healingParticle;
     int healingPrecentage = 5;
 
     public TotemOfHealing(string[] lootData, string[] totemData) : base (lootData, totemData)
@@ -112,16 +111,35 @@ public class TotemOfDetection : TotemSO
     {
         throw new System.NotImplementedException();
     }
+
     public override void DoEffect(Vector3 totemLocation)
     {
-        Collider[] objectCollider;
-        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
-        foreach (Collider col in objectCollider)
+        if (SpawnDetectedEnemy() == true)
         {
-            if (CheckRange(totemLocation, col.transform.position, range))
+            Collider[] objectCollider;
+            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+            foreach (Collider col in objectCollider)
             {
-                Debug.Log("Beast was found!");
+                if (CheckRange(totemLocation, col.transform.position, range))
+                {
+                    Debug.Log("Beast was found!");
+                }
             }
+        }
+    }
+
+    public bool SpawnDetectedEnemy()
+    {
+        EnemyManager _enemyManager = EnemyManager.GetInstance();
+        if (Random.value > 0.5)
+        {
+            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0,2), (Size)Random.Range(0,2), Random.Range(1,100));
+                return true;
+        }
+
+        else
+        {
+            return false;
         }
     }
 }
