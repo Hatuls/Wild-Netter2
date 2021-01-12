@@ -20,6 +20,11 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         _enemyManager = EnemyManager.GetInstance();
+        _enemyManager._enemySpawner = this;
+
+        
+
+
         SetSpawner();
        
 
@@ -29,22 +34,24 @@ public class EnemySpawner : MonoBehaviour
     {
 
     }
-    public void SpawnBeast()
+    public void SpawnBeast(int Rank)
     {
 
 
-        for (int i = 0; i < spawnSequence.Count; i++)
-        {
-            Instantiate(EnemyDic[spawnSequence[i]], spawnPoints[i].position, Quaternion.identity);
-        }
+        //for (int i = 0; i < spawnSequence.Count; i++)
+        //{
+        //    Instantiate(EnemyDic[spawnSequence[i]], spawnPoints[i].position, Quaternion.identity);
+        //}
+        Instantiate(EnemyDic[spawnSequence[Rank]], spawnPoints[Random.Range(0,spawnPoints.Length-1)].position, Quaternion.identity);
     }
+
 
   
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SpawnBeast();
+       //     SpawnBeast();
             
         }   
     }
