@@ -199,8 +199,7 @@ public abstract class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.lured:
-
-                StartCoroutine(Iwander(true, state,TargetAquierd.GetComponent<TotemOfPrey>().range));
+                StartCoroutine(Iwander(true, state,TargetAquierd.GetComponent<Totem>().relevantSO.range));
                 
                 break;
 
@@ -303,7 +302,7 @@ public abstract class Enemy : MonoBehaviour
             case TotemType.prey:
                 
                 TargetAquierd = totem;
-                BehaveByState(EnemyState.lured);
+                _enemySheet.enemyState = EnemyState.lured;
                 break;
         }
     }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5032896098478139792}
   - component: {fileID: 5032896098478139794}
   - component: {fileID: 5032896098478139821}
+  - component: {fileID: 5944231689135859008}
   m_Layer: 9
   m_Name: Dire Wolf
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   rb: {fileID: 5032896100075083248}
   showGizmos: 1
   currentHP: 0
+  wanderingEnabled: 0
   TargetLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -119,10 +121,23 @@ BoxCollider:
   m_GameObject: {fileID: 5032896098478139820}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &5944231689135859008
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5032896098478139820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4850442, y: 1.4718122, z: 1.650229}
-  m_Center: {x: 0.038525462, y: 0.23590612, z: -0.046982527}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5032896100075083251
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +149,6 @@ GameObject:
   - component: {fileID: 5032896100075083253}
   - component: {fileID: 5032896100075083252}
   - component: {fileID: 5032896100075083255}
-  - component: {fileID: 5032896100075083254}
   - component: {fileID: 5032896100075083248}
   m_Layer: 9
   m_Name: Cube
@@ -204,19 +218,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5032896100075083254
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5032896100075083251}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5032896100075083248
 Rigidbody:
   m_ObjectHideFlags: 0
