@@ -301,6 +301,7 @@ public abstract class Enemy : MonoBehaviour
         {
 
             case TotemType.prey:
+                
                 TargetAquierd = totem;
                 BehaveByState(EnemyState.lured);
                 break;

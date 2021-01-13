@@ -169,8 +169,7 @@ public class TotemOfPrey : TotemSO
 
             if (pull)
             {
-                //remove from here when enemy is done
-                //col.GetComponent<Enemy>().TotemEffect(TotemType.prey,);
+               
                 if (CheckRange(totemLocation, col.transform.position, range / 3))
                 {
                     pull = false;
