@@ -308,8 +308,8 @@ public abstract class Enemy : MonoBehaviour
     }
     public void CancelEffect()
     {
-        
-        //BehaveByState(EnemyState.Idle);
+
+        //_enemySheet.enemyState = EnemyState.Idle;
     }
 
     public void PlayAnimation() { }
