@@ -178,7 +178,7 @@ public abstract class Enemy : MonoBehaviour
         {
             case EnemyState.Idle :
                
-                StartCoroutine(Iwander(wanderingEnabled));
+                StartCoroutine(Iwander(wanderingEnabled,state, _enemySheet.wanderRadius));
                
 
               
@@ -199,6 +199,8 @@ public abstract class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.lured:
+
+                StartCoroutine(Iwander(true, state,TargetAquierd.GetComponent<TotemOfPrey>().range));
                 
                 break;
 
@@ -293,7 +295,21 @@ public abstract class Enemy : MonoBehaviour
 
     public bool CheckIfPlayerIsClose() { return true; }
     //public Transform GetTarget() { } <- clear comment when getting new target to move to
-    public void TotemEffect() { }
+    public void TotemEffect(TotemType type,GameObject totem) 
+    {
+        switch (type)
+        {
+
+            case TotemType.prey:
+                TargetAquierd = totem;
+                BehaveByState(EnemyState.lured);
+                break;
+        }
+    }
+    public void CancelEffect()
+    {
+        BehaveByState(EnemyState.Idle);
+    }
 
     public void PlayAnimation() { }
     
@@ -355,7 +371,7 @@ public abstract class Enemy : MonoBehaviour
         _enemyHitTriggerCollider.enabled = true;
       isTriggered = false;
     }
-    public IEnumerator Iwander(bool wander)
+    public IEnumerator Iwander(bool wander,EnemyState state,float range)
     {
 
       
@@ -364,7 +380,15 @@ public abstract class Enemy : MonoBehaviour
         {
             isHeading = true;
             CurrentPos = transform.position;
+            if(state == EnemyState.lured)
+            {
+                nextPos = TargetAquierd.transform.position + (Random.insideUnitSphere * range);
+            }
+            else
+            {
+
             nextPos = CurrentPos + (Random.insideUnitSphere *_enemySheet.wanderRadius);
+            }
             if (wander)
             {
                 agent.SetDestination(nextPos);
