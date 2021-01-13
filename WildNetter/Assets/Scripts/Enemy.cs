@@ -308,7 +308,8 @@ public abstract class Enemy : MonoBehaviour
     }
     public void CancelEffect()
     {
-        BehaveByState(EnemyState.Idle);
+        
+        //BehaveByState(EnemyState.Idle);
     }
 
     public void PlayAnimation() { }
@@ -375,9 +376,11 @@ public abstract class Enemy : MonoBehaviour
     {
 
       
+         
 
-        if (agent.pathStatus == NavMeshPathStatus.PathComplete && agent.velocity.magnitude < 0.15f && _enemySheet.enemyState == EnemyState.Idle&&!isHeading)
+        if (agent.pathStatus == NavMeshPathStatus.PathComplete && agent.velocity.magnitude < 0.15f && (_enemySheet.enemyState == EnemyState.Idle|| _enemySheet.enemyState == EnemyState.lured) &&!isHeading)
         {
+            Debug.Log(state);
             isHeading = true;
             CurrentPos = transform.position;
             if(state == EnemyState.lured)
