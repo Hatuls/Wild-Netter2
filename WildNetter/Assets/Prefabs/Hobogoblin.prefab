@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6750406174531869863}
   - component: {fileID: 6750406174531869860}
   - component: {fileID: 6750406174531869861}
-  - component: {fileID: 6750406174531869858}
   - component: {fileID: 6750406174531869862}
   m_Layer: 9
   m_Name: EnemyBody
@@ -81,19 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6750406174531869858
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6750406174531869859}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &6750406174531869862
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -122,6 +108,7 @@ GameObject:
   - component: {fileID: 6750406175513938505}
   - component: {fileID: 339733704498162465}
   - component: {fileID: 6750406175513938504}
+  - component: {fileID: 3896953565419729536}
   m_Layer: 9
   m_Name: Hobogoblin
   m_TagString: Untagged
@@ -153,10 +140,10 @@ BoxCollider:
   m_GameObject: {fileID: 6750406175513938500}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5, z: 1.5}
-  m_Center: {x: 0, y: 0.3, z: 0}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &339733704498162465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +195,7 @@ MonoBehaviour:
   rb: {fileID: 6750406174531869862}
   showGizmos: 1
   currentHP: 0
+  wanderingEnabled: 0
   TargetLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -233,3 +221,16 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &3896953565419729536
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750406175513938500}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
