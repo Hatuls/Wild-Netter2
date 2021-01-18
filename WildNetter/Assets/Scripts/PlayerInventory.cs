@@ -199,7 +199,7 @@ public class PlayerInventory
         {
             itemAmountCount = 0;
             AddAmountOfItem(item);
-            UiManager._instance.UpdateInventory();
+            UiManager.GetInstance.UpdateInventory();
             return;
         }
         Debug.Log("Cant Add The Item");

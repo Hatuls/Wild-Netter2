@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         if (_RB != null )
         {
            
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (Input.GetKeyDown(KeyCode.W) || !EventSystem.current.IsPointerOverGameObject())
             {
                 RotatePlayer();
             }
@@ -78,10 +78,13 @@ public class PlayerMovement : MonoBehaviour
         inputVector = inputVector * GetSetPlayerSpeed;
         
 
+<<<<<<< Updated upstream
         Sprint(Input.GetButton("Sprint"));
         
         PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
  
+=======
+>>>>>>> Stashed changes
     }
 
 
@@ -97,13 +100,20 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveVector = inputVector.z * transform.forward + 
                              inputVector.x * transform.right;
+        float forceLimit;
+        if (Input.GetButton("Sprint"))
+            forceLimit = 7f;
+        else
+            forceLimit = 5f;
 
-
-
-        _RB.AddForce(moveVector, ForceMode.Force);
-    
+        if (_RB.velocity.magnitude < forceLimit)
+            _RB.AddForce(moveVector , ForceMode.Force);
+        
+        PlayerGFX._instance.SetAnimationFloat(_RB.velocity.magnitude, "Forward");
+        Debug.Log("Velocity : " + _RB.velocity.magnitude);
     }
 
+<<<<<<< Updated upstream
     private void Sprint(bool _isSprinting) {
         if(_isSprinting)
         {
@@ -115,6 +125,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
+=======
+>>>>>>> Stashed changes
     public Vector3 GetAngleDirection() {
         if (rotationAngle == null)
             return Vector2.zero;
@@ -128,6 +140,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void RotatePlayer()
     {
+        
+
+
+
 
         mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
 

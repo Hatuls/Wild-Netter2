@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
 using TMPro;
+using TMPro.Examples;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +9,7 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     // Script References:
-    public static UiManager _instance;
+    static UiManager _instance;
     PlayerInventory _playerInventory;
     PlayerWallet _wallet;
     // Component References:
@@ -25,11 +27,22 @@ public class UiManager : MonoBehaviour
     // Variables:
 
     // Getter & Setters:
+   public static UiManager GetInstance {
+        get {
+            if (_instance == null)
+            {
+               _instance = new UiManager();
+             }
+
+            return _instance;
+        }
+        set { _instance = value; }
+    
+    }
     private void Awake()
     {
-        _instance = this;
+        GetInstance = this;
     }
-   
     public void Init()
     {
         wallet = PlayerWallet.GetInstance;

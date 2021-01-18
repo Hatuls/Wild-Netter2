@@ -7,26 +7,25 @@ public class GameManager : MonoBehaviour
     //Script References
     static GameManager _instance;
 
-    public GameManager GetInstance() {
+    public GameManager GetInstance {
+        get
+        {
+
         if (_instance == null)
         {
             _instance = new GameManager();
-           
         }
         return _instance;
+        }
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlayerInventory.GetInstance. PrintInventory();
+            PlayerInventory.GetInstance.PrintInventory();
         }
     }
-    private void Awake()
-    { 
-      UiManager._instance.Init();
-      
-    }
+   
     private void Start()
     {
               Init();
@@ -35,7 +34,6 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
 
-        UiManager._instance.Init();
 
       var playersWeapon = ItemFactory.GetInstance().GenerateItem( 20000);
         (playersWeapon as WeaponSO).PrintWeaponSO();
@@ -51,7 +49,7 @@ public class GameManager : MonoBehaviour
             PlayerInventory.GetInstance.AddToInventory(x);
         }
 
-        PlayerInventory.GetInstance.PrintInventory();
+        UiManager.GetInstance.Init();
 
 
     }
