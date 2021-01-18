@@ -12,6 +12,11 @@ public enum Difficulty {Easy,Hard,Challange }
 [System.Serializable]
 public class EnemySheet
 {
+
+    public Dictionary<monsterParts, GameObject> EnemyParts = new Dictionary<monsterParts, GameObject>();
+    public Dictionary<monsterParts, Collider> Colliders = new Dictionary<monsterParts, Collider>();
+    
+
     [Header("rawData")]
     public string enemyName;
     public int maxHealth;
@@ -22,6 +27,10 @@ public class EnemySheet
     public float movementSpeed;
     public float attackSpeed;
     public float wanderRadius;
+
+    [Header("AnimationTimers")]
+
+    public float getUpAnimTime;
 
 
     [Header("SetAttack1")]
@@ -46,6 +55,8 @@ public class EnemySheet
     [Header("Components")]
     public int[] lootDropsID;
     public Animation[] enemyAnim;
+    public Material DamagedMat;
+    public ParticleSystem Trails;
 
     [Header("Categories")]
     public AttackType attackType;
@@ -54,4 +65,7 @@ public class EnemySheet
     public EnemyState enemyState;
     public Size enemySize;
     public Difficulty enemyDifficulty;
+
+
+
 }

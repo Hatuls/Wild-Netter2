@@ -12,6 +12,8 @@ public abstract class Enemy : MonoBehaviour
     public EnemySheet _enemySheet;
     public EnemyType enemytype;
     
+    
+    
     // Component References:
     public MeshRenderer _enemyMesh;
     public Collider _enemyHitTriggerCollider;
@@ -19,14 +21,18 @@ public abstract class Enemy : MonoBehaviour
     public Animator _animator;
     public GameObject TargetAquierd;
     public Rigidbody rb;
+    public Material originalMat;
+    public ParticleSystem footsteps;
+    
+        
     [SerializeField] bool showGizmos;
 
     [SerializeField] int currentHP;
-
+    private monsterParts partGotHit;
     private int enemyID = 0;
     private int dropLevel;
     private int dropAmont;
-    bool isTriggered = false;
+ 
     bool isHeading = false;
 
    internal bool attack1_inCd, attack2_inCd;
@@ -34,7 +40,8 @@ public abstract class Enemy : MonoBehaviour
     Vector3 nextPos;
     public bool wanderingEnabled;
     public LayerMask TargetLayer;
-
+    
+    
     public enum EnemyAnimation { };
     EnemyAnimation enemyAnimation;
     
@@ -63,22 +70,32 @@ public abstract class Enemy : MonoBehaviour
     
     public void Start()
     {
-        Init();
 
         
+    }
+    private void Awake()
+    {
+        
+        Init();
     }
     public void Init()
     {
-        _instance = this;
-       
-        _enemySheet = new EnemySheet();
-        
-        GetInfoFromEnemySO();
-        
 
-     
+        _instance = this;
+
+        _enemySheet = new EnemySheet();
+
+        GetInfoFromEnemySO();
+        _enemyMesh = GetComponentInChildren<MeshRenderer>();
+        originalMat = _enemyMesh.material;
+
+
+
+
+
+
     }
-   
+
     public void GetInfoFromEnemySO()
     {
         //EnemyBuildingStats
@@ -91,14 +108,16 @@ public abstract class Enemy : MonoBehaviour
         _enemySheet.level = GetEnemySO.level;
         _enemySheet.lootDropsID = GetEnemySO.lootDropsID;
         _enemySheet.enemyState = GetEnemySO.enemyState;
-        
+        _enemySheet.DamagedMat = GetEnemySO.DamagedMat;
+        _enemySheet.Trails = GetEnemySO.Trails;
+
 
         //SetValues//
-        int StatsMultiplayer=1;
-        int SizeMultiplayer=1;
+        int StatsMultiplayer = 1;
+        int SizeMultiplayer = 1;
         switch (_enemySheet.enemyDifficulty)
         {
-            case Difficulty.Easy :
+            case Difficulty.Easy:
                 StatsMultiplayer = 1;
                 dropLevel = 1;
                 break;
@@ -139,13 +158,13 @@ public abstract class Enemy : MonoBehaviour
         _enemySheet.movementSpeed = GetEnemySO.movementSpeed * StatsMultiplayer;
         _enemySheet.armor = GetEnemySO.armor * StatsMultiplayer;
 
-  
-       
-       
+
+
+
         _enemySheet.wanderRadius = GetEnemySO.wanderRadius * SizeMultiplayer;
         _enemySheet.sightRange = GetEnemySO.sightRange * SizeMultiplayer;
         //attack1
-        _enemySheet.Attack1_Cd = GetEnemySO.Attack1_Cd*SizeMultiplayer;
+        _enemySheet.Attack1_Cd = GetEnemySO.Attack1_Cd * SizeMultiplayer;
         _enemySheet.Attack1_Range = GetEnemySO.Attack1_Range * SizeMultiplayer;
         _enemySheet.Attack1_RangeFromSource = GetEnemySO.Attack1_RangeFromSource * SizeMultiplayer;
         _enemySheet.Attack1_AnimDelay = GetEnemySO.Attack1_AnimDelay * SizeMultiplayer;
@@ -156,10 +175,24 @@ public abstract class Enemy : MonoBehaviour
         _enemySheet.Attack2_Range = GetEnemySO.Attack2_Range * SizeMultiplayer;
         _enemySheet.Attack2_RangeFromSource = GetEnemySO.Attack2_RangeFromSource * SizeMultiplayer;
         _enemySheet.attack2_animLenght = GetEnemySO.attack2_animLenght * SizeMultiplayer;
+        //Timers
+        _enemySheet.getUpAnimTime = GetEnemySO.getUpAnimTime;
 
+        
         //setting Componnents Values
         agent.speed = _enemySheet.movementSpeed;
-}
+       // footsteps = _enemySheet.Trails;
+    }
+    public void AddPart(monsterParts partType,GameObject partGO,Collider col)
+    {
+        _enemySheet.EnemyParts.Add(partType, partGO);
+        _enemySheet.Colliders.Add(partType, col);
+    
+
+
+    }
+   
+    
     private void Update()
     {
      
@@ -171,6 +204,19 @@ public abstract class Enemy : MonoBehaviour
         //Determains Current Target
         TargetFinder();
         
+    }
+    public void ActivateFootsteps(bool Activate)
+    {
+        if (Activate)
+        {
+            footsteps.Play();
+
+        }
+        else
+        {
+            footsteps.Stop();
+        }
+
     }
     void BehaveByState(EnemyState state)
     {
@@ -190,6 +236,7 @@ public abstract class Enemy : MonoBehaviour
                 {
                 Move(TargetAquierd.transform.position);
                 AttacksAI();
+                    //ActivateFootsteps();
 
                 }
                 break;
@@ -218,6 +265,7 @@ public abstract class Enemy : MonoBehaviour
             {
             _enemySheet.enemyState = EnemyState.Chase;
             TargetAquierd = found.gameObject;
+                ActivateFootsteps(true);
 
             }
             
@@ -236,12 +284,15 @@ public abstract class Enemy : MonoBehaviour
         if (agent.isStopped)
         {
         agent.Resume();
+            ActivateFootsteps(true);
         }
         agent.destination = Target;
+        
     }
     //Currently for totems
     public void stopMoving()
     {
+        ActivateFootsteps(false);
         agent.Stop();
     }
 
@@ -266,6 +317,18 @@ public abstract class Enemy : MonoBehaviour
 
         Debug.Log("GotDMG");
         GetSetEnemyCurrentHP -=  dmgToApply;
+    }
+    private void ApplyKnockback(int force,Vector3 Source)
+    {
+        Debug.Log("working!!!!!!!!!!!!!!");
+        ;//applying KnockBacK will work with other attacking type(cast or something)
+         
+         agent.enabled = false;
+         rb.isKinematic = false;
+        
+        rb.AddExplosionForce(force*40,new Vector3(Source.x, 0, Source.z), 2);
+        
+        
     }
     public virtual void EnemyKilled() 
     { 
@@ -348,29 +411,69 @@ public abstract class Enemy : MonoBehaviour
 
 
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.name == "WeaponCollider")
-        {
-           
-            if (!isTriggered)
-            {
-                isTriggered = true;
-             _enemyHitTriggerCollider.enabled = false;
-            StartCoroutine(ReceiveDmgCoolDown());
-                
-            }
-          
-        }
-    }
-    public  IEnumerator ReceiveDmgCoolDown()
-    {
-        float cooldown = 3f;
+    //public void OnTriggerEnter(Collider other)
+    //{
         
-        OnRecieveDmg(PlayerManager.GetInstance.GetPlayerCombat.GetSetAttackDMG);
+    //    if (other.gameObject.name == "WeaponCollider")
+    //    {
+           
+    //        if (!isTriggered)
+    //        {
+    //            isTriggered = true;
+    //         _enemyHitTriggerCollider.enabled = false;
+    //        StartCoroutine(ReceiveDmgCoolDown());
+                
+    //        }
+          
+    //    }
+    //}
+    public void GetDamageFromPart(int Damage,monsterParts part,Vector3 hitPoint)
+    {
+        
+        
+            _enemySheet.Colliders[part].enabled = false;
+            partGotHit = part;
+            Debug.Log(_enemySheet.Colliders[part].enabled);
+           _enemyMesh.material = _enemySheet.DamagedMat;
+
+            
+            
+            StartCoroutine(ReceiveDmgCoolDown(Damage,part));
+       
+            ApplyKnockback(Damage , hitPoint);
+
+        
+    }
+    public  IEnumerator ReceiveDmgCoolDown(int Damage,monsterParts part)
+    {
+        float cooldown = 1.5f;
+        OnRecieveDmg(Damage);
+
+        yield return new WaitForSeconds(0.2f);
+        _enemyMesh.material = originalMat;
         yield return new WaitForSeconds(cooldown);
-        _enemyHitTriggerCollider.enabled = true;
-      isTriggered = false;
+        
+       StartCoroutine(GetuP());
+        _enemySheet.Colliders[part].enabled = true;
+
+        
+    }
+    IEnumerator GetuP()
+    {
+        yield return new WaitForSeconds(_enemySheet.getUpAnimTime);
+        rb.isKinematic = true;
+        agent.enabled = true;
+        //transform.rotation = Quaternion.Euler(Vector3.zero);
+        transform.LookAt(TargetAquierd.transform.position);
+    }
+    public void PartBroke(monsterParts part)
+    {
+        Debug.Log(part +"Broke");
+        PartDebuffer();
+    }
+    void PartDebuffer()
+    {
+        
     }
     public IEnumerator Iwander(bool wander,EnemyState state,float range)
     {

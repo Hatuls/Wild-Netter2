@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
 
       var playersWeapon = ItemFactory.GetInstance().GenerateItem( 20000);
         (playersWeapon as WeaponSO).PrintWeaponSO();
-        playersWeapon.Print();
-        Debug.ClearDeveloperConsole();
-        PlayerInventory.GetInstance.PrintInventory();
+      //  playersWeapon.Print();
+        //Debug.ClearDeveloperConsole();
+        //PlayerInventory.GetInstance.PrintInventory();
         PlayerManager.GetInstance.Init(playersWeapon as WeaponSO);
         TotemManager._instance.Init();
         for (int i = 0; i < 3; i++)

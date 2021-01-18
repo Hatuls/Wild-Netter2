@@ -33,6 +33,7 @@ MonoBehaviour:
   attack2_animLenght: 1
   lootDropsID: 122700001127000010270000
   enemyAnim: []
+  DamagedMat: {fileID: 2100000, guid: 970a6553a2cfe3e4492d6f34dc49887c, type: 2}
   attackType: 3
   enemyVulnerability: 2
   habitats: 000000000100000002000000

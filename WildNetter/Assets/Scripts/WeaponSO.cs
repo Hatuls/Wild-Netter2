@@ -7,7 +7,7 @@ using UnityEngine;
 public class WeaponSO : Item
 {
 
-
+    public Vulnerability vulnerabilityActivator;
     public int MinimumPlayerLevel;
     public int minDMG, maxDMG;
     public int Hands;
@@ -15,7 +15,7 @@ public class WeaponSO : Item
     public float HitSpeed;
     public int[] ItemsIDToBuildThis;
     public enum WeaponType { Melee, Range };
-
+    
     public WeaponType weaponType;
 
 

@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu (menuName = "Enemy", fileName = "Enemy")]
 public class EnemySO : ScriptableObject
 {
+    
     [Header("rawData")]
     public string enemyName;
     public int maxHealth;
@@ -13,6 +14,10 @@ public class EnemySO : ScriptableObject
     public float movementSpeed;
     public float attackSpeed;
     public float wanderRadius;
+
+    [Header("AnimationTimers")]
+
+    public float getUpAnimTime;
 
     [Header("SetAttack1")]
    
@@ -34,6 +39,8 @@ public class EnemySO : ScriptableObject
     [Header("Components")]
     public int[] lootDropsID;
     public Animation[] enemyAnim;
+    public Material DamagedMat;
+    public ParticleSystem Trails;
 
     [Header("Categories")]
    
@@ -44,6 +51,8 @@ public class EnemySO : ScriptableObject
     public Size enemySize;
     public Difficulty enemyDifficulty;
 
+    
+    
 
 
 
