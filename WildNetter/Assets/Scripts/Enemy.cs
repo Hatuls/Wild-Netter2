@@ -160,10 +160,7 @@ public abstract class Enemy : MonoBehaviour
         //setting Componnents Values
         agent.speed = _enemySheet.movementSpeed;
 }
-    private void Update()
-    {
-     
-    }
+   
     private void FixedUpdate()
     {
         //determains Enemy Current State
@@ -345,29 +342,15 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-
-
-
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.name == "WeaponCollider")
-        {
-           
-            if (!isTriggered)
-            {
-                isTriggered = true;
-             _enemyHitTriggerCollider.enabled = false;
-            StartCoroutine(ReceiveDmgCoolDown());
-                
-            }
-          
-        }
+    public void GetDMG(int dmg) { 
+    StartCoroutine(ReceiveDmgCoolDown()); 
+    OnRecieveDmg(dmg);
     }
-    public  IEnumerator ReceiveDmgCoolDown()
+      IEnumerator ReceiveDmgCoolDown()
     {
         float cooldown = 3f;
         
-        OnRecieveDmg(PlayerManager.GetInstance.GetPlayerCombat.GetSetAttackDMG);
+        
         yield return new WaitForSeconds(cooldown);
         _enemyHitTriggerCollider.enabled = true;
       isTriggered = false;

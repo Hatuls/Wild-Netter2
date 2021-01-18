@@ -21,7 +21,7 @@ public class MyCamera : MonoBehaviour
     [SerializeField] Transform mouseTransform;
     [SerializeField] Transform playerTransform;
     [SerializeField] Transform walkablePlane;
-    [SerializeField] CinemachineTargetGroup groupCamera;
+  
   [SerializeField]  CinemachineVirtualCamera cmv;
     //Ray And RayCast:
     Ray _Ray;
@@ -60,8 +60,6 @@ public class MyCamera : MonoBehaviour
     private void Update()
     {
         mouseTransform.position = AdjustCameraFromMouse();
-       MakeCameraInRange();
-
         ZoomFunction();
     }
     void ZoomFunction() {
@@ -76,44 +74,7 @@ public class MyCamera : MonoBehaviour
 
         }
     }
-    private void MakeCameraInRange()
-    {
-
-
-
-
-        Vector3 MiddlePoint = new Vector3((mouseTransform.position.x + playerTransform.position.x) / 2, 0, (mouseTransform.position.z + playerTransform.position.z) / 2);
-
-        float amount = 0 ;
-        if (Mathf.Abs(playerTransform.position.x)>130f || Mathf.Abs(playerTransform.position.z) > 65f)
-        {
-            amount = .3f;
-
-        }
-        else if (Mathf.Abs(playerTransform.position.x) > 110f|| Mathf.Abs(playerTransform.position.z) > 50f)
-        {
-            amount= 0.2f;
-
-        }
-        if (Mathf.Abs(playerTransform.position.z) > 80f)
-        {
-            if (playerTransform.position.z< 0 )
-            {
-                amount = .8f;
-            }else
-            amount =1f;
-        }
-        else if (Mathf.Abs(playerTransform.position.z) > 70.5f)
-        {
-            amount = 0.6f;
-        }
-
-        groupCamera.m_Targets[2].weight = Mathf.Lerp(groupCamera.m_Targets[2].weight, amount, Time.deltaTime * 2f);
-     //   Debug.Log(Mathf.Abs(mouseTransform.position.x + playerTransform.position.x) / 2);
-
-
-    }
-
+  
     Vector3 AdjustCameraFromMouse() {
         float clampRange =10f;
 

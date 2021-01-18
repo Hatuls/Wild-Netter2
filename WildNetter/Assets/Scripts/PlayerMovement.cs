@@ -23,8 +23,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] static bool isPlayerRotateAble = true;
 
     // Component References:
-    Rigidbody _RB;
-   
+     Rigidbody _RB;
+    public Rigidbody GetPlayerRB => _RB;
 
     //Getter And Setters:
     public float GetSetPlayerSpeed
@@ -106,12 +106,15 @@ public class PlayerMovement : MonoBehaviour
          inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
 
-        if (inputVector.magnitude <= .1f)
-            currentSpeed = 1;
+        if (inputVector.magnitude <= .1f) {
+            currentSpeed -= 200f * Time.deltaTime;
+        }
         else {
             currentSpeed += 200f * Time.deltaTime;
-            currentSpeed = Mathf.Clamp(currentSpeed ,0 , maxSpeed);
         }
+            currentSpeed = Mathf.Clamp(currentSpeed ,1 , maxSpeed);
+
+
           inputVector = inputVector * GetSetPlayerSpeed;
         
 
@@ -125,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
             isRunning = true;
             maxSpeed = runningSpeed;
 
-            forceLimit = 8f;
+            forceLimit = 10f;
 
         }
 
@@ -151,6 +154,6 @@ public class PlayerMovement : MonoBehaviour
 
         
         PlayerGFX._instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
-        Debug.Log("Input speed : " + inputVector.magnitude);
+  
     }
 }

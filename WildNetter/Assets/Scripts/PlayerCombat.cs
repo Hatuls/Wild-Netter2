@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -80,6 +81,9 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+
+
+
     public void MeleeAttack() {
         Debug.Log("SWord AttacK");
         StartCoroutine(MeleeAttackCoroutine());
@@ -136,10 +140,7 @@ public class PlayerCombat : MonoBehaviour
 
     //  private Vector3 LockOnEnemy() { } <- will be used later on
 
-    private void ToggleWeaponCollider(bool state) => _weaponGO.SetActive(state);
-
-
-
+    private void ToggleWeaponCollider(bool state) => _weaponCollider.enabled = state;
 
 
     // ienumerators:
@@ -147,8 +148,9 @@ public class PlayerCombat : MonoBehaviour
        
         canAttack = false;
         ToggleWeaponCollider(true);
-
+        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
         yield return new WaitForSeconds(equippedWeaponSO.HitSpeed);
+        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
         ToggleWeaponCollider(false);
         canAttack = true;
       
@@ -157,5 +159,10 @@ public class PlayerCombat : MonoBehaviour
     private void OnDestroy()
     {
         ResetAttackAction();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+
+        other.gameObject.GetComponent<Enemy>().GetDMG(equippedWeaponSO.maxDMG);
     }
 }

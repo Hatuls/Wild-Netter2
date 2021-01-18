@@ -31,7 +31,7 @@ public class LoadData
     
     
 
-    string[] GetCVSFileFromItemID(int id)
+    string[] GetCSVFileFromItemID(int id)
     {
         switch (id)
         {
@@ -53,16 +53,12 @@ public class LoadData
 
     public string[] GetTypeOfItemDataFromOtherTable(int IDForType , int itemID)
     {
-      string[] data =  GetCVSFileFromItemID(IDForType);
+      string[] data =  GetCSVFileFromItemID(IDForType);
         if (data != null)
         {
 
             try
             {
-
-                
-
-
                 Debug.Log(data.Length);
                 string[] row = null;
                 for (int i = 1; i < data.Length - 1; i++)
