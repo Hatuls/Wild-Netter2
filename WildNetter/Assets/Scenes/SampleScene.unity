@@ -3150,7 +3150,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1912259271}
   m_Lens:
     FieldOfView: 120
-    OrthographicSize: 13.88513
+    OrthographicSize: 13.94629
     NearClipPlane: 0.1
     FarClipPlane: 100
     Dutch: 0
@@ -8054,7 +8054,7 @@ Camera:
   far clip plane: 100
   field of view: 120
   orthographic: 1
-  orthographic size: 13.88513
+  orthographic size: 13.94629
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -9581,7 +9581,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 567110345, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 567110345, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: m_AngularDrag
@@ -9590,6 +9590,14 @@ PrefabInstance:
     - target: {fileID: 567110345, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: m_Drag
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 567110351, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 567110351, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1207836332, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: m_IsActive
@@ -9651,6 +9659,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: speed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: walkingSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: currentSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 6129027829125652424, guid: 25fe12de0e000b149b1fe9614fa61a42,
         type: 3}
