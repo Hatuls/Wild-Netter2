@@ -50,7 +50,18 @@ public class PlayerStats : MonoBehaviour
     } public int GetSetCurrentHealth
     {
         get { return currentHealth; }
-        set { currentHealth = value; }
+        set { 
+            
+            
+            
+
+
+
+            
+            
+            currentHealth = value; 
+        
+        }
     } public int GetSetMaxHealth
     {
         get { return maxHealth; }

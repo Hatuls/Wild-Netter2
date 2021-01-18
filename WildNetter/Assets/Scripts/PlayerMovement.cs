@@ -80,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
 
         Sprint(Input.GetButton("Sprint"));
         
-        PlayerGFX._instance.SetAnimationFloat(_RB.velocity.z, "Forward");
+        PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
  
     }
 
@@ -113,6 +113,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity = direction.magnitude / 2;
         }
+
     }
     public Vector3 GetAngleDirection() {
         if (rotationAngle == null)
