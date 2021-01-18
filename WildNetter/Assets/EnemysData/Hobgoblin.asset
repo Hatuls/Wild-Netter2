@@ -13,13 +13,29 @@ MonoBehaviour:
   m_Name: Hobgoblin
   m_EditorClassIdentifier: 
   enemyName: Hobogoblin
-  maxHealth: 15
+  maxHealth: 100
   level: 1
   attackDMG: 4
   armor: 2
-  movementSpeed: 10
+  sightRange: 10
+  movementSpeed: 5.42
   attackSpeed: 5
+  wanderRadius: 20
+  Attack1_Cd: 4
+  Attack1_Range: 2
+  Attack1_RangeFromSource: 3
+  Attack1_AnimDelay: 1
+  attack1_animLenght: 2
+  Attack2_Cd: 2
+  Attack2_Range: 1
+  Attack2_RangeFromSource: 1
+  Attack2_AnimDelay: 1
+  attack2_animLenght: 1.5
   lootDropsID: 102700001127000012270000
-  enemyVulnerability: 1
   enemyAnim: []
+  attackType: 0
+  enemyVulnerability: 1
   habitats: 00000000010000000200000003000000
+  enemyState: 1
+  enemySize: 0
+  enemyDifficulty: 0

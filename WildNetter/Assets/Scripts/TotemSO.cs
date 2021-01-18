@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Totem", fileName = "Totem Name")]
+
 public abstract class TotemSO : Item
 {
     // Object References:
@@ -12,6 +12,7 @@ public abstract class TotemSO : Item
     public TotemType totemType;
     public float duration;
     public float range;
+    public float currentRealTime;
     public int MinimumPlayerLevel;
     public int currentZone;
     public Animator _animator;
@@ -62,13 +63,28 @@ public abstract class TotemSO : Item
         }
     }
 
-    public abstract void DoEffect(Vector3 totemLocation, Vector3 targetLocation);
-    public abstract void DoEffect(Vector3 totemLocation);
+    public virtual void DoEffect(Vector3 totemLocation, Vector3 targetLocation) { }
+    public virtual void DoEffect(Vector3 totemLocation) { }
+    public virtual void DoEffect(Vector3 totemLocation, GameObject totem) { }
     public bool CheckRange(Vector3 totemLocation, Vector3 targetLocation, float _range)
     {
         bool isRange = (Vector3.Distance(totemLocation, targetLocation) < _range);
         return isRange;
     }
+
+    public float GetCurrentTime()
+    {
+        float time = ((float)System.DateTime.Now.Hour * 3600) + ((float)System.DateTime.Now.Minute * 60) + (float)System.DateTime.Now.Second;
+        return time;
+    }
+
+   public virtual IEnumerator ActivateTotemEffect(GameObject totem) { yield return null; }
+
+    public virtual IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem) { yield return null; }
+
+    public virtual IEnumerator ActivateTotemEffect(bool toContinuteSpawning, GameObject totem) { yield return null; }
+
+
 
     public virtual void PlayAnimation(string animName)
     {
@@ -78,7 +94,6 @@ public abstract class TotemSO : Item
 
 public class TotemOfHealing : TotemSO
 {
-    public ParticleSystem healingParticle;
     int healingPrecentage = 5;
 
     public TotemOfHealing(string[] lootData, string[] totemData) : base (lootData, totemData)
@@ -94,10 +109,19 @@ public class TotemOfHealing : TotemSO
             Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
         }
     }
-
-    public override void DoEffect(Vector3 totemLocation)
+    public override IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem)
     {
-        //throw new System.NotImplementedException();
+        float timeToDestroy = duration + GetCurrentTime();
+        while (true)
+        {
+            this.DoEffect(totem.transform.position, targetPos.position);
+            if (GetCurrentTime() > timeToDestroy)
+            {
+                break;
+            }
+            currentRealTime = GetCurrentTime();
+            yield return new WaitForSeconds(1);
+        }
     }
 }
 
@@ -108,56 +132,119 @@ public class TotemOfDetection : TotemSO
     {
 
     }
-    public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
-    {
-        throw new System.NotImplementedException();
-    }
     public override void DoEffect(Vector3 totemLocation)
     {
-        Collider[] objectCollider;
-        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
-        foreach (Collider col in objectCollider)
+        if (SpawnDetectedEnemy() == true)
         {
-            if (CheckRange(totemLocation, col.transform.position, range))
+            Collider[] objectCollider;
+            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+            foreach (Collider col in objectCollider)
             {
-                Debug.Log("Beast was found!");
+                if (CheckRange(totemLocation, col.transform.position, range))
+                {
+                    Debug.Log("Beast was found!");
+                }
             }
+        }
+    }
+    public bool SpawnDetectedEnemy()
+    {
+        EnemyManager _enemyManager = EnemyManager.GetInstance();
+        if (Random.value > 0.5)
+        {
+            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0,2), (Size)Random.Range(0,2), Random.Range(1,100));
+            // give enemy spawner totem location and tell enemyspawner to spawn enemy in that location
+            // notify player that totem detected an enemy
+                return true;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
+    public override IEnumerator ActivateTotemEffect(bool toContinueSpawn ,GameObject totem)
+    {
+        float timeToDestroy = duration + GetCurrentTime();
+        if (toContinueSpawn == true)
+        {
+            while (true)
+            {
+                this.DoEffect(totem.transform.position);
+                if (GetCurrentTime() > timeToDestroy)
+                {
+                    break;
+                }
+                currentRealTime = GetCurrentTime();
+                yield return new WaitForSeconds(1);
+            }
+        }
+
+        else
+        {
+            this.DoEffect(totem.transform.position);
+            yield return null;
         }
     }
 }
 
 public class TotemOfPrey : TotemSO
 {
-    private bool pull;
+    private List<GameObject> enemyCatched = new List<GameObject>();
     public TotemOfPrey(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
 
     }
-    public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void DoEffect(Vector3 totemLocation)
+    public override void DoEffect(Vector3 totemLocation, GameObject totem)
     {
         Collider[] objectCollider;
         objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+        Debug.Log(objectCollider.Length);
         foreach (Collider col in objectCollider)
         {
-            if (CheckRange(totemLocation, col.transform.position, range) && !pull)
+            if (CheckRange(totemLocation, col.transform.position, range))
             {
-                pull = true;
-            }
-
-            if (pull)
-            {
-                //remove from here when enemy is done
-                col.transform.position = Vector3.MoveTowards(col.transform.position, totemLocation, 5 * Time.deltaTime);
-                if (CheckRange(totemLocation, col.transform.position, range / 3))
+                if(enemyCatched.Contains(col.gameObject))
                 {
-                    pull = false;
+                    continue;
+                }
+
+                else
+                {
+                    enemyCatched.Add(col.gameObject);
+                    col.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
                 }
             }
+
+
+            /*if (pull)
+            {
+                //remove from here when enemy is done
+                col.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
+                if (currentRealTime > GetCurrentTime())
+                {
+                    pull = false;
+                    col.GetComponent<Enemy>().CancelEffect();
+                }
+            }*/
+        }
+    }
+    public override IEnumerator ActivateTotemEffect(GameObject totem)
+    {
+        float timeToDestroy = duration + GetCurrentTime();
+        while (true)
+        {
+            this.DoEffect(totem.transform.position, totem);
+            if (GetCurrentTime() > timeToDestroy)
+            {
+                foreach(GameObject go in enemyCatched)
+                {
+                    go.GetComponent<Enemy>().CancelEffect();
+                }
+                break;
+            }
+            currentRealTime = GetCurrentTime();
+            yield return new WaitForSeconds(1);
         }
     }
 }

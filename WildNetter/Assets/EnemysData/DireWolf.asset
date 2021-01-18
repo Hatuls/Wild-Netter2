@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe086513882fee42bf45ae3c83f6191, type: 3}
+  m_Name: DireWolf
+  m_EditorClassIdentifier: 
+  enemyName: DireWolf
+  maxHealth: 75
+  level: 1
+  attackDMG: 5
+  armor: 1
+  sightRange: 10
+  movementSpeed: 10
+  attackSpeed: 15
+  wanderRadius: 20
+  Attack1_Cd: 4
+  Attack1_Range: 1
+  Attack1_RangeFromSource: 1
+  Attack1_AnimDelay: 1
+  attack1_animLenght: 2
+  Attack2_Cd: 2
+  Attack2_Range: 3
+  Attack2_RangeFromSource: 0
+  Attack2_AnimDelay: 0.5
+  attack2_animLenght: 1
+  lootDropsID: 122700001127000010270000
+  enemyAnim: []
+  attackType: 3
+  enemyVulnerability: 2
+  habitats: 000000000100000002000000
+  enemyState: 1
+  enemySize: 0
+  enemyDifficulty: 0
