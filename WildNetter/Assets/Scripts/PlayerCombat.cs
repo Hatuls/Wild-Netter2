@@ -163,6 +163,6 @@ public class PlayerCombat : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        other.gameObject.GetComponent<Enemy>().GetDMG(equippedWeaponSO.maxDMG);
+        other.gameObject.GetComponent<Enemy>().GetDMG(GetSetAttackDMG);
     }
 }

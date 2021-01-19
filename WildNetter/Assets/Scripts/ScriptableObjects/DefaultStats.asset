@@ -12,3 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783c527da69211a4eb04c5ecdc6ebced, type: 3}
   m_Name: DefaultStats
   m_EditorClassIdentifier: 
+  stats:
+    strengh: 0
+    wisdom: 0
+    agility: 0
+    stamina: 0
+    currentEXP: 0
+    expToNextLevel: 0
+    abilityPoints: 0
+    currentHealth: 125
+    maxHealth: 125
+    armorPoints: 0

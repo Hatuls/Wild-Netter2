@@ -346,14 +346,14 @@ public abstract class Enemy : MonoBehaviour
     StartCoroutine(ReceiveDmgCoolDown()); 
     OnRecieveDmg(dmg);
     }
-      IEnumerator ReceiveDmgCoolDown()
+    IEnumerator ReceiveDmgCoolDown()
     {
         float cooldown = 3f;
-        
-        
+
+
         yield return new WaitForSeconds(cooldown);
         _enemyHitTriggerCollider.enabled = true;
-      isTriggered = false;
+        isTriggered = false;
     }
     public IEnumerator Iwander(bool wander,EnemyState state,float range)
     {

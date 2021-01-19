@@ -136,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isRunning = false;
             maxSpeed = walkingSpeed;
+            forceLimit = 6f;
         }
     }
     private void MovePlayer()

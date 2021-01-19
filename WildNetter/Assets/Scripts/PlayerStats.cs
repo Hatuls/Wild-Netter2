@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    Stats playerStats;
+    [SerializeField] Stats playerStats;
 
     //Component References:
     //Script References:

@@ -1,6 +1,7 @@
 ﻿
 using Cinemachine;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MyCamera : MonoBehaviour
@@ -65,16 +66,21 @@ public class MyCamera : MonoBehaviour
     void ZoomFunction() {
         if (Input.mouseScrollDelta.y != 0)
         {
-            currentZoom = cmv.m_Lens.OrthographicSize;
-        currentZoom -= Input.mouseScrollDelta.y* zoomAmount;
-           
-        currentZoom = Mathf.Clamp(currentZoom,maxZoomIn, maxZoomOut);
-
-            cmv.m_Lens.OrthographicSize = Mathf.Lerp(cmv.m_Lens.OrthographicSize, currentZoom,Time.deltaTime * zoomSpeed);
-
+            StopCoroutine(ZoomTween());
+            StartCoroutine(ZoomTween());
         }
     }
-  
+    IEnumerator ZoomTween() {
+        currentZoom = cmv.m_Lens.OrthographicSize;
+        currentZoom -= Input.mouseScrollDelta.y * zoomAmount;
+
+        currentZoom = Mathf.Clamp(currentZoom, maxZoomIn, maxZoomOut);
+        yield return new WaitForSeconds(smoothTime);
+        cmv.m_Lens.OrthographicSize = Mathf.Lerp(cmv.m_Lens.OrthographicSize, currentZoom, Time.deltaTime * zoomSpeed);
+
+
+
+    }
     Vector3 AdjustCameraFromMouse() {
         float clampRange =10f;
 
