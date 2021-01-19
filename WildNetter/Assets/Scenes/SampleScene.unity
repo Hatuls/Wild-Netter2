@@ -1304,19 +1304,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 320649999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa7155796051b734daa718462081dc5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ad980451443d70438faac0bc6c235a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: -3, y: 20, z: -40}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
-  m_AngularDampingMode: 0
-  m_PitchDamping: 0
-  m_YawDamping: 1
-  m_RollDamping: 0
-  m_AngularDamping: 0
+  m_TrackedObjectOffset: {x: 0, y: 19.2, z: -32.7}
+  m_LookaheadTime: 1
+  m_LookaheadSmoothing: 10
+  m_LookaheadIgnoreY: 0
+  m_XDamping: 3
+  m_YDamping: 3
+  m_ZDamping: 3
+  m_TargetMovementOnly: 0
+  m_ScreenX: 0.5
+  m_ScreenY: 0.5
+  m_CameraDistance: 10
+  m_DeadZoneWidth: 0
+  m_DeadZoneHeight: 0
+  m_DeadZoneDepth: 0
+  m_UnlimitedSoftZone: 0
+  m_SoftZoneWidth: 0.3
+  m_SoftZoneHeight: 0.3
+  m_BiasX: 0
+  m_BiasY: 0
+  m_CenterOnActivate: 1
+  m_GroupFramingMode: 3
+  m_AdjustmentMode: 0
+  m_GroupFramingSize: 11.62
+  m_MaxDollyIn: 5000
+  m_MaxDollyOut: 5000
+  m_MinimumDistance: 1
+  m_MaximumDistance: 5000
+  m_MinimumFOV: 3
+  m_MaximumFOV: 60
+  m_MinimumOrthoSize: 1
+  m_MaximumOrthoSize: 5000
 --- !u!114 &320650002
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -2959,6 +2980,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 30063121527683930, guid: d678dd9afd6a1b9488ed4caa95571c31,
+        type: 3}
+      propertyPath: continueSpawning
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 636311762027651085, guid: d678dd9afd6a1b9488ed4caa95571c31,
         type: 3}
       propertyPath: m_IsActive
@@ -3151,7 +3177,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1912259271}
   m_Lens:
     FieldOfView: 120
-    OrthographicSize: 11
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 100
     Dutch: 0
@@ -3175,7 +3201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857829889}
   m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
-  m_LocalPosition: {x: 3.376667, y: 24.206667, z: -15.74}
+  m_LocalPosition: {x: 6.376667, y: 28.40667, z: -17.100256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 320650000}
@@ -8002,7 +8028,7 @@ MonoBehaviour:
   currentZoom: 0
   maxZoomIn: 10
   maxZoomOut: 14
-  zoomSpeed: 10
+  zoomSpeed: 100
   zoomAmount: 0.3
   smoothTime: 0.01
 --- !u!114 &1845471542
@@ -8071,7 +8097,7 @@ Camera:
   far clip plane: 100
   field of view: 120
   orthographic: 1
-  orthographic size: 11
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -8095,7 +8121,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845471540}
   m_LocalRotation: {x: 0.2588191, y: -0, z: -0, w: 0.9659258}
-  m_LocalPosition: {x: 3.376667, y: 24.206669, z: -15.74}
+  m_LocalPosition: {x: 6.376667, y: 24.206665, z: -17.100256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1715616235}
@@ -9664,6 +9690,10 @@ PrefabInstance:
     - target: {fileID: 1207836332, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: m_Name
       value: Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1207836333, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: m_Radius
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1207836336, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: m_LocalPosition.y
