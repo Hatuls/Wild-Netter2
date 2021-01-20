@@ -7,7 +7,7 @@ public class MonsterPart : MonoBehaviour
     [SerializeField] PartSo _PartSo; 
     private Enemy _Enemy;
     private GameObject EnemyGO;
-    int brakeMultiplier;
+    int brakeMultiplier=2;
 
 
     

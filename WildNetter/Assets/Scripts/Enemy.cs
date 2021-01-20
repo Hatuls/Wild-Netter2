@@ -20,7 +20,7 @@ public abstract class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     public Animator _animator;
     public GameObject TargetAquierd;
-    public Rigidbody rb;
+    internal Rigidbody rb;
     public Material originalMat;
     public ParticleSystem footsteps;
     
@@ -34,6 +34,7 @@ public abstract class Enemy : MonoBehaviour
     private int dropAmont;
  
     bool isHeading = false;
+    bool isKnocked = false;
 
    internal bool attack1_inCd, attack2_inCd;
     Vector3 CurrentPos;
@@ -70,7 +71,7 @@ public abstract class Enemy : MonoBehaviour
     
     public void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
         
     }
     private void Awake()
@@ -234,9 +235,12 @@ public abstract class Enemy : MonoBehaviour
                 
                 if (TargetAquierd.gameObject != null)
                 {
-                Move(TargetAquierd.transform.position);
-                AttacksAI();
-                    //ActivateFootsteps();
+                    if (!isKnocked)
+                    {
+                      Move(TargetAquierd.transform.position);
+                      AttacksAI();
+                    }
+                   
 
                 }
                 break;
@@ -320,13 +324,12 @@ public abstract class Enemy : MonoBehaviour
     }
     private void ApplyKnockback(int force,Vector3 Source)
     {
-        Debug.Log("working!!!!!!!!!!!!!!");
-        ;//applying KnockBacK will work with other attacking type(cast or something)
-         
-         agent.enabled = false;
+        isKnocked = true;
+        agent.enabled = false;
          rb.isKinematic = false;
         
-        rb.AddExplosionForce(force*40,new Vector3(Source.x, 0, Source.z), 2);
+        
+        rb.AddExplosionForce(force*40,new Vector3(Source.x, 0, Source.z), 4);
         
         
     }
@@ -463,7 +466,7 @@ public abstract class Enemy : MonoBehaviour
         yield return new WaitForSeconds(_enemySheet.getUpAnimTime);
         rb.isKinematic = true;
         agent.enabled = true;
-        //transform.rotation = Quaternion.Euler(Vector3.zero);
+        isKnocked = false;
         transform.LookAt(TargetAquierd.transform.position);
     }
     public void PartBroke(monsterParts part)
