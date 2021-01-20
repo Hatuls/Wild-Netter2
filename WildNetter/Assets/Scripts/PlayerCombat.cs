@@ -9,6 +9,7 @@ public class PlayerCombat : MonoBehaviour
     // Script References:
     WeaponSO equippedWeaponSO;
     PlayerMovement playerMovement;
+    PlayerStats playerStats;
     // Component References:
     
    [SerializeField] Collider _weaponCollider;
@@ -21,9 +22,9 @@ public class PlayerCombat : MonoBehaviour
     event Action AttackAction;
 
     //move to player manager
-    public void GetHit()
+    public void GetHit(int RecieveDMG)
     {
-        Debug.Log("playerGotHit");
+        playerStats.GetSetCurrentHealth += -RecieveDMG;
     }
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
@@ -48,6 +49,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void Init(WeaponSO startingWeapon)
     {
+        ToggleWeaponCollider(false);
+           playerStats = GetComponent<PlayerStats>();
         playerMovement = GetComponent<PlayerMovement>();
         Debug.Log(startingWeapon.GetType());
         canAttack = true;
@@ -162,7 +165,9 @@ public class PlayerCombat : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
+        if (_weaponCollider.enabled)
+        {
         other.gameObject.GetComponent<Enemy>().GetDMG(GetSetAttackDMG);
+        }
     }
 }

@@ -23,7 +23,7 @@ public class Hobogoblin : Enemy
         {
 
             PlayerCombat playerCombat = found.GetComponentInParent<PlayerCombat>();
-            playerCombat.GetHit();
+            playerCombat.GetHit(base._enemySheet.attackDMG);
             Debug.Log("GotHitByGoblin1");
         }
         //animation time-timeInThread//
@@ -49,7 +49,7 @@ public class Hobogoblin : Enemy
         {
 
             PlayerCombat playerCombat = found.GetComponentInParent<PlayerCombat>();
-            playerCombat.GetHit();
+            playerCombat.GetHit(base._enemySheet.attackDMG);
             Debug.Log("GotHitByGoblin2");
             
         }
