@@ -9,8 +9,9 @@ public class PlayerCombat : MonoBehaviour
     // Script References:
     WeaponSO equippedWeaponSO;
     PlayerMovement playerMovement;
+    PlayerStats playerStats;
     // Component References:
-
+    
    [SerializeField] Collider _weaponCollider;
     [SerializeField]GameObject _weaponGO;
 
@@ -21,33 +22,35 @@ public class PlayerCombat : MonoBehaviour
     event Action AttackAction;
 
     //move to player manager
-    public void GetHit()
+    public void GetHit(int RecieveDMG)
     {
-        Debug.Log("playerGotHit");
+        playerStats.GetSetCurrentHealth += -RecieveDMG;
     }
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
         get { return equippedWeaponSO; }
-        set {
-
+        set { 
+            
             equippedWeaponSO = value;
             currentWeaponName = equippedWeaponSO.Name;
         }
 
     }
-    public int GetSetAttackDMG {
+    public int GetSetAttackDMG { 
         get {
             System.Random rnd = new System.Random();
-
+            
             attackDMG = rnd.Next(GetSetWeaponSO.minDMG, GetSetWeaponSO.maxDMG);
 
             return attackDMG;
-        }
-
+        } 
+   
     }
 
     public void Init(WeaponSO startingWeapon)
     {
+        ToggleWeaponCollider(false);
+           playerStats = GetComponent<PlayerStats>();
         playerMovement = GetComponent<PlayerMovement>();
         Debug.Log(startingWeapon.GetType());
         canAttack = true;
@@ -73,7 +76,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void Attack() {
+    private void Attack() {  
         if (Input.GetMouseButtonDown(0) && canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
             AttackAction();
@@ -88,9 +91,9 @@ public class PlayerCombat : MonoBehaviour
         Debug.Log("SWord AttacK");
         StartCoroutine(MeleeAttackCoroutine());
     // apply GFX Anim, sound
-    }
+    }   
     public void RangeAttack() {
-
+      
         Debug.Log("Range AttacK");
 
     }
@@ -124,10 +127,10 @@ public class PlayerCombat : MonoBehaviour
             //AttackAction += DeployTotem;
             Debug.Log("Deploy Totem");
         }
-
-
-
-
+    
+    
+    
+    
     }
 
     private void ResetAttackAction()
@@ -145,7 +148,7 @@ public class PlayerCombat : MonoBehaviour
 
     // ienumerators:
     IEnumerator  MeleeAttackCoroutine() {
-
+       
         canAttack = false;
         ToggleWeaponCollider(true);
         playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
@@ -153,7 +156,7 @@ public class PlayerCombat : MonoBehaviour
         playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
         ToggleWeaponCollider(false);
         canAttack = true;
-
+      
     }
 
     private void OnDestroy()
@@ -162,7 +165,9 @@ public class PlayerCombat : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
-        other.gameObject.GetComponent<MonsterPart>().GetDamage(GetSetAttackDMG,transform.position,GetSetWeaponSO.vulnerabilityActivator);
+        if (_weaponCollider.enabled)
+        {
+        other.gameObject.GetComponent<Enemy>().GetDMG(GetSetAttackDMG);
+        }
     }
 }
