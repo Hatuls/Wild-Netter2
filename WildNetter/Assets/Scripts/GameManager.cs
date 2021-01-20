@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     { 
-      UiManager._instance.Init();
+      UiManager.GetInstance.Init();
       
     }
     private void Start()
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
 
-        UiManager._instance.Init();
+        UiManager.GetInstance.Init();
 
       var playersWeapon = ItemFactory.GetInstance().GenerateItem( 20000);
         (playersWeapon as WeaponSO).PrintWeaponSO();

@@ -4,66 +4,71 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    //Varaibles:
-    int strengh;
-    int wisdom;
-    int agility;
-    int stamina;
-    int currentEXP;
-    int expToNextLevel;
-    int abilityPoints;
-   [SerializeField] int currentHealth = 1;
-    int maxHealth = 125;
-    int armorPoints;
+    [SerializeField] Stats playerStats;
 
     //Component References:
     //Script References:
     // Collections:
     //Getters & Setters:
-    public int GetSetStrengh {
-        get { return strengh; }
-        set { strengh = value; }
-    } public int GetSetWisdom
+    public int GetSetStrengh
     {
-        get { return wisdom; }
-        set { wisdom = value; }
-    } public int GetSetAgility
+        get { return playerStats.strengh; }
+        set { playerStats.strengh = value; }
+    }
+    public int GetSetWisdom
     {
-        get { return agility; }
-        set { agility = value; }
-    } public int GetSetStamina
+        get { return playerStats.wisdom; }
+        set { playerStats.wisdom = value; }
+    }
+    public int GetSetAgility
     {
-        get { return stamina; }
-        set { stamina = value; }
-    } public int GetSetCurrentEXP
+        get { return playerStats.agility; }
+        set { playerStats.agility = value; }
+    }
+    public int GetSetStamina
     {
-        get { return currentEXP; }
-        set { currentEXP = value; }
-    } public int GetSetExpToNextLevel
+        get { return playerStats.stamina; }
+        set { playerStats.stamina = value; }
+    }
+    public int GetSetCurrentEXP
     {
-        get { return expToNextLevel; }
-        set { expToNextLevel = value; }
-    } public int GetSetAbilityPoints
+        get { return playerStats.currentEXP; }
+        set { playerStats.currentEXP = value; }
+    }
+    public int GetSetExpToNextLevel
     {
-        get { return abilityPoints; }
-        set { abilityPoints = value; }
-    } public int GetSetCurrentHealth
+        get { return playerStats.expToNextLevel; }
+        set { playerStats.expToNextLevel = value; }
+    }
+    public int GetSetAbilityPoints
     {
-        get { return currentHealth; }
-        set { currentHealth = value; }
-    } public int GetSetMaxHealth
+        get { return playerStats.abilityPoints; }
+        set { playerStats.abilityPoints = value; }
+    }
+    public int GetSetCurrentHealth
     {
-        get { return maxHealth; }
-        set { maxHealth = value; }
-    } public int GetSetArmorPoints
+        get { return playerStats.currentHealth; }
+        set
+        {
+
+            playerStats.currentHealth = value;
+
+        }
+    }
+    public int GetSetMaxHealth
     {
-        get { return armorPoints; }
-        set { armorPoints = value; }
-   }
+        get { return playerStats.maxHealth; }
+        set { playerStats.maxHealth = value; }
+    }
+    public int GetSetArmorPoints
+    {
+        get { return playerStats.armorPoints; }
+        set { playerStats.armorPoints = value; }
+    }
     //Functions:
     public void Init()
     {
-        
+
     }
 
     public void ApplyDMG(int amount) { }

@@ -242,7 +242,7 @@ public abstract class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.Attack:
-                stopMoving();
+                StopMoving();
                 break;
 
             case EnemyState.lured:
@@ -290,7 +290,7 @@ public abstract class Enemy : MonoBehaviour
         
     }
     //Currently for totems
-    public void stopMoving()
+    public void StopMoving()
     {
         ActivateFootsteps(false);
         agent.Stop();

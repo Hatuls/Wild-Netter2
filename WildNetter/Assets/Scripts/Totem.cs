@@ -15,6 +15,7 @@ public class Totem : MonoBehaviour
     public ParticleSystem healingParticle;
     public ParticleSystem preyParticle;
     public ParticleSystem detectionParticle;
+    public bool continueSpawning;
 
     // Getter & Setters:
     IEnumerator TotemDuration(float duration)
@@ -69,8 +70,8 @@ public class Totem : MonoBehaviour
             case TotemType.detection:
                 detectionParticle = transform.Find("DetectionParticle").GetComponent<ParticleSystem>();
                 detectionParticle.Play();
-                StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
-                StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
+                StopCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
+                StartCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
                 break;
 
             default:

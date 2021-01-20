@@ -3222,7 +3222,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1912259271}
   m_Lens:
     FieldOfView: 120
-    OrthographicSize: 13.99439
+    OrthographicSize: 13.14787
     NearClipPlane: 0.1
     FarClipPlane: 100
     Dutch: 0
@@ -8272,7 +8272,6 @@ MonoBehaviour:
   mouseTransform: {fileID: 153662145}
   playerTransform: {fileID: 1558371208}
   walkablePlane: {fileID: 797216784}
-  groupCamera: {fileID: 1912259270}
   cmv: {fileID: 857829890}
   currentZoom: 0
   maxZoomIn: 10
@@ -8346,7 +8345,7 @@ Camera:
   far clip plane: 100
   field of view: 120
   orthographic: 1
-  orthographic size: 13.99439
+  orthographic size: 13.14787
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

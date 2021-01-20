@@ -1,35 +1,37 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayerMovement : MonoBehaviour
 {
 
 
-   
+
     // Config parameters:
-    [SerializeField] float speed = 30f;
-
+    [SerializeField] float walkingSpeed = 70f, runningSpeed = 120f, currentSpeed , maxSpeed =70f;
+    float forceLimit = 5f;
     float sprintStamina;
-
+    bool isRunning;
     [SerializeField] float rotaionSpeed;
-
-
+    Vector3 inputVector;
+    Vector3 mousePos;
     Vector3 direction;
+    Vector3 rotationAngle;
 
-    public float velocity;
 
-    bool isSprinting = false;
+    [SerializeField] static bool isPlayerRotateAble = true;
 
     // Component References:
-    Rigidbody _RB;
-   
+     Rigidbody _RB;
+    public Rigidbody GetPlayerRB => _RB;
 
     //Getter And Setters:
     public float GetSetPlayerSpeed
     {
-        get { return speed; }
+        get { return currentSpeed; }
 
-        set { speed = value; }
+        set { currentSpeed = value; }
     }
     public float GetSetSprintStamina
     {
@@ -37,74 +39,122 @@ public class PlayerMovement : MonoBehaviour
 
         set { sprintStamina = value; }
     }
+    public static bool SetPlayerRotateAble {
+        set { isPlayerRotateAble = value; }
+    }
 
     //functions
+    public void Init()
+    {
+        _RB = GetComponent<Rigidbody>();
+
+    }
 
 
-    private void LateUpdate()
+    private void Update()
     {
         
         if (_RB != null )
-            
         {
-            Move();
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (Input.GetKeyDown(KeyCode.W) || !EventSystem.current.IsPointerOverGameObject())
             {
                 RotatePlayer();
-
             }
-            
-
-        
+           
+            GetInput();
         }
     }
 
-    void Move() {
-        
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
-
-        Vector3 targetVector = new Vector3(xInput, 0, zInput);
-
-        direction = targetVector * GetSetPlayerSpeed;
-
-       // Debug.Log(direction);
-
-     
-        if (Input.GetKey(KeyCode.LeftShift)) { isSprinting = true; } else { isSprinting = false; }
-        if (isSprinting)
-        {
-            velocity = direction.magnitude;
-        }
-        else
-        {
-            velocity = direction.magnitude /2;
-        }
-        
-        PlayerGFX._instance.SetAnimationFloat(velocity, "Forward");
- 
-     
-
+    private void FixedUpdate()
+    {
+        MovePlayer();
     }
 
+    public Vector3 GetAngleDirection() {
+        if (rotationAngle == null)
+            return Vector2.zero;
 
-
-
+        return rotationAngle.normalized; 
+    
+    } 
     private void RotatePlayer()
     {
-      
-        Vector3 newrotates = new Vector3((MyCamera._Instance._HitInfo.point.x - transform.position.x), 0, (MyCamera._Instance._HitInfo.point.z - transform.position.z));
+        
 
-        transform.rotation = Quaternion.LookRotation(newrotates);
+
+
+
+        mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
+
+        if (isPlayerRotateAble&& CheckIfMouseIsOnPlayer()  )
+        {
+
+        rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
+         transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
+        }
+        
+
+        
        // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
 
     }
-    private void Sprint(bool ableto) { }
-  //  public Vector3 GetAngleDirection() { return Vector3.zero; }  < need to use later on 
-    public void Init()
-    {
-      
-        _RB = GetComponent<Rigidbody>();
-    }
+    bool CheckIfMouseIsOnPlayer()  => Vector3.Distance(mousePos, transform.position) > 1.8f;
 
+
+    void GetInput() {
+
+         inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+
+        if (inputVector.magnitude <= .1f) {
+            currentSpeed -= 200f * Time.deltaTime;
+        }
+        else {
+            currentSpeed += 200f * Time.deltaTime;
+        }
+            currentSpeed = Mathf.Clamp(currentSpeed ,1 , maxSpeed);
+
+
+          inputVector = inputVector * GetSetPlayerSpeed;
+        
+
+        if (direction.magnitude > 1f)
+                   direction.Normalize();
+
+    
+
+        if (Input.GetButtonDown("Sprint") && !isRunning)
+        {
+            isRunning = true;
+            maxSpeed = runningSpeed;
+
+            forceLimit = 10f;
+
+        }
+
+        if (Input.GetButtonUp("Sprint"))
+        {
+            isRunning = false;
+            maxSpeed = walkingSpeed;
+            forceLimit = 6f;
+        }
+    }
+    private void MovePlayer()
+    {
+        if (_RB == null)
+            return;
+
+        
+        Vector3 moveVector = inputVector.z * transform.forward + 
+                             inputVector.x * transform.right;
+
+     
+        if (_RB.velocity.magnitude < forceLimit)
+            _RB.AddForce(moveVector , ForceMode.Force);
+
+
+        
+        PlayerGFX._instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
+  
+    }
 }

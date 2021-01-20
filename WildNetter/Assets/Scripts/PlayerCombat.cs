@@ -2,11 +2,13 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class PlayerCombat : MonoBehaviour
 {
     // Script References:
-    WeaponSO _equippedWeapon;
+    WeaponSO equippedWeaponSO;
+    PlayerMovement playerMovement;
     // Component References:
     
    [SerializeField] Collider _weaponCollider;
@@ -25,11 +27,11 @@ public class PlayerCombat : MonoBehaviour
     }
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
-        get { return _equippedWeapon; }
+        get { return equippedWeaponSO; }
         set { 
             
-            _equippedWeapon = value;
-            currentWeaponName = _equippedWeapon.Name;
+            equippedWeaponSO = value;
+            currentWeaponName = equippedWeaponSO.Name;
         }
 
     }
@@ -46,6 +48,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void Init(WeaponSO startingWeapon)
     {
+        playerMovement = GetComponent<PlayerMovement>();
         Debug.Log(startingWeapon.GetType());
         canAttack = true;
         GetSetWeaponSO = startingWeapon;
@@ -78,6 +81,9 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+
+
+
     public void MeleeAttack() {
         Debug.Log("SWord AttacK");
         StartCoroutine(MeleeAttackCoroutine());
@@ -93,7 +99,7 @@ public class PlayerCombat : MonoBehaviour
     {
 
         PlayerGFX._instance.SetAnimationTrigger("PlaceTotem");
-        TotemManager._instance.DeployAtLocation(transform.position + TotemManager._instance.totemOffset, type);
+        TotemManager._instance.DeployAtLocation((transform.position + playerMovement.GetAngleDirection()*2f), type);
     }
 
     public void SetAttackAction() {
@@ -134,24 +140,29 @@ public class PlayerCombat : MonoBehaviour
 
     //  private Vector3 LockOnEnemy() { } <- will be used later on
 
-    private void ToggleWeaponCollider(bool state) => _weaponGO.SetActive(state);
-
-
-
+    private void ToggleWeaponCollider(bool state) => _weaponCollider.enabled = state;
 
 
     // ienumerators:
     IEnumerator  MeleeAttackCoroutine() {
+       
         canAttack = false;
         ToggleWeaponCollider(true);
-
-        yield return new WaitForSeconds(_equippedWeapon.HitSpeed);
+        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
+        yield return new WaitForSeconds(equippedWeaponSO.HitSpeed);
+        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
         ToggleWeaponCollider(false);
         canAttack = true;
+      
     }
 
     private void OnDestroy()
     {
         ResetAttackAction();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+
+        other.gameObject.GetComponent<MonsterPart>().GetDamage(GetSetAttackDMG,transform.position,GetSetWeaponSO.vulnerabilityActivator);
     }
 }

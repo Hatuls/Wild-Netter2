@@ -26,39 +26,33 @@ public class MonsterPart : MonoBehaviour
         GetMonster();
         GetPartSettings();
     }
-
-    public void OnTriggerEnter(Collider other)
+    public void GetDamage(int hitDamage,Vector3 hitPoint,Vulnerability weaponVulnerabilityEffect)
     {
-
-        if (other.gameObject.name == "WeaponCollider")
+        if (vulnerability == weaponVulnerabilityEffect)
         {
-            int HitDamage = other.GetComponentInParent<PlayerCombat>().GetSetAttackDMG;
-            Vector3 hitPoint = other.transform.root.position;
-            Vulnerability vulnerabilityActivator = other.GetComponentInParent<PlayerCombat>().GetSetWeaponSO.vulnerabilityActivator;
-            if (vulnerability == vulnerabilityActivator)
-            {
-                HitDamage *= VuDamageMultiplayer;
-            }
-            if (BreakPoints > 0)
-            {
-            BreakPoints -= HitDamage;
-                if (BreakPoints <= 0)
-                {
-                    BreakPart();
-                }
-            }
-            else
-            {
-                HitDamage *= brakeMultiplier;
-            }
-            
-
-             _Enemy.GetDamageFromPart(HitDamage,thisPart,hitPoint);
-            
-            Debug.Log(HitDamage);
-
+            hitDamage *= VuDamageMultiplayer;
         }
+        if (BreakPoints > 0)
+        {
+            BreakPoints -= hitDamage;
+            if (BreakPoints <= 0)
+            {
+                BreakPart();
+            }
+        }
+        else
+        {
+            hitDamage *= brakeMultiplier;
+        }
+
+
+        _Enemy.GetDamageFromPart(hitDamage, thisPart, hitPoint);
+
+        Debug.Log(hitDamage);
     }
+
+
+    
     void BreakPart()
     {
         isBroken = true;

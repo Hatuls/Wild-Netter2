@@ -1,6 +1,7 @@
 ﻿
 using Cinemachine;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MyCamera : MonoBehaviour
@@ -21,7 +22,7 @@ public class MyCamera : MonoBehaviour
     [SerializeField] Transform mouseTransform;
     [SerializeField] Transform playerTransform;
     [SerializeField] Transform walkablePlane;
-    [SerializeField] CinemachineTargetGroup groupCamera;
+  
   [SerializeField]  CinemachineVirtualCamera cmv;
     //Ray And RayCast:
     Ray _Ray;
@@ -60,60 +61,26 @@ public class MyCamera : MonoBehaviour
     private void Update()
     {
         mouseTransform.position = AdjustCameraFromMouse();
-       MakeCameraInRange();
-
         ZoomFunction();
     }
     void ZoomFunction() {
         if (Input.mouseScrollDelta.y != 0)
         {
-            currentZoom = cmv.m_Lens.OrthographicSize;
-        currentZoom -= Input.mouseScrollDelta.y* zoomAmount;
-           
-        currentZoom = Mathf.Clamp(currentZoom,maxZoomIn, maxZoomOut);
-
-            cmv.m_Lens.OrthographicSize = Mathf.Lerp(cmv.m_Lens.OrthographicSize, currentZoom,Time.deltaTime * zoomSpeed);
-
+            StopCoroutine(ZoomTween());
+            StartCoroutine(ZoomTween());
         }
     }
-    private void MakeCameraInRange()
-    {
+    IEnumerator ZoomTween() {
+        currentZoom = cmv.m_Lens.OrthographicSize;
+        currentZoom -= Input.mouseScrollDelta.y * zoomAmount;
 
+        currentZoom = Mathf.Clamp(currentZoom, maxZoomIn, maxZoomOut);
+        yield return new WaitForSeconds(smoothTime);
+        cmv.m_Lens.OrthographicSize = Mathf.Lerp(cmv.m_Lens.OrthographicSize, currentZoom, Time.deltaTime * zoomSpeed);
 
-
-
-        Vector3 MiddlePoint = new Vector3((mouseTransform.position.x + playerTransform.position.x) / 2, 0, (mouseTransform.position.z + playerTransform.position.z) / 2);
-
-        float amount = 0 ;
-        if (Mathf.Abs(playerTransform.position.x)>90f || Mathf.Abs(playerTransform.position.z) > 35f)
-        {
-            amount = .3f;
-
-        }
-        else if (Mathf.Abs(playerTransform.position.x) > 80f|| Mathf.Abs(playerTransform.position.z) > 30f)
-        {
-            amount= 0.2f;
-
-        }
-        if (Mathf.Abs(playerTransform.position.z) > 40f)
-        {
-            if (playerTransform.position.z< 0 )
-            {
-                amount = .8f;
-            }else
-            amount =1f;
-        }
-        else if (Mathf.Abs(playerTransform.position.z) > 37f)
-        {
-            amount = 0.7f;
-        }
-
-        groupCamera.m_Targets[2].weight = Mathf.Lerp(groupCamera.m_Targets[2].weight, amount, Time.deltaTime * 2f);
-     //   Debug.Log(Mathf.Abs(mouseTransform.position.x + playerTransform.position.x) / 2);
 
 
     }
-
     Vector3 AdjustCameraFromMouse() {
         float clampRange =10f;
 

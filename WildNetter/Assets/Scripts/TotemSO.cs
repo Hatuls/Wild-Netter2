@@ -47,8 +47,8 @@ public abstract class TotemSO : Item
             string[] durationString = totemData[2].Split(new char[] { '-' });
             int durationType = 0;
             int.TryParse(durationString[0], out durationType);
-            float.TryParse(durationString[1], out duration);
-            if (durationType == 2)
+            float.TryParse(durationString[1], out duration);   
+            if(durationType == 2)
             {
                 int.TryParse(durationString[1], out currentZone);
             }
@@ -78,9 +78,11 @@ public abstract class TotemSO : Item
         return time;
     }
 
-    public virtual IEnumerator ActivateTotemEffect(GameObject totem) { yield return null; }
+   public virtual IEnumerator ActivateTotemEffect(GameObject totem) { yield return null; }
 
     public virtual IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem) { yield return null; }
+
+    public virtual IEnumerator ActivateTotemEffect(bool toContinuteSpawning, GameObject totem) { yield return null; }
 
 
 
@@ -94,15 +96,15 @@ public class TotemOfHealing : TotemSO
 {
     int healingPrecentage = 5;
 
-    public TotemOfHealing(string[] lootData, string[] totemData) : base(lootData, totemData)
+    public TotemOfHealing(string[] lootData, string[] totemData) : base (lootData, totemData)
     {
         //healingPrecentage = goes up per level
     }
-
+       
     public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
     {
         if (CheckRange(totemLocation, targetLocation, range))
-        {
+        {   
             PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
             Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
         }
@@ -126,7 +128,7 @@ public class TotemOfHealing : TotemSO
 public class TotemOfDetection : TotemSO
 {
     // ***** check if collider needs to be on the totem or in a sub class *****
-    public TotemOfDetection(string[] lootData, string[] totemData) : base(lootData, totemData)
+    public TotemOfDetection(string[] lootData, string[] totemData) : base (lootData, totemData)
     {
 
     }
@@ -150,10 +152,10 @@ public class TotemOfDetection : TotemSO
         EnemyManager _enemyManager = EnemyManager.GetInstance();
         if (Random.value > 0.5)
         {
-            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0, 2), (Size)Random.Range(0, 2), Random.Range(1, 100));
+            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0,2), (Size)Random.Range(0,2), Random.Range(1,100));
             // give enemy spawner totem location and tell enemyspawner to spawn enemy in that location
             // notify player that totem detected an enemy
-            return true;
+                return true;
         }
 
         else
@@ -161,10 +163,11 @@ public class TotemOfDetection : TotemSO
             return false;
         }
     }
-    public override IEnumerator ActivateTotemEffect(GameObject totem)
+    public override IEnumerator ActivateTotemEffect(bool toContinueSpawn ,GameObject totem)
     {
         float timeToDestroy = duration + GetCurrentTime();
-    
+        if (toContinueSpawn == true)
+        {
             while (true)
             {
                 this.DoEffect(totem.transform.position);
@@ -175,12 +178,19 @@ public class TotemOfDetection : TotemSO
                 currentRealTime = GetCurrentTime();
                 yield return new WaitForSeconds(1);
             }
+        }
+
+        else
+        {
+            this.DoEffect(totem.transform.position);
+            yield return null;
+        }
     }
 }
 
 public class TotemOfPrey : TotemSO
 {
-    private bool pull;
+    private List<GameObject> enemyCatched = new List<GameObject>();
     public TotemOfPrey(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
 
@@ -192,21 +202,31 @@ public class TotemOfPrey : TotemSO
         Debug.Log(objectCollider.Length);
         foreach (Collider col in objectCollider)
         {
-            if (CheckRange(totemLocation, col.transform.position, range) && !pull)
+            if (CheckRange(totemLocation, col.transform.position, range))
             {
-                pull = true;
+                if(enemyCatched.Contains(col.gameObject))
+                {
+                    continue;
+                }
+
+                else
+                {
+                    enemyCatched.Add(col.gameObject);
+                    col.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
+                }
             }
 
-            if (pull)
+
+            /*if (pull)
             {
                 //remove from here when enemy is done
                 col.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
-                if (CheckRange(totemLocation, col.transform.position, range / 3))
+                if (currentRealTime > GetCurrentTime())
                 {
                     pull = false;
                     col.GetComponent<Enemy>().CancelEffect();
                 }
-            }
+            }*/
         }
     }
     public override IEnumerator ActivateTotemEffect(GameObject totem)
@@ -217,6 +237,10 @@ public class TotemOfPrey : TotemSO
             this.DoEffect(totem.transform.position, totem);
             if (GetCurrentTime() > timeToDestroy)
             {
+                foreach(GameObject go in enemyCatched)
+                {
+                    go.GetComponent<Enemy>().CancelEffect();
+                }
                 break;
             }
             currentRealTime = GetCurrentTime();
