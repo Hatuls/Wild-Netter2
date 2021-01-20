@@ -104,7 +104,7 @@ public class TotemOfHealing : TotemSO
     public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
     {
         if (CheckRange(totemLocation, targetLocation, range))
-        {   
+   {   
             PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
             Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
         }
@@ -212,7 +212,7 @@ public class TotemOfPrey : TotemSO
                 else
                 {
                     enemyCatched.Add(col.gameObject);
-                    col.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
+                    col.transform.root.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
                 }
             }
 

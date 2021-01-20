@@ -50,8 +50,14 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.currentHealth; }
         set
         {
-
+            Debug.Log("Current health is: " + playerStats.currentHealth);
             playerStats.currentHealth = value;
+            Debug.Log("Current health is: " + playerStats.currentHealth);
+
+            if (playerStats.currentHealth <= 0)
+            {
+                gameObject.SetActive(false);
+            }
 
         }
     }

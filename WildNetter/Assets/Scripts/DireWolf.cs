@@ -46,7 +46,7 @@ public class DireWolf : Enemy
         {
 
             PlayerCombat playerCombat = found.GetComponentInParent<PlayerCombat>();
-            playerCombat.GetHit(base._enemySheet.attackDMG);
+            playerCombat.GetHit(base._enemySheet.attackDMG ,transform.position);
             Debug.Log("GotHitByOrc2");
         }
         //animation time-timeInThread//
