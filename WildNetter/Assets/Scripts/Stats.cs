@@ -10,8 +10,8 @@ public class Stats
    public int currentEXP;
    public int expToNextLevel;
    public int abilityPoints;
-   public int currentHealth = 125;
-   public int maxHealth = 125;
+   public int currentHealth = 10;
+   public int maxHealth = 10;
    public int armorPoints;
 
 

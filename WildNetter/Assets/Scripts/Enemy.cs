@@ -297,7 +297,9 @@ public abstract class Enemy : MonoBehaviour
     public void StopMoving()
     {
         ActivateFootsteps(false);
-        agent.Stop();
+
+        agent.isStopped = true ;
+        
     }
 
     //Decide wich Attack to Cast when

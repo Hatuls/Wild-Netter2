@@ -22,9 +22,10 @@ public class PlayerCombat : MonoBehaviour
     event Action AttackAction;
 
     //move to player manager
-    public void GetHit(int RecieveDMG)
+    public void GetHit(int RecieveDMG, Vector3 Source)
     {
         playerStats.GetSetCurrentHealth += -RecieveDMG;
+        playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
     }
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
@@ -65,14 +66,17 @@ public class PlayerCombat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             DeployTotem(TotemType.detection);
+            StartCoroutine(FreezeMovement(1f));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             DeployTotem(TotemType.healing);
+            StartCoroutine(FreezeMovement(1f));
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
             DeployTotem(TotemType.prey);
+            StartCoroutine(FreezeMovement(1f));
         }
     }
 
@@ -151,12 +155,16 @@ public class PlayerCombat : MonoBehaviour
        
         canAttack = false;
         ToggleWeaponCollider(true);
-        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
-        yield return new WaitForSeconds(equippedWeaponSO.HitSpeed);
-        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+        yield return FreezeMovement(1f);
         ToggleWeaponCollider(false);
         canAttack = true;
       
+    }
+
+    IEnumerator FreezeMovement(float duration) {
+        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
+        yield return new WaitForSeconds(duration);
+        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void OnDestroy()
@@ -168,7 +176,7 @@ public class PlayerCombat : MonoBehaviour
         if (_weaponCollider.enabled)
         {
              other.gameObject.GetComponent<EnemyPart>().GetDamage(GetSetAttackDMG,transform.position,GetSetWeaponSO.vulnerabilityActivator);
-            _weaponCollider.enabled = false;
+            
         }
     }
 }
