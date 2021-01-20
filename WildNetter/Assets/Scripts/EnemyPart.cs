@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 public enum monsterParts {Tail,Leg,Groin,Chest, back, head }
-public class MonsterPart : MonoBehaviour
+public class EnemyPart : MonoBehaviour
 {
     [SerializeField] PartSo _PartSo; 
     private Enemy _Enemy;

@@ -329,7 +329,7 @@ public abstract class Enemy : MonoBehaviour
          rb.isKinematic = false;
         
         
-        rb.AddExplosionForce(force*40,new Vector3(Source.x, 0, Source.z), 4);
+        rb.AddExplosionForce(force*20,new Vector3(Source.x, 0, Source.z), 4);
         
         
     }

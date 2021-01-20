@@ -167,7 +167,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if (_weaponCollider.enabled)
         {
-        other.gameObject.GetComponent<Enemy>().GetDMG(GetSetAttackDMG);
+             other.gameObject.GetComponent<EnemyPart>().GetDamage(GetSetAttackDMG,transform.position,GetSetWeaponSO.vulnerabilityActivator);
+            _weaponCollider.enabled = false;
         }
     }
 }
