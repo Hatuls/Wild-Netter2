@@ -123,6 +123,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Totem (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}
 --- !u!4 &5956512723757956038 stripped
@@ -197,6 +202,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Totem (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}
@@ -273,6 +283,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Totem (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}
 --- !u!4 &8358727010277469763 stripped
@@ -348,6 +363,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Totem (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}
 --- !u!4 &8541397929245946469 stripped
@@ -363,6 +383,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4921780675817557972}
     m_Modifications:
+    - target: {fileID: -2801471369736904852, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: continueSpawning
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5882053726924375095, guid: 7b7001168a79a974e92abd3ff8a62d6e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -422,6 +447,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Totem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}
@@ -497,6 +527,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Totem (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}

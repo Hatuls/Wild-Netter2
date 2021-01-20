@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207836332}
-  m_LocalRotation: {x: -0.37190133, y: 0.4309229, z: 0.4488786, w: 0.6888417}
-  m_LocalPosition: {x: -0.9557408, y: 0.6075422, z: -0.017762382}
-  m_LocalScale: {x: 0.10000002, y: 2, z: 0.10000001}
+  m_LocalRotation: {x: 0.5763109, y: -0.5763109, z: 0.40971428, w: 0.40971428}
+  m_LocalPosition: {x: -0.468, y: 0.231, z: 0.144}
+  m_LocalScale: {x: 0.1, y: 1.4, z: 0.1}
   m_Children: []
   m_Father: {fileID: 5529015837868701392}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 109.18, y: 0, z: 90}
 --- !u!33 &1207836335
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -90,7 +90,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5000001
+  m_Radius: 7
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkingSpeed: 70
-  runningSpeed: 120
-  currentSpeed: 0
+  runningSpeed: 150
+  currentSpeed: 1
   maxSpeed: 70
   rotaionSpeed: 90
 --- !u!114 &1924940592
@@ -201,8 +201,8 @@ Animator:
   m_Avatar: {fileID: 9000000, guid: 47fc9f70eddee6e44a4bdcaed6152da4, type: 3}
   m_Controller: {fileID: 9100000, guid: 85703a2d2429ce14c81d6c8158dab879, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 1
-  m_ApplyRootMotion: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -217,9 +217,9 @@ Rigidbody:
   m_GameObject: {fileID: 6129027829125652421}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_Drag: 1
+  m_AngularDrag: 0.1
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -236,7 +236,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd871ebee9f92ca4c80915b39a25e0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 1
+  playerStats:
+    strengh: 0
+    wisdom: 0
+    agility: 0
+    stamina: 0
+    currentEXP: 0
+    expToNextLevel: 0
+    abilityPoints: 0
+    currentHealth: 125
+    maxHealth: 125
+    armorPoints: 0
 --- !u!65 &1351604431
 BoxCollider:
   m_ObjectHideFlags: 0
