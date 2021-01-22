@@ -12,7 +12,7 @@ public enum Difficulty {Easy,Hard,Challange }
 [System.Serializable]
 public class EnemySheet
 {
-
+    
     public Dictionary<monsterParts, GameObject> EnemyParts = new Dictionary<monsterParts, GameObject>();
     public Dictionary<monsterParts, Collider> Colliders = new Dictionary<monsterParts, Collider>();
     
@@ -49,6 +49,12 @@ public class EnemySheet
     public float Attack2_RangeFromSource;
     public float Attack2_AnimDelay;
     public float attack2_animLenght;
+
+
+    [Header("AggroView")]
+    public float lookRange;
+    public float rangeFromBody;
+    public float stayInRangeTime;
     
 
 
@@ -65,6 +71,7 @@ public class EnemySheet
     public EnemyState enemyState;
     public Size enemySize;
     public Difficulty enemyDifficulty;
+
 
 
 

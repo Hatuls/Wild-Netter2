@@ -36,6 +36,12 @@ public class EnemySO : ScriptableObject
     public float Attack2_AnimDelay;
     public float attack2_animLenght;
 
+
+    [Header("AggroView")]
+    public float lookRange;
+    public float rangeFromBody;
+    public float stayInRangeTime;
+
     [Header("Components")]
     public int[] lootDropsID;
     public Animation[] enemyAnim;
