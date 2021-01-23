@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Totem : MonoBehaviour
 {
@@ -12,9 +13,9 @@ public class Totem : MonoBehaviour
     public float currentRealTime;
     public TotemType type;
     private Transform playerTransform;
-    public ParticleSystem healingParticle;
-    public ParticleSystem preyParticle;
-    public ParticleSystem detectionParticle;
+    public VisualEffect healVFX;
+    public VisualEffect preyVFX;
+    public VisualEffect detectionVFX;
     public bool continueSpawning;
 
     // Getter & Setters:
@@ -50,8 +51,10 @@ public class Totem : MonoBehaviour
         switch (type)
         {
             case TotemType.prey:
-                preyParticle = transform.Find("PreyParticle").GetComponent<ParticleSystem>();
-                preyParticle.Play();
+               // preyVFX = transform.Find("PreyVFX").GetComponent<VisualEffect>();
+                preyVFX.Play();
+                //preyVFX.gameObject.SetActive(true);
+               
                 StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
                 StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
                 break;
@@ -61,15 +64,18 @@ public class Totem : MonoBehaviour
                 {
                     playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
                 }
-                healingParticle = transform.Find("HealingParticle").GetComponent<ParticleSystem>();
-                healingParticle.Play();
+              //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
+                healVFX.Play();
+               // healVFX.gameObject.SetActive(true);
+                
                 StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
 
             case TotemType.detection:
-                detectionParticle = transform.Find("DetectionParticle").GetComponent<ParticleSystem>();
-                detectionParticle.Play();
+               // detectionVFX = transform.Find("DetectionVFX").GetComponent<VisualEffect>();
+                detectionVFX.Play();
+                //detectionVFX.gameObject.SetActive(true);
                 StopCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
                 StartCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
                 break;
