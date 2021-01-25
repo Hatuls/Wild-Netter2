@@ -134,7 +134,7 @@ public class TotemOfDetection : TotemSO
     }
     public override void DoEffect(Vector3 totemLocation)
     {
-        if (SpawnDetectedEnemy() == true)
+        if (SpawnDetectedEnemy(totemLocation) == true)
         {
             Collider[] objectCollider;
             objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
@@ -147,13 +147,15 @@ public class TotemOfDetection : TotemSO
             }
         }
     }
-    public bool SpawnDetectedEnemy()
+    public bool SpawnDetectedEnemy(Vector3 spawnPoint)
     {
+        //we will set how much time the monster take to spawn
+        float randomTime = Random.Range(1, 10);
         EnemyManager _enemyManager = EnemyManager.GetInstance();
         if (Random.value > 0.5)
         {
-            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0,2), (Size)Random.Range(0,2), Random.Range(1,100));
-            // give enemy spawner totem location and tell enemyspawner to spawn enemy in that location
+           _enemyManager.GetBeastSettings((Difficulty)Random.Range(0,2), (Size)Random.Range(0,2), Random.Range(1,100), spawnPoint, randomTime);
+            Debug.Log(randomTime + "seconds to spawn");
             // notify player that totem detected an enemy
                 return true;
         }

@@ -2007,6 +2007,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8251970975723081741, guid: 570cbf15cb0d43045be855f4471fd705,
+        type: 3}
+      propertyPath: mainCam
+      value: 
+      objectReference: {fileID: 1845471544}
+    - target: {fileID: 8251970975723081741, guid: 570cbf15cb0d43045be855f4471fd705,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1882274789}
     - target: {fileID: 8251970975723081743, guid: 570cbf15cb0d43045be855f4471fd705,
         type: 3}
       propertyPath: m_Name
@@ -2163,6 +2173,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075677676459085945, guid: 3e804f991fca9b648a92de2cba5df917,
+        type: 3}
+      propertyPath: wildSpawnChance
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5075677676459085946, guid: 3e804f991fca9b648a92de2cba5df917,
         type: 3}
@@ -8466,6 +8481,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876434714}
   m_CullTransparentMesh: 0
+--- !u!1 &1882274789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6129027829125652421, guid: 25fe12de0e000b149b1fe9614fa61a42,
+    type: 3}
+  m_PrefabInstance: {fileID: 6129027828117029952}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1901455739
 GameObject:
   m_ObjectHideFlags: 0
@@ -9440,7 +9461,7 @@ PrefabInstance:
     - target: {fileID: 1172607122498616306, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
         type: 3}
       propertyPath: orthographic size
-      value: 10
+      value: 11.8
       objectReference: {fileID: 0}
     - target: {fileID: 1172607122498616307, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
         type: 3}
