@@ -35,6 +35,7 @@ public abstract class Enemy : MonoBehaviour
  
     bool isHeading = false;
     bool isKnocked = false;
+    bool aggroChecking;
 
    internal bool attack1_inCd, attack2_inCd;
     Vector3 CurrentPos;
@@ -176,6 +177,10 @@ public abstract class Enemy : MonoBehaviour
         _enemySheet.Attack2_Range = GetEnemySO.Attack2_Range * SizeMultiplayer;
         _enemySheet.Attack2_RangeFromSource = GetEnemySO.Attack2_RangeFromSource * SizeMultiplayer;
         _enemySheet.attack2_animLenght = GetEnemySO.attack2_animLenght * SizeMultiplayer;
+        //aggroPoint
+        _enemySheet.lookRange = GetEnemySO.lookRange;
+        _enemySheet.rangeFromBody = GetEnemySO.rangeFromBody;
+        _enemySheet.stayInRangeTime = GetEnemySO.stayInRangeTime;
         //Timers
         _enemySheet.getUpAnimTime = GetEnemySO.getUpAnimTime;
 
@@ -251,7 +256,10 @@ public abstract class Enemy : MonoBehaviour
 
             case EnemyState.lured:
                 StartCoroutine(Iwander(true, state,TargetAquierd.GetComponent<Totem>().relevantSO.range));
-                
+                if (!aggroChecking)
+                {
+                    StartCoroutine(AggroCheck());
+                }
                 break;
 
             case EnemyState.None:
@@ -280,6 +288,8 @@ public abstract class Enemy : MonoBehaviour
             Debug.Log("No Player Found");
         }
     }
+
+    
 
 
 
@@ -447,7 +457,11 @@ public abstract class Enemy : MonoBehaviour
        
             ApplyKnockback(Damage , hitPoint);
 
-        
+        if (_enemySheet.enemyState == EnemyState.lured)
+        {
+            _enemySheet.enemyState = EnemyState.Chase;
+        }
+   
     }
     public  IEnumerator ReceiveDmgCoolDown(int Damage,monsterParts part)
     {
@@ -513,6 +527,32 @@ public abstract class Enemy : MonoBehaviour
     }
     public abstract IEnumerator Attack1();
     public abstract IEnumerator Attack2();
+
+    public virtual IEnumerator AggroCheck()
+    {
+        aggroChecking = true;
+        Collider[] col = Physics.OverlapSphere(new Vector3(transform.position.x,transform.position.y,transform.position.z+ _enemySheet.rangeFromBody) 
+            , _enemySheet.lookRange,TargetLayer);
+        foreach(Collider found in col)
+        {
+            Debug.Log("aggroChecking");
+            yield return new WaitForSeconds(_enemySheet.stayInRangeTime);
+            Collider[] col2 = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y, transform.position.z + _enemySheet.rangeFromBody)
+            , _enemySheet.lookRange, TargetLayer);
+            foreach(Collider found2 in col2)
+            {
+                if (found2 == found)
+                {
+                    _enemySheet.enemyState = EnemyState.Chase;
+                }
+            }
+
+
+        }
+        yield return null;
+        aggroChecking = false;
+       
+    }
     private void OnDrawGizmosSelected()
     {
         if (showGizmos)

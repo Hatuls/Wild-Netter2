@@ -32,9 +32,12 @@ MonoBehaviour:
   Attack2_RangeFromSource: 1
   Attack2_AnimDelay: 1
   attack2_animLenght: 1.5
+  lookRange: 3
+  rangeFromBody: 1
+  stayInRangeTime: 1
   lootDropsID: 102700001127000012270000
   enemyAnim: []
-  DamagedMat: {fileID: 2100000, guid: 970a6553a2cfe3e4492d6f34dc49887c, type: 2}
+  DamagedMat: {fileID: 2100000, guid: a674cc2dce1b9ca46b4c682c164f7ec5, type: 2}
   Trails: {fileID: 2534278538298991973, guid: e400cfec9f5cf3a4c939dfb545e73002, type: 3}
   attackType: 0
   enemyVulnerability: 1

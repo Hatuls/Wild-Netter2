@@ -51,7 +51,7 @@ public class PlayerCombat : MonoBehaviour
     public void Init(WeaponSO startingWeapon)
     {
         ToggleWeaponCollider(false);
-           playerStats = GetComponent<PlayerStats>();
+        playerStats = GetComponent<PlayerStats>();
         playerMovement = GetComponent<PlayerMovement>();
         Debug.Log(startingWeapon.GetType());
         canAttack = true;
