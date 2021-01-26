@@ -2,8 +2,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using TMPro;
 
+public enum AttackType {Melee , Ranged, Totem };
 public class PlayerCombat : MonoBehaviour
 {
     // Script References:
@@ -61,8 +61,6 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Update()
     {
-        SetAttackAction();
-        Attack();
         if (Input.GetKeyDown(KeyCode.E))
         {
             DeployTotem(TotemType.detection);
@@ -80,10 +78,10 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    private void Attack() {  
-        if (Input.GetMouseButtonDown(0) && canAttack && !EventSystem.current.IsPointerOverGameObject())
+    public void Attack() {  
+        if (canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
-            AttackAction();
+            AttackAction?.Invoke();
             PlayerGFX._instance.SetAnimationTrigger("Attack");
         }
     }
@@ -91,51 +89,48 @@ public class PlayerCombat : MonoBehaviour
 
 
 
-    public void MeleeAttack() {
+     void MeleeAttack() {
         Debug.Log("SWord AttacK");
         StartCoroutine(MeleeAttackCoroutine());
     // apply GFX Anim, sound
     }   
-    public void RangeAttack() {
+     void RangeAttack() {
       
         Debug.Log("Range AttacK");
 
     }
-
-    public void DeployTotem(TotemType type)
+     void DeployTotem(TotemType type)
     {
 
         PlayerGFX._instance.SetAnimationTrigger("PlaceTotem");
         TotemManager._instance.DeployAtLocation((transform.position + playerMovement.GetAngleDirection()*2f), type);
     }
 
-    public void SetAttackAction() {
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
+    public void SetAttackType(AttackType type) {
+    
+     ResetAttackAction();
 
-            ResetAttackAction();
-          AttackAction += MeleeAttack;
-            Debug.Log("MeleeAttack");
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        switch (type)
         {
-            ResetAttackAction();
-            AttackAction += RangeAttack;
-            Debug.Log("Range");
+            case AttackType.Melee:
+                AttackAction += MeleeAttack; Debug.Log("MeleeAttack");
+                break;
+            case AttackType.Ranged:
+                AttackAction += RangeAttack;
+                Debug.Log("Range");
+                break;
+            case AttackType.Totem:
+                //AttackAction += DeployTotem;
+                Debug.Log("Deploy Totem");
+                break;
+            default:
+                break;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            ResetAttackAction();
-            //AttackAction += DeployTotem;
-            Debug.Log("Deploy Totem");
-        }
-    
-    
-    
-    
+
     }
+
 
     private void ResetAttackAction()
     {

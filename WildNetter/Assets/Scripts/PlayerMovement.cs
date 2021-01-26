@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿
 using UnityEngine;
-using UnityEngine.EventSystems;
+
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,18 +13,23 @@ public class PlayerMovement : MonoBehaviour
     float sprintStamina;
     bool isRunning;
     [SerializeField] float rotaionSpeed;
-    Vector3 inputVector;
-    Vector3 mousePos;
     Vector3 direction;
     Vector3 rotationAngle;
-
+    Vector3 input;
 
     [SerializeField] static bool isPlayerRotateAble = true;
 
     // Component References:
      Rigidbody _RB;
     public Rigidbody GetPlayerRB => _RB;
-
+    public Vector3 SetInput
+    {
+        set
+        {
+            input = value;
+            InputIntoMovement();
+        }
+    }
     //Getter And Setters:
     public float GetSetPlayerSpeed
     {
@@ -47,23 +51,11 @@ public class PlayerMovement : MonoBehaviour
     public void Init()
     {
         _RB = GetComponent<Rigidbody>();
-
+        input = Vector3.zero;
     }
 
 
-    private void Update()
-    {
-        
-        if (_RB != null )
-        {
-            if (Input.GetKeyDown(KeyCode.W) || !EventSystem.current.IsPointerOverGameObject())
-            {
-                RotatePlayer();
-            }
-           
-            GetInput();
-        }
-    }
+
 
     private void FixedUpdate()
     {
@@ -77,18 +69,12 @@ public class PlayerMovement : MonoBehaviour
         return rotationAngle.normalized; 
     
     } 
-    private void RotatePlayer()
+    public void RotatePlayer(Vector3 mousePos , bool mouseOnPlayer)
     {
         
 
-
-
-
-        mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x , 0 , MyCamera._Instance._HitInfo.point.z);
-
-        if (isPlayerRotateAble&& CheckIfMouseIsOnPlayer()  )
+        if (isPlayerRotateAble && !mouseOnPlayer )
         {
-
         rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
          transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
         }
@@ -98,32 +84,34 @@ public class PlayerMovement : MonoBehaviour
        // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
 
     }
-    bool CheckIfMouseIsOnPlayer()  => Vector3.Distance(mousePos, transform.position) > 1.8f;
+   
 
 
-    void GetInput() {
+   private void InputIntoMovement()
+    {
 
-         inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-
-
-        if (inputVector.magnitude <= .1f) {
+        if (input.magnitude <= .1f)
+        {
             currentSpeed -= 200f * Time.deltaTime;
         }
-        else {
+        else
+        {
             currentSpeed += 200f * Time.deltaTime;
         }
-            currentSpeed = Mathf.Clamp(currentSpeed ,1 , maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed, 1, maxSpeed);
 
 
-          inputVector = inputVector * GetSetPlayerSpeed;
-        
+        input *= GetSetPlayerSpeed;
+
 
         if (direction.magnitude > 1f)
-                   direction.Normalize();
+            direction.Normalize();
+    }
 
-    
+    public void Sprint(bool toSprint) {
 
-        if (Input.GetButtonDown("Sprint") && !isRunning)
+
+        if (toSprint && !isRunning)
         {
             isRunning = true;
             maxSpeed = runningSpeed;
@@ -132,21 +120,24 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        if (Input.GetButtonUp("Sprint"))
+        if (!toSprint)
         {
             isRunning = false;
             maxSpeed = walkingSpeed;
             forceLimit = 6f;
         }
+
     }
+
+   
     private void MovePlayer()
     {
         if (_RB == null)
             return;
 
         
-        Vector3 moveVector = inputVector.z * transform.forward + 
-                             inputVector.x * transform.right;
+        Vector3 moveVector = input.z * transform.forward +
+                             input.x * transform.right;
 
      
         if (_RB.velocity.magnitude < forceLimit)
