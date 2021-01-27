@@ -1,15 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
+using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    static PlayerStats _instance;
     [SerializeField] Stats playerStats;
-
+  [SerializeField]  float staminaBar  =0;
+    float staminaQuater = 25f;
     //Component References:
     //Script References:
     // Collections:
     //Getters & Setters:
+
+    private void Awake()
+    {
+        _instance = this;
+    }
+    public static PlayerStats GetInstance
+    {
+        get { return _instance; }
+    }
     public int GetSetStrengh
     {
         get { return playerStats.strengh; }
@@ -25,7 +37,7 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.agility; }
         set { playerStats.agility = value; }
     }
-    public int GetSetStamina
+    public int GetSetStaminaPoints
     {
         get { return playerStats.stamina; }
         set { playerStats.stamina = value; }
@@ -71,14 +83,59 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.armorPoints; }
         set { playerStats.armorPoints = value; }
     }
+    
+    public float GetSetStaminaBar
+    {
+        get { return staminaBar; }
+
+        set {
+
+
+            if (staminaBar + value <= 0)
+            {
+                staminaBar = 0;
+                return;
+            }
+            staminaBar = value;
+
+            if (staminaBar > playerStats.MaxStaminaBar)
+                staminaBar = playerStats.MaxStaminaBar;
+            
+
+        }
+    }
     //Functions:
     public void Init()
     {
-
+        playerStats.ResetStats();
+        playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
+       staminaBar = playerStats.MaxStaminaBar;
+        StopCoroutine(Regeneration());
+        StartCoroutine(Regeneration());
     }
 
+  [SerializeField]  float staminaRegenerationSpeed= 4f;
+    IEnumerator Regeneration() {
+
+        // check if some action happens
+        GetSetStaminaBar += staminaRegenerationSpeed;
+
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(Regeneration());
+    }
     public void ApplyDMG(int amount) { }
     //public int DMGAfterArmour(int amount) { return 1; }  < return the dmg after the armor protection 
     public void HealPlayer(int amount) { }
 
+    internal bool CheckEnoughStamina(float amount)
+    {
+        if (amount<0)
+           amount *= -1;
+        
+        if (GetSetStaminaBar - amount < 0)
+           return false;
+
+        GetSetStaminaBar -= amount;
+        return true;
+    }
 }

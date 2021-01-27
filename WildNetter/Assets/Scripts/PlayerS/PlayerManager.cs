@@ -6,6 +6,7 @@ public class PlayerManager : MonoBehaviour
 
     // Script References
     static PlayerManager _instance;
+    InputManager _inputManager;
     PlayerMovement _playerMovement;
     //PlayerGFX _playerGFX;
     PlayerInventory _playerInventory;
@@ -43,8 +44,11 @@ public class PlayerManager : MonoBehaviour
     public void Init(WeaponSO playersWeapon)
     {
         AssignScriptsComponentsReferences();
+        _inputManager.Init();
         _playerMovement.Init();
         GetPlayerCombat.Init(playersWeapon);
+        PlayerGFX.GetInstance.Init();
+        _playerStats.Init();
     }
 
     public void Respawn() { }
@@ -53,10 +57,11 @@ public class PlayerManager : MonoBehaviour
 
     private void AssignScriptsComponentsReferences()
     {
+        _inputManager = GetComponent<InputManager>();
         _playerInventory =  PlayerInventory.GetInstance ;
       _playerMovement = GetComponent<PlayerMovement>();
         _playerCombat = GetComponent<PlayerCombat>();
-        // _playerGFX = GetComponentInChildren<PlayerGFX>();
+       //  _playerGFX = GetComponentInChildren<PlayerGFX>();
         _playerStats = GetComponent<PlayerStats>();
         _playerWallet = PlayerWallet.GetInstance;
     }
