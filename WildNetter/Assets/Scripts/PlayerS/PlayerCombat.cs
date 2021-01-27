@@ -166,7 +166,7 @@ public class PlayerCombat : MonoBehaviour
     }
     void CalculateDMGToEnemy(EnemyPart enemy) {
         int finalDmg = GetSetAttackDMG;
-        finalDmg+= Convert.ToInt32(  finalDmg * (_playerStats.GetSetStrengh*.1f));//- enemy.armor
+        finalDmg += Convert.ToInt32(  finalDmg * (_playerStats.GetSetStrength*.1f));//- enemy.armor
        enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 }
