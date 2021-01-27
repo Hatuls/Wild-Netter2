@@ -194,15 +194,9 @@ public abstract class Enemy : MonoBehaviour
         _enemySheet.EnemyParts.Add(partType, partGO);
         _enemySheet.Colliders.Add(partType, col);
     
-
-
     }
    
-    
-    private void Update()
-    {
-     
-    }
+   
     private void FixedUpdate()
     {
         //determains Enemy Current State

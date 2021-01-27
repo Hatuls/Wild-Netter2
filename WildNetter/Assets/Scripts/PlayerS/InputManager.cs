@@ -2,15 +2,52 @@
 using UnityEngine;
 public class InputManager : MonoBehaviour
 {
+    static InputManager _instance;
+    public static InputManager GetInstance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
     PlayerCombat _playerCombat;
     PlayerMovement _playerMovement;
     float playerRadius = 1.5f;
     Vector3 inputVector;
     Vector3 mousePos;
-    public void Init() {
+    private  bool canPlayerMove = true;
+    private  bool isPlayerRotateAble = true;
+    public  bool GetSetCanPlayerRotate
+    {
+        get => isPlayerRotateAble;
+        set
+        {
+            if (isPlayerRotateAble != value)
+            {
+                isPlayerRotateAble = value;
+            }
+        }
+    }
+    public  bool GetSetCanPlayerMove
+    {
+        set
+        {
+            if (canPlayerMove != value)
+            {
+                canPlayerMove = value;
+            }
+        }
+        get
+        {
+            return canPlayerMove;
+        }
 
-        _playerMovement = GetComponent<PlayerMovement>();
-        _playerCombat = GetComponent<PlayerCombat>();
+
+    }
+    public void Init() {
+        _instance = this;
+        _playerMovement = PlayerMovement.GetInstance;
+        _playerCombat = PlayerCombat.GetInstance;
     }
 
     // Update is called once per frame
@@ -33,7 +70,11 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
             _playerCombat.Attack();
 
+
+     
     }
+
+
      void SetAttackType()
     {
 
@@ -55,13 +96,26 @@ public class InputManager : MonoBehaviour
     }
     void MouseInput()
     {
+        if (!GetSetCanPlayerRotate)
+            return;
+        
         mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x, 0, MyCamera._Instance._HitInfo.point.z);
+
         _playerMovement.RotatePlayer(mousePos, CheckIfMouseIsOnPlayer());
     }
     bool CheckIfMouseIsOnPlayer() => Vector3.Distance(mousePos, transform.position) < playerRadius;
     void Movements()
     {
+
         inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            _playerMovement.Dash(inputVector);
+        
+
+        if (!GetSetCanPlayerRotate)
+           return;
+        
         _playerMovement.SetInput = inputVector;
 
 
@@ -75,6 +129,9 @@ public class InputManager : MonoBehaviour
             _playerMovement.Sprint(false);
         }
 
-
+       
     }
+
+  
+
 }

@@ -13,7 +13,7 @@ public class Stats
    public int currentHealth = 10;
    public int maxHealth = 10;
    public int armorPoints;
-
+    public float MaxStaminaBar;
 
     public void ResetStats() {
 

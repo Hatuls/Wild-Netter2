@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armor: 10
   breakPoints: 10
+  VuDamageMultiplayer: 0

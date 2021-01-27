@@ -47,6 +47,8 @@ public class PlayerManager : MonoBehaviour
         _inputManager.Init();
         _playerMovement.Init();
         GetPlayerCombat.Init(playersWeapon);
+        PlayerGFX.GetInstance.Init();
+        _playerStats.Init();
     }
 
     public void Respawn() { }
@@ -59,7 +61,7 @@ public class PlayerManager : MonoBehaviour
         _playerInventory =  PlayerInventory.GetInstance ;
       _playerMovement = GetComponent<PlayerMovement>();
         _playerCombat = GetComponent<PlayerCombat>();
-        // _playerGFX = GetComponentInChildren<PlayerGFX>();
+       //  _playerGFX = GetComponentInChildren<PlayerGFX>();
         _playerStats = GetComponent<PlayerStats>();
         _playerWallet = PlayerWallet.GetInstance;
     }

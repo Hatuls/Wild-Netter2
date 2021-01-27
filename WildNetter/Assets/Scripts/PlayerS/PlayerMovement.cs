@@ -1,24 +1,28 @@
 ﻿
+using System.Collections;
 using UnityEngine;
 
 
 public class PlayerMovement : MonoBehaviour
 {
-
-
-
     // Config parameters:
     [SerializeField] float walkingSpeed = 70f, runningSpeed = 120f, currentSpeed , maxSpeed =70f;
+    float dashAmount = 20f;
     float forceLimit = 5f;
-    float sprintStamina;
+    InputManager _inputManager; 
     bool isRunning;
     [SerializeField] float rotaionSpeed;
     Vector3 direction;
     Vector3 rotationAngle;
     Vector3 input;
-
-    [SerializeField] static bool isPlayerRotateAble = true;
-
+    static PlayerMovement _instance;
+    public static PlayerMovement GetInstance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
     // Component References:
      Rigidbody _RB;
     public Rigidbody GetPlayerRB => _RB;
@@ -37,26 +41,18 @@ public class PlayerMovement : MonoBehaviour
 
         set { currentSpeed = value; }
     }
-    public float GetSetSprintStamina
-    {
-        get { return sprintStamina; }
-
-        set { sprintStamina = value; }
-    }
-    public static bool SetPlayerRotateAble {
-        set { isPlayerRotateAble = value; }
-    }
 
     //functions
+    private void Awake()
+    {
+        _instance = this;
+    }
     public void Init()
     {
+        _inputManager = InputManager.GetInstance;
         _RB = GetComponent<Rigidbody>();
         input = Vector3.zero;
     }
-
-
-
-
     private void FixedUpdate()
     {
         MovePlayer();
@@ -73,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
     {
         
 
-        if (isPlayerRotateAble && !mouseOnPlayer )
+        if (!mouseOnPlayer )
         {
         rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
          transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
@@ -84,8 +80,12 @@ public class PlayerMovement : MonoBehaviour
        // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
 
     }
-   
 
+    public void RotateTowardsDirection(Vector3 mousePos)
+    {
+        rotationAngle = new Vector3(mousePos.x, 0, mousePos.z );
+        transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
+    }
 
    private void InputIntoMovement()
     {
@@ -129,7 +129,28 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-   
+    internal void Dash(Vector3 dashInput)
+    {
+        if (!PlayerStats.GetInstance.CheckEnoughStamina(dashAmount)) //
+            return;
+        Vector3 dashVector = dashInput.z * transform.forward +
+                           dashInput.x * transform.right;
+
+
+        PlayerGFX.GetInstance.SetAnimationTrigger("DoDash");
+
+        if (dashVector.magnitude <= 0.1f)
+            dashVector= transform.forward;
+        
+
+        RotateTowardsDirection(dashVector);
+        float dashStrength = 25;
+        dashVector *= dashStrength;
+
+        _RB.AddForce(dashVector, ForceMode.Impulse);
+        StopCoroutine(ApplyDash());
+        StartCoroutine(ApplyDash());
+    }
     private void MovePlayer()
     {
         if (_RB == null)
@@ -144,8 +165,17 @@ public class PlayerMovement : MonoBehaviour
             _RB.AddForce(moveVector , ForceMode.Force);
 
 
-        
-        PlayerGFX._instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
+        PlayerGFX.GetInstance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
   
     }
+
+    IEnumerator ApplyDash()
+    {
+        _inputManager.GetSetCanPlayerMove = false;
+        _inputManager.GetSetCanPlayerRotate = false;
+        yield return new WaitForSeconds(1f);
+        _inputManager.GetSetCanPlayerRotate = true;
+        _inputManager.GetSetCanPlayerMove = true;
+    }
+
 }

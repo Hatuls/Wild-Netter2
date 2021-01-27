@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum AttackType { None, Shock, Fire, Cold, Poison }
+public enum AttackEffectType { None, Shock, Fire, Cold, Poison }
 public enum Vulnerability { None, Fire, Poison, Cold }
 public enum Habitat { Forest, Mountain, GrassLands, Deserts };
 public enum EnemyState { None, Idle, Chase ,Attack,lured};

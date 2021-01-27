@@ -7,33 +7,29 @@ public enum AttackType {Melee , Ranged, Totem };
 public class PlayerCombat : MonoBehaviour
 {
     // Script References:
-    WeaponSO equippedWeaponSO;
-    PlayerMovement playerMovement;
-    PlayerStats playerStats;
+    WeaponSO _equippedWeaponSO;
+    PlayerMovement _playerMovement;
+    PlayerStats _playerStats;
     // Component References:
     
    [SerializeField] Collider _weaponCollider;
     [SerializeField]GameObject _weaponGO;
-
+    static PlayerCombat _instance;
+    public static PlayerCombat GetInstance { get { return _instance; } }
     // Variables:
     bool canAttack;
      int  attackDMG;
     public string currentWeaponName;
     event Action AttackAction;
 
-    //move to player manager
-    public void GetHit(int RecieveDMG, Vector3 Source)
-    {
-        playerStats.GetSetCurrentHealth += -RecieveDMG;
-        playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
-    }
+
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
-        get { return equippedWeaponSO; }
+        get { return _equippedWeaponSO; }
         set { 
             
-            equippedWeaponSO = value;
-            currentWeaponName = equippedWeaponSO.Name;
+            _equippedWeaponSO = value;
+            currentWeaponName = _equippedWeaponSO.Name;
         }
 
     }
@@ -47,12 +43,15 @@ public class PlayerCombat : MonoBehaviour
         } 
    
     }
-
+    private void Awake()
+    {
+        _instance = this;
+    }
     public void Init(WeaponSO startingWeapon)
     {
         ToggleWeaponCollider(false);
-        playerStats = GetComponent<PlayerStats>();
-        playerMovement = GetComponent<PlayerMovement>();
+        _playerStats = PlayerStats.GetInstance;
+        _playerMovement = PlayerMovement.GetInstance;
         Debug.Log(startingWeapon.GetType());
         canAttack = true;
         GetSetWeaponSO = startingWeapon;
@@ -78,17 +77,19 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    //move to player manager
+    public void GetHit(int RecieveDMG, Vector3 Source)
+    {
+        _playerStats.GetSetCurrentHealth += -RecieveDMG;
+        _playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
+    }
     public void Attack() {  
         if (canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
             AttackAction?.Invoke();
-            PlayerGFX._instance.SetAnimationTrigger("Attack");
+            PlayerGFX.GetInstance.SetAnimationTrigger("Attack");
         }
     }
-
-
-
-
      void MeleeAttack() {
         Debug.Log("SWord AttacK");
         StartCoroutine(MeleeAttackCoroutine());
@@ -102,11 +103,9 @@ public class PlayerCombat : MonoBehaviour
      void DeployTotem(TotemType type)
     {
 
-        PlayerGFX._instance.SetAnimationTrigger("PlaceTotem");
-        TotemManager._instance.DeployAtLocation((transform.position + playerMovement.GetAngleDirection()*2f), type);
+        PlayerGFX.GetInstance.SetAnimationTrigger("PlaceTotem");
+        TotemManager._instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
     }
-
-
     public void SetAttackType(AttackType type) {
     
      ResetAttackAction();
@@ -130,20 +129,14 @@ public class PlayerCombat : MonoBehaviour
 
 
     }
-
-
     private void ResetAttackAction()
     {
         AttackAction -= RangeAttack;
         //AttackAction -= DeployTotem;
         AttackAction -= MeleeAttack;
     }
-
-
-    //  private Vector3 LockOnEnemy() { } <- will be used later on
-
+//  private Vector3 LockOnEnemy() { } <- will be used later on
     private void ToggleWeaponCollider(bool state) => _weaponCollider.enabled = state;
-
 
     // ienumerators:
     IEnumerator  MeleeAttackCoroutine() {
@@ -155,13 +148,11 @@ public class PlayerCombat : MonoBehaviour
         canAttack = true;
       
     }
-
     IEnumerator FreezeMovement(float duration) {
-        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
+        _playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
         yield return new WaitForSeconds(duration);
-        playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+        _playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
     }
-
     private void OnDestroy()
     {
         ResetAttackAction();
@@ -170,8 +161,12 @@ public class PlayerCombat : MonoBehaviour
     {
         if (_weaponCollider.enabled)
         {
-             other.gameObject.GetComponent<EnemyPart>().GetDamage(GetSetAttackDMG,transform.position,GetSetWeaponSO.vulnerabilityActivator);
-            
+            CalculateDMGToEnemy(other.gameObject.GetComponent<EnemyPart>());
         }
+    }
+    void CalculateDMGToEnemy(EnemyPart enemy) {
+        int finalDmg = GetSetAttackDMG;
+        finalDmg+= Convert.ToInt32(  finalDmg * (_playerStats.GetSetStrengh*.1f));//- enemy.armor
+       enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 }
