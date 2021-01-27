@@ -62,17 +62,22 @@ public class PlayerCombat : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            DeployTotem(TotemType.detection);
+            DeployTotem(TotemName.detection);
             StartCoroutine(FreezeMovement(1f));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DeployTotem(TotemType.healing);
+            DeployTotem(TotemName.healing);
             StartCoroutine(FreezeMovement(1f));
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            DeployTotem(TotemType.prey);
+            DeployTotem(TotemName.prey);
+            StartCoroutine(FreezeMovement(1f));
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            DeployTotem(TotemName.stamina);
             StartCoroutine(FreezeMovement(1f));
         }
     }
@@ -100,7 +105,7 @@ public class PlayerCombat : MonoBehaviour
         Debug.Log("Range AttacK");
 
     }
-     void DeployTotem(TotemType type)
+     void DeployTotem(TotemName type)
     {
 
         PlayerGFX.GetInstance.SetAnimationTrigger("PlaceTotem");

@@ -109,7 +109,7 @@ public class PlayerStats : MonoBehaviour
     {
         playerStats.ResetStats();
         playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
-       staminaBar = playerStats.MaxStaminaBar;
+        staminaBar = playerStats.MaxStaminaBar;
         StopCoroutine(Regeneration());
         StartCoroutine(Regeneration());
     }
