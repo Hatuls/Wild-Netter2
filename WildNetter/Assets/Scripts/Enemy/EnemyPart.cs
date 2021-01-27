@@ -14,7 +14,8 @@ public class EnemyPart : MonoBehaviour
 
     private Vulnerability vulnerability;
     [SerializeField] monsterParts thisPart;
-    int BreakPoints,armor,VuDamageMultiplayer;
+    public int armor;
+    int BreakPoints,VuDamageMultiplayer;
     private Collider collider;
     public bool isBroken;
 
