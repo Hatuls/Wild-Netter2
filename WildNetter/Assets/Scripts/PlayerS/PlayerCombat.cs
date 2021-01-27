@@ -80,7 +80,7 @@ public class PlayerCombat : MonoBehaviour
     //move to player manager
     public void GetHit(int RecieveDMG, Vector3 Source)
     {
-        _playerStats.GetSetCurrentHealth += -RecieveDMG;
+        _playerStats.ApplyDMGToPlayer(RecieveDMG);
         _playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
     }
     public void Attack() {  
@@ -102,7 +102,6 @@ public class PlayerCombat : MonoBehaviour
     }
      void DeployTotem(TotemType type)
     {
-
         PlayerGFX.GetInstance.SetAnimationTrigger("PlaceTotem");
         TotemManager._instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
     }
@@ -160,13 +159,18 @@ public class PlayerCombat : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (_weaponCollider.enabled)
-        {
             CalculateDMGToEnemy(other.gameObject.GetComponent<EnemyPart>());
-        }
+        
     }
-    void CalculateDMGToEnemy(EnemyPart enemy) {
+   public void CalculateDMGToEnemy(EnemyPart enemy) {
         int finalDmg = GetSetAttackDMG;
-        finalDmg += Convert.ToInt32(  finalDmg * (_playerStats.GetSetStrength*.1f));//- enemy.armor
-       enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
+        int StrengthAgainstArmour = _playerStats.GetSetStrength - enemy.armor;
+
+        if (StrengthAgainstArmour < 0)
+            StrengthAgainstArmour = 0;
+
+        // attack dmg of the weapon + attack dmg of the weapon * (playerStength% - enemy armour%)
+        finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
+        enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 }

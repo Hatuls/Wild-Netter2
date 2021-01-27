@@ -1,12 +1,10 @@
-﻿
-using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class PlayerStats : MonoBehaviour
 {
-    static PlayerStats _instance;
+    
 
     [SerializeField] Stats playerStats;
     //Component References:
@@ -18,10 +16,31 @@ public class PlayerStats : MonoBehaviour
     {
         _instance = this;
     }
-
+static PlayerStats _instance;
     public static PlayerStats GetInstance
     {
         get { return _instance; }
+    }
+public void Init()
+    {
+        playerStats.ResetStats();
+        playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
+        currentStamina = playerStats.MaxStaminaBar;
+
+
+
+        StopCoroutine(Regeneration());
+        StartCoroutine(Regeneration());
+    }
+
+
+
+
+    #region Player Stats
+public int GetSetAbilityPoints
+    {
+        get { return playerStats.abilityPoints; }
+        set { playerStats.abilityPoints = value; }
     }
     public int GetSetStrength
     {
@@ -38,6 +57,13 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.agility; }
         set { playerStats.agility = value; }
     }
+    public int GetSetStaminaPoints
+    {
+        get { return playerStats.stamina; }
+        set { playerStats.stamina = value; }
+    }
+    #endregion
+    #region EXP Manager
     public int GetSetCurrentEXP
     {
         get { return playerStats.currentEXP; }
@@ -48,17 +74,8 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.expToNextLevel; }
         set { playerStats.expToNextLevel = value; }
     }
-    public int GetSetAbilityPoints
-    {
-        get { return playerStats.abilityPoints; }
-        set { playerStats.abilityPoints = value; }
-    }
+    #endregion
 
-    public int GetSetArmorPoints
-    {
-        get { return playerStats.armorPoints; }
-        set { playerStats.armorPoints = value; }
-    }
 
     #region Health
     public int GetSetMaxHealth
@@ -82,7 +99,11 @@ public class PlayerStats : MonoBehaviour
 
         }
     }
-
+public int GetSetArmorPoints
+    {
+        get { return playerStats.armorPoints; }
+        set { playerStats.armorPoints = value; }
+    }
 
 
     public void HealPlayer(int amount)
@@ -109,8 +130,6 @@ public class PlayerStats : MonoBehaviour
     public int DMGAfterArmour(int amount) { return 1; }//  < return the dmg after the armor protection 
 
     #endregion
-
-
     #region Stamina 
     [SerializeField] float defaultStaminaRegenerationSpeed = 4f;
     [SerializeField] float currentStamina = 0;
@@ -126,11 +145,7 @@ public class PlayerStats : MonoBehaviour
             playerStats.MaxStaminaBar = value;
         }
     }
-    public int GetSetStaminaPoints
-    {
-        get { return playerStats.stamina; }
-        set { playerStats.stamina = value; }
-    }
+ 
     public float GetSetStaminaRegenerationSpeed {
         set
         {
@@ -179,28 +194,6 @@ public class PlayerStats : MonoBehaviour
         return true;
     }
     #endregion
-
-
-    //Functions:
-    public void Init()
-    {
-        playerStats.ResetStats();
-        playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
-        currentStamina = playerStats.MaxStaminaBar;
-
-
-
-        StopCoroutine(Regeneration());
-        StartCoroutine(Regeneration());
-    }
-
-
-
-
-
-
-
-
 
 
     #region Regeneration Params
