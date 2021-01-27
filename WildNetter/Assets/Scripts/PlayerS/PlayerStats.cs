@@ -6,8 +6,10 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     static PlayerStats _instance;
+    [SerializeField] float defaultStaminaRegenerationSpeed = 4f;
+
     [SerializeField] Stats playerStats;
-  [SerializeField]  float staminaBar  =0;
+  [SerializeField]  float currentStamina  =0;
     float staminaQuater = 25f;
     //Component References:
     //Script References:
@@ -17,6 +19,20 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+    }
+
+    public float GetSetStaminaRegenerationSpeed {
+        set
+        {
+            defaultStaminaRegenerationSpeed = value;
+            if (defaultStaminaRegenerationSpeed < 0)
+            {
+                defaultStaminaRegenerationSpeed = 0;
+            }
+
+        }
+        get => defaultStaminaRegenerationSpeed;
+
     }
     public static PlayerStats GetInstance
     {
@@ -86,20 +102,20 @@ public class PlayerStats : MonoBehaviour
     
     public float GetSetStaminaBar
     {
-        get { return staminaBar; }
+        get { return currentStamina; }
 
         set {
 
 
-            if (staminaBar + value <= 0)
+            if (currentStamina + value <= 0)
             {
-                staminaBar = 0;
+                currentStamina = 0;
                 return;
             }
-            staminaBar = value;
+            currentStamina = value;
 
-            if (staminaBar > playerStats.MaxStaminaBar)
-                staminaBar = playerStats.MaxStaminaBar;
+            if (currentStamina > playerStats.MaxStaminaBar)
+                currentStamina = playerStats.MaxStaminaBar;
             
 
         }
@@ -109,17 +125,16 @@ public class PlayerStats : MonoBehaviour
     {
         playerStats.ResetStats();
         playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
-       staminaBar = playerStats.MaxStaminaBar;
+       currentStamina = playerStats.MaxStaminaBar;
         StopCoroutine(Regeneration());
         StartCoroutine(Regeneration());
     }
 
-  [SerializeField]  float staminaRegenerationSpeed= 4f;
+
     IEnumerator Regeneration() {
 
         // check if some action happens
-        GetSetStaminaBar += staminaRegenerationSpeed;
-
+        GetSetStaminaBar += GetSetStaminaRegenerationSpeed;
         yield return new WaitForSeconds(1f);
         StartCoroutine(Regeneration());
     }
