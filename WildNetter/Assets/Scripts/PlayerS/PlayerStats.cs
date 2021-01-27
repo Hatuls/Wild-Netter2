@@ -2,11 +2,12 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerStats : MonoBehaviour
 {
     static PlayerStats _instance;
- 
+
     [SerializeField] Stats playerStats;
     //Component References:
     //Script References:
@@ -22,7 +23,7 @@ public class PlayerStats : MonoBehaviour
     {
         get { return _instance; }
     }
-    public int GetSetStrengh
+    public int GetSetStrength
     {
         get { return playerStats.strengh; }
         set { playerStats.strengh = value; }
@@ -52,6 +53,19 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.abilityPoints; }
         set { playerStats.abilityPoints = value; }
     }
+
+    public int GetSetArmorPoints
+    {
+        get { return playerStats.armorPoints; }
+        set { playerStats.armorPoints = value; }
+    }
+
+    #region Health
+    public int GetSetMaxHealth
+    {
+        get { return playerStats.maxHealth; }
+        set { playerStats.maxHealth = value; }
+    }
     public int GetSetCurrentHealth
     {
         get { return playerStats.currentHealth; }
@@ -68,16 +82,34 @@ public class PlayerStats : MonoBehaviour
 
         }
     }
-    public int GetSetMaxHealth
+
+
+
+    public void HealPlayer(int amount)
     {
-        get { return playerStats.maxHealth; }
-        set { playerStats.maxHealth = value; }
+        if (amount == 0)
+            return;
+
+
+        if (amount < 0)
+            amount *= 0;
+
+             GetSetCurrentHealth += amount;
     }
-    public int GetSetArmorPoints
-    {
-        get { return playerStats.armorPoints; }
-        set { playerStats.armorPoints = value; }
+    public void ApplyDMGToPlayer(int amount) {
+        if (amount == 0)
+            return;
+
+        if (amount < 0)
+            amount *= -1;
+
+        GetSetCurrentHealth -= amount;
+
     }
+    public int DMGAfterArmour(int amount) { return 1; }//  < return the dmg after the armor protection 
+
+    #endregion
+
 
     #region Stamina 
     [SerializeField] float defaultStaminaRegenerationSpeed = 4f;
@@ -87,7 +119,7 @@ public class PlayerStats : MonoBehaviour
     public float GetSetMaxStaminaBar {
         get => playerStats.MaxStaminaBar;
         set {
-            
+
             if (value < playerStats.MaxStaminaBar)
                 return;
 
@@ -112,7 +144,7 @@ public class PlayerStats : MonoBehaviour
         get => defaultStaminaRegenerationSpeed;
 
     }
-  public float GetSetStaminaBar
+    public float GetSetStaminaBar
     {
         get { return currentStamina; }
 
@@ -128,44 +160,83 @@ public class PlayerStats : MonoBehaviour
 
             if (currentStamina > playerStats.MaxStaminaBar)
                 currentStamina = playerStats.MaxStaminaBar;
-            
+
 
         }
     }
+
+
+
+    internal bool CheckEnoughStamina(float amount)
+    {
+        if (amount < 0)
+            amount *= -1;
+
+        if (GetSetStaminaBar - amount < 0)
+            return false;
+
+        GetSetStaminaBar -= amount;
+        return true;
+    }
     #endregion
 
-  
+
     //Functions:
     public void Init()
     {
         playerStats.ResetStats();
         playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
-       currentStamina = playerStats.MaxStaminaBar;
+        currentStamina = playerStats.MaxStaminaBar;
+
+
+
         StopCoroutine(Regeneration());
         StartCoroutine(Regeneration());
     }
 
 
+
+
+
+
+
+
+
+
+    #region Regeneration Params
+    int healthRegenerationAmount = 4;
+    bool stopStaminaRegeneration = false;
+    bool stopHealthRegeneration = false;
+    public bool SetStopHealthRegeneration
+    {
+        set
+        {
+            if (stopHealthRegeneration != value)
+                stopHealthRegeneration = value;
+
+        }
+    }
+    public bool SetStopStaminaRegeneration
+    {
+        set
+        {
+            if (stopStaminaRegeneration != value)
+                stopStaminaRegeneration = value;
+        }
+    }
+    public int GetSetHPRegenerationSpeed { set => healthRegenerationAmount = value; get => healthRegenerationAmount; }
     IEnumerator Regeneration() {
 
         // check if some action happens
-        GetSetStaminaBar += GetSetStaminaRegenerationSpeed;
+        if (!stopStaminaRegeneration)
+            GetSetStaminaBar += GetSetStaminaRegenerationSpeed;
+
+        if (!stopHealthRegeneration)
+            GetSetCurrentHealth += healthRegenerationAmount;
+
         yield return new WaitForSeconds(1f);
         StartCoroutine(Regeneration());
     }
-    public void ApplyDMG(int amount) { }
-    //public int DMGAfterArmour(int amount) { return 1; }  < return the dmg after the armor protection 
-    public void HealPlayer(int amount) { }
+    #endregion
 
-    internal bool CheckEnoughStamina(float amount)
-    {
-        if (amount<0)
-           amount *= -1;
-        
-        if (GetSetStaminaBar - amount < 0)
-           return false;
-
-        GetSetStaminaBar -= amount;
-        return true;
-    }
 }

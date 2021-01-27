@@ -9410,6 +9410,14 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 112
       objectReference: {fileID: 0}
+    - target: {fileID: 567110345, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: m_Drag
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 567110345, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5289860733635820246, guid: 25fe12de0e000b149b1fe9614fa61a42,
         type: 3}
       propertyPath: m_LocalPosition.y

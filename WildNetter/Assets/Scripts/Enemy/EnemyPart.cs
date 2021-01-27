@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 public enum monsterParts {Tail,Leg,Groin,Chest, back, head }
 public class EnemyPart : MonoBehaviour
 {
