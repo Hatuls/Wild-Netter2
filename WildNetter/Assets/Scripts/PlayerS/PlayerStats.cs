@@ -6,11 +6,8 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     static PlayerStats _instance;
-    [SerializeField] float defaultStaminaRegenerationSpeed = 4f;
-
+ 
     [SerializeField] Stats playerStats;
-  [SerializeField]  float currentStamina  =0;
-    float staminaQuater = 25f;
     //Component References:
     //Script References:
     // Collections:
@@ -21,19 +18,6 @@ public class PlayerStats : MonoBehaviour
         _instance = this;
     }
 
-    public float GetSetStaminaRegenerationSpeed {
-        set
-        {
-            defaultStaminaRegenerationSpeed = value;
-            if (defaultStaminaRegenerationSpeed < 0)
-            {
-                defaultStaminaRegenerationSpeed = 0;
-            }
-
-        }
-        get => defaultStaminaRegenerationSpeed;
-
-    }
     public static PlayerStats GetInstance
     {
         get { return _instance; }
@@ -52,11 +36,6 @@ public class PlayerStats : MonoBehaviour
     {
         get { return playerStats.agility; }
         set { playerStats.agility = value; }
-    }
-    public int GetSetStaminaPoints
-    {
-        get { return playerStats.stamina; }
-        set { playerStats.stamina = value; }
     }
     public int GetSetCurrentEXP
     {
@@ -99,8 +78,41 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.armorPoints; }
         set { playerStats.armorPoints = value; }
     }
-    
-    public float GetSetStaminaBar
+
+    #region Stamina 
+    [SerializeField] float defaultStaminaRegenerationSpeed = 4f;
+    [SerializeField] float currentStamina = 0;
+    float staminaQuater = 25f;
+
+    public float GetSetMaxStaminaBar {
+        get => playerStats.MaxStaminaBar;
+        set {
+            
+            if (value < playerStats.MaxStaminaBar)
+                return;
+
+            playerStats.MaxStaminaBar = value;
+        }
+    }
+    public int GetSetStaminaPoints
+    {
+        get { return playerStats.stamina; }
+        set { playerStats.stamina = value; }
+    }
+    public float GetSetStaminaRegenerationSpeed {
+        set
+        {
+            defaultStaminaRegenerationSpeed = value;
+            if (defaultStaminaRegenerationSpeed < 0)
+            {
+                defaultStaminaRegenerationSpeed = 0;
+            }
+
+        }
+        get => defaultStaminaRegenerationSpeed;
+
+    }
+  public float GetSetStaminaBar
     {
         get { return currentStamina; }
 
@@ -120,6 +132,9 @@ public class PlayerStats : MonoBehaviour
 
         }
     }
+    #endregion
+
+  
     //Functions:
     public void Init()
     {
