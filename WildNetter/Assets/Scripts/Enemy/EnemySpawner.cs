@@ -13,10 +13,10 @@ public class EnemySpawner : MonoBehaviour
     EnemyType typeSelected;
     [SerializeField]GameObject Player;
     [SerializeField]Camera mainCam;
-
     Dictionary<Vector3, GameObject> spawnQueue = new Dictionary<Vector3, GameObject>();
     Dictionary<Vector3, QueuedEnemy> queuedEnemies = new Dictionary<Vector3, QueuedEnemy>();
     List<Vector3> queuedPoints = new List<Vector3>();
+    [SerializeField]float distance;
 
 
 
@@ -70,6 +70,15 @@ public class EnemySpawner : MonoBehaviour
 
         return screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
     }
+    public bool CheckDistance(Vector3 position)
+    {
+        float Offset=0;
+        if (Player.transform.position.x > position.x)
+        {
+            Offset += 5;
+        }
+        return Vector3.Distance(position, Player.transform.position)<distance+Offset;
+    }
 
 
 
@@ -81,15 +90,18 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach(Vector3 position in queuedPoints)
         {
-            if (CheckIfOnView(position))
+            
+            if (CheckDistance(position))
             {
+                Debug.Log("onView");
                 Instantiate(spawnQueue[position], queuedEnemies[position].worldPosition, queuedEnemies[position].spawnQuaternion);
-                queuedEnemies.Remove(position);
-                spawnQueue.Remove(position);
-                queuedPoints.Remove(position);
+               queuedEnemies.Remove(position);
+               spawnQueue.Remove(position);
+               queuedPoints.Remove(position);
             }
         }
     }
+
     public void SetSpawner()
     {
         currentHabitat = _enemyManager.currentHabitat;
@@ -112,6 +124,11 @@ public class EnemySpawner : MonoBehaviour
 
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        
+    }
 }
 public class QueuedEnemy
 {
@@ -124,3 +141,4 @@ public class QueuedEnemy
         
     }
 }
+

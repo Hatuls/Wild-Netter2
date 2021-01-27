@@ -44,8 +44,12 @@ public class InputManager : MonoBehaviour
 
 
     }
-    public void Init() {
+    private void Awake()
+    {
         _instance = this;
+    }
+    public void Init() {
+        
         _playerMovement = PlayerMovement.GetInstance;
         _playerCombat = PlayerCombat.GetInstance;
     }

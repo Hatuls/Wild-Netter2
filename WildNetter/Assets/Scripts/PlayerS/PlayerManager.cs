@@ -57,12 +57,12 @@ public class PlayerManager : MonoBehaviour
 
     private void AssignScriptsComponentsReferences()
     {
-        _inputManager = GetComponent<InputManager>();
+        _inputManager = InputManager.GetInstance;
         _playerInventory =  PlayerInventory.GetInstance ;
-      _playerMovement = GetComponent<PlayerMovement>();
-        _playerCombat = GetComponent<PlayerCombat>();
-       //  _playerGFX = GetComponentInChildren<PlayerGFX>();
-        _playerStats = GetComponent<PlayerStats>();
+        _playerMovement = PlayerMovement.GetInstance;
+        _playerCombat = PlayerCombat.GetInstance;
+        //  _playerGFX = GetComponentInChildren<PlayerGFX>();
+        _playerStats = PlayerStats.GetInstance;
         _playerWallet = PlayerWallet.GetInstance;
     }
 
