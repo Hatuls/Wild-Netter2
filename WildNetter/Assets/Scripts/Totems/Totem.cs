@@ -11,7 +11,7 @@ public class Totem : MonoBehaviour
     // Component References:
     // Variables:
     public float currentRealTime;
-    public TotemType type;
+    public TotemName type;
     private Transform playerTransform;
     public VisualEffect healVFX;
     public VisualEffect preyVFX;
@@ -32,7 +32,7 @@ public class Totem : MonoBehaviour
         Debug.Log(relevantSO.totemType);
         gameObject.transform.GetChild(0).GetComponent<Transform>().localScale = new Vector3(relevantSO.range/2, relevantSO.range/2, 1);
         gameObject.SetActive(true);
-        type = relevantSO.totemType;
+        type = relevantSO.totemName;
         if (relevantSO.duration > 0)
         {
             StopCoroutine(TotemDuration(relevantSO.duration));
@@ -50,34 +50,45 @@ public class Totem : MonoBehaviour
     {
         switch (type)
         {
-            case TotemType.prey:
-               // preyVFX = transform.Find("PreyVFX").GetComponent<VisualEffect>();
-                preyVFX.Play();
+            case TotemName.prey:
+                // preyVFX = transform.Find("PreyVFX").GetComponent<VisualEffect>();
                 //preyVFX.gameObject.SetActive(true);
-               
+                preyVFX.Play();
+
                 StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
                 StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
                 break;
 
-            case TotemType.healing:
+            case TotemName.healing:
                 if (playerTransform == null)
                 {
                     playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
                 }
-              //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
+                //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
+                // healVFX.gameObject.SetActive(true);
                 healVFX.Play();
-               // healVFX.gameObject.SetActive(true);
-                
+
                 StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
 
-            case TotemType.detection:
-               // detectionVFX = transform.Find("DetectionVFX").GetComponent<VisualEffect>();
-                detectionVFX.Play();
+            case TotemName.detection:
+                // detectionVFX = transform.Find("DetectionVFX").GetComponent<VisualEffect>();
                 //detectionVFX.gameObject.SetActive(true);
+                detectionVFX.Play();
+
                 StopCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
                 StartCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
+                break;
+
+            case TotemName.stamina:
+                StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                break;
+
+            case TotemName.shock:
+                StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
+                StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
                 break;
 
             default:

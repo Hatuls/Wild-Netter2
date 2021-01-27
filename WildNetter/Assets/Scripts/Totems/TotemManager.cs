@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TotemType { prey, healing, detection };
+public enum TotemName { prey, healing, detection, stamina, shock };
+public enum TotemType { baiting, buff, debuff, detection, trapping };
 public class TotemManager : MonoBehaviour
 {
     // Script References:
@@ -17,7 +18,7 @@ public class TotemManager : MonoBehaviour
 
 
     public List<Transform> ActiveTotem;
-    public TotemSO[] AllGameTotems = new TotemSO[3];
+    public TotemSO[] AllGameTotems = new TotemSO[5];
 
     private void Awake()
     {
@@ -35,7 +36,7 @@ public class TotemManager : MonoBehaviour
     }
     //public void ActivateTotemEffect() { }
 
-    public void DeployAtLocation(Vector3 location, TotemType type)
+    public void DeployAtLocation(Vector3 location, TotemName type)
     {
         Totem t = GetActiveTotem(location).GetComponent<Totem>();
         t.Init(location, GetRelevantTotemData(type));
@@ -55,16 +56,20 @@ public class TotemManager : MonoBehaviour
         return go;
     }
 
-    public TotemSO GetRelevantTotemData(TotemType totemSO)
+    public TotemSO GetRelevantTotemData(TotemName totemSO)
     {
         switch(totemSO)
         {
-            case TotemType.detection:
+            case TotemName.detection:
                 return AllGameTotems[0];
-            case TotemType.healing:
+            case TotemName.healing:
                 return AllGameTotems[1];
-            case TotemType.prey:
+            case TotemName.prey:
                 return AllGameTotems[2];
+            case TotemName.stamina:
+                return AllGameTotems[3];
+            case TotemName.shock:
+                return AllGameTotems[4];
             default:
                 break;                
         }

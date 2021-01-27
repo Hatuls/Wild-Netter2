@@ -372,12 +372,12 @@ public abstract class Enemy : MonoBehaviour
 
     public bool CheckIfPlayerIsClose() { return true; }
     //public Transform GetTarget() { } <- clear comment when getting new target to move to
-    public void TotemEffect(TotemType type,GameObject totem) 
+    public void TotemEffect(TotemName type,GameObject totem) 
     {
         switch (type)
         {
 
-            case TotemType.prey:
+            case TotemName.prey:
                 
                 TargetAquierd = totem;
                 _enemySheet.enemyState = EnemyState.lured;
@@ -385,8 +385,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
     public void CancelEffect()
-    {
-        
+    {        
         //BehaveByState(EnemyState.Idle);
     }
 
