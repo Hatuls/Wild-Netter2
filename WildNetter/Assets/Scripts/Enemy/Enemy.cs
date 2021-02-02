@@ -301,8 +301,11 @@ public abstract class Enemy : MonoBehaviour
     public void StopMoving()
     {
         ActivateFootsteps(false);
-
-        agent.isStopped = true ;
+        
+        if (agent.isOnNavMesh)
+   agent.isStopped = true ;
+        
+   
         
     }
 

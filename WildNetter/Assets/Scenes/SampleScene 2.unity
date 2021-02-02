@@ -298,6 +298,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e306170973c79414d9b2e38b94fe7801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &126790575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126790566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330ee2805810b054c88044245e3142b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderBase: 5000
+  offset: 0
+--- !u!23 &126790576
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126790566}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &153662144
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,7 +1128,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1936143517
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0f8489d6f85f6a3438ad1a356d04e2c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1542,7 +1595,7 @@ GameObject:
   m_Component:
   - component: {fileID: 488827421}
   - component: {fileID: 488827420}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_Rocks1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1691,7 +1744,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 506548252}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AssetsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1747,7 +1800,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 536379099}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.39, y: 0, z: 39.77}
+  m_LocalPosition: {x: 1.3, y: 5.8, z: 10.8}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 19156702}
@@ -2286,7 +2339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789296789}
   - component: {fileID: 789296788}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_Rocks2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4479,7 +4532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1161165866}
   - component: {fileID: 1161165865}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_Tree3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5014,7 +5067,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1324770507}
   - component: {fileID: 1324770506}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_SmallStone1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5370,7 +5423,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377187718}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: -0.076, y: 3.787, z: 0.634}
+  m_LocalPosition: {x: -0.076, y: 3.1, z: 0.634}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 536379100}
@@ -6097,7 +6150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1460503814}
   - component: {fileID: 1460503813}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_YoungTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6386,7 +6439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1540268206}
   - component: {fileID: 1540268205}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_Tree1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7243,7 +7296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1743164166}
   - component: {fileID: 1743164167}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_Tree2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7258,7 +7311,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1743164165}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 5.12, y: 0, z: 0}
+  m_LocalPosition: {x: 18.17, y: 8.61, z: -15.3}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 506548252}
@@ -7302,7 +7355,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cad7e2d05a4196749955c2c494a2910b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -7562,7 +7615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1837990064}
   - component: {fileID: 1837990063}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_SmallStone3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8176,7 +8229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1924534229}
   - component: {fileID: 1924534228}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PH_Tree2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
