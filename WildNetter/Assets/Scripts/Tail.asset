@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Tail
   m_EditorClassIdentifier: 
   armor: 20
-  breakPoints: 20
+  breakPoints: 60
   VuDamageMultiplayer: 10
