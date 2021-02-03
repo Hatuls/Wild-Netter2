@@ -1,6 +1,4 @@
 ﻿
-using UnityEngine;
-
 public class GameManager : MonoSingleton<GameManager>
 {
     public ISingleton[] singletons;
@@ -27,15 +25,6 @@ public class GameManager : MonoSingleton<GameManager>
         EnemySpawner._Instance
         };
 
-        //var playersWeapon = ItemFactory._instance.GenerateItem( 20000);
-        //  (playersWeapon as WeaponSO).PrintWeaponSO();
-        //  playersWeapon.Print();
-        //  Debug.ClearDeveloperConsole();
-        //  PlayerInventory.GetInstance.PrintInventory();
-        //  PlayerManager._instance.Init(playersWeapon as WeaponSO);
-        //  TotemManager._instance.Init();
-        //  UiManager._instance.Init();
-
         for (int i = 0; i < singletons.Length; i++)
         {
             if (singletons[i] != null)
@@ -44,4 +33,8 @@ public class GameManager : MonoSingleton<GameManager>
 
         }
     }
+
+
+
+    
 }
