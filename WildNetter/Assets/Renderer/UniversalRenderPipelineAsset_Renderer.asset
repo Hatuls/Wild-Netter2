@@ -36,7 +36,7 @@ MonoBehaviour:
     passOperation: 0
     failOperation: 0
     zFailOperation: 0
-  m_ShadowTransparentReceive: 1
+  m_ShadowTransparentReceive: 0
 --- !u!114 &3846546825777876094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     Event: 500
-    blitMaterial: {fileID: 0}
-    blitMaterialPassIndex: 1
-    destination: 0
+    blitMaterial: {fileID: 2100000, guid: 48637e0e0b0630a499fc88f1f6aac24a, type: 2}
+    blitMaterialPassIndex: 0
+    destination: 1
     textureId: _BlitPassTexture
