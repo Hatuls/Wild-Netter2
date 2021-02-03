@@ -14,7 +14,7 @@ public class TotemOfDetection : TotemSO
         if (SpawnDetectedEnemy(totemLocation) == true)
         {
             Collider[] objectCollider;
-            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
             foreach (Collider col in objectCollider)
             {
                 if (CheckRange(totemLocation, col.transform.position, range))
@@ -28,7 +28,7 @@ public class TotemOfDetection : TotemSO
     {
         //we will set how much time the monster take to spawn
         float randomTime = Random.Range(1, 10);
-        EnemyManager _enemyManager = EnemyManager.GetInstance();
+        EnemyManager _enemyManager = EnemyManager._Instance;
         if (Random.value > 0.5)
         {
             _enemyManager.GetBeastSettings((Difficulty)Random.Range(0, 2), (Size)Random.Range(0, 2), Random.Range(1, 100), spawnPoint, randomTime);

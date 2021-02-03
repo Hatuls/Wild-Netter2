@@ -13,7 +13,7 @@ public class TotemOfShock : TotemSO
     public override void DoEffect(Vector3 totemLocation, GameObject totem)
     {
         Collider[] objectCollider;
-        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
         Debug.Log(objectCollider.Length);
         foreach (Collider col in objectCollider)
         {

@@ -14,7 +14,7 @@ public class TotemOfStamina : TotemSO
     {
         if (CheckRange(totemLocation, targetLocation, range))
         {
-            PlayerStats.GetInstance.GetSetStaminaRegenerationSpeed += (int) ((staminaPrecentage * PlayerStats.GetInstance.GetSetMaxStaminaBar) / 100);
+            PlayerStats._Instance.AddStaminaAmount((int)((staminaPrecentage * PlayerStats._Instance.GetSetMaxStamina) / 100));
         }
     }
     public override IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem)

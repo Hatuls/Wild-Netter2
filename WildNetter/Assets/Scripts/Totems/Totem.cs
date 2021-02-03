@@ -84,7 +84,7 @@ public class Totem : MonoBehaviour
             case TotemName.stamina:
                 if (playerTransform == null)
                 {
-                    playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
+                    playerTransform = PlayerManager._Instance.GetPlayerTransform;
                 }
                 StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));

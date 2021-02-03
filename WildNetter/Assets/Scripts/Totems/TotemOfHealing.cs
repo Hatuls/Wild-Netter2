@@ -15,8 +15,8 @@ public class TotemOfHealing : TotemSO
     {
         if (CheckRange(totemLocation, targetLocation, range))
         {
-            PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
-            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
+            PlayerStats._Instance.AddHealthAmount((int)((healingPrecentage * PlayerStats._Instance.GetSetMaxHealth) / 100));
+            Debug.Log("Healing Totem Effect:" + " " + PlayerStats._Instance.GetSetCurrentHealth);
         }
     }
     public override IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem)
