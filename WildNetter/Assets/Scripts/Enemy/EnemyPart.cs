@@ -8,7 +8,10 @@ public class EnemyPart : MonoBehaviour
     int brakeMultiplier=2;
 
 
-    
+
+    public bool creatOnAwake;
+    [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] GameObject particleSystemGO;
 
     private Vulnerability vulnerability;
     [SerializeField] monsterParts thisPart;
@@ -24,6 +27,10 @@ public class EnemyPart : MonoBehaviour
         collider = GetComponent<Collider>();
         GetMonster();
         GetPartSettings();
+        if (creatOnAwake)
+        {
+            Instantiate(particleSystem, transform.position, Quaternion.identity);
+        }
     }
     public void GetDamage(int hitDamage,Vector3 hitPoint,Vulnerability weaponVulnerabilityEffect)
     {
@@ -70,5 +77,10 @@ public class EnemyPart : MonoBehaviour
         vulnerability = _Enemy._enemySheet.enemyVulnerability;
     }
 
+
+  
+
 }
+
+
 

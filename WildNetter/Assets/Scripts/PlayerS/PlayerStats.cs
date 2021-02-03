@@ -140,14 +140,14 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         get { return playerStats.currentHealth; }
         set
         {
-       
+
             if (playerStats.currentHealth + value >= playerStats.maxHealth) { 
                 playerStats.currentHealth = playerStats.maxHealth;
                 return;
             }
  
             playerStats.currentHealth = value;
-        
+ 
 
             if (playerStats.currentHealth <= 0)
             { 
