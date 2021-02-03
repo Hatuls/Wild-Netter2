@@ -80,7 +80,7 @@ public class TotemManager : MonoBehaviour
     {
         int startOfTotemID = 40000;
         // need to fix it to how many totem types there is
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 5; i++)
         {
             AllGameTotems[i] = ItemFactory.GetInstance().GenerateItem(startOfTotemID + i) as TotemSO;
         }

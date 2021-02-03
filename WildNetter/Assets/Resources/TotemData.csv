@@ -1,6 +1,6 @@
-ID,TotemType,TotemName,Duration,Range(square),MinimumPlayerLevel,ItemsToBuild
-40000,4,Totem of Detection,2-10000000000000,8,1,
-40001,2,Totem of Healing,1-10,8,3,
-40002,1,Totem of Prey,1-7200,14,1,
-40003,2,Totem of Stamina,1-28,10,5,
-40004,3,Totem of Shock,1-38,8,1,
+ID,TotemName,TotemType,Duration,Range(square),MinimumPlayerLevel,ItemsToBuild
+40000,1,4,2-10000000000000,8,1,
+40001,2,2,1-10,8,3,
+40002,3,1,1-7200,14,1,
+40003,4,2,1-28,10,5,
+40004,5,3,1-38,8,1,

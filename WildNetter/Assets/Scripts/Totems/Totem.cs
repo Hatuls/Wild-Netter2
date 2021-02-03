@@ -11,7 +11,7 @@ public class Totem : MonoBehaviour
     // Component References:
     // Variables:
     public float currentRealTime;
-    public TotemName type;
+    public TotemName totemName;
     private Transform playerTransform;
     public VisualEffect healVFX;
     public VisualEffect preyVFX;
@@ -32,7 +32,7 @@ public class Totem : MonoBehaviour
         Debug.Log(relevantSO.totemType);
         gameObject.transform.GetChild(0).GetComponent<Transform>().localScale = new Vector3(relevantSO.range/2, relevantSO.range/2, 1);
         gameObject.SetActive(true);
-        type = relevantSO.totemName;
+        totemName = relevantSO.totemName;
         if (relevantSO.duration > 0)
         {
             StopCoroutine(TotemDuration(relevantSO.duration));
@@ -48,7 +48,7 @@ public class Totem : MonoBehaviour
 
     private void ApplyingEffect ()
     {
-        switch (type)
+        switch (totemName)
         {
             case TotemName.prey:
                 // preyVFX = transform.Find("PreyVFX").GetComponent<VisualEffect>();
@@ -82,6 +82,10 @@ public class Totem : MonoBehaviour
                 break;
 
             case TotemName.stamina:
+                if (playerTransform == null)
+                {
+                    playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
+                }
                 StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;

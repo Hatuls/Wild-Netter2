@@ -24,8 +24,37 @@ public abstract class TotemSO : Item
             return;
         if (totemData[1] != "")
         {
+            int intTotemName;
+            if (int.TryParse(totemData[1], out intTotemName))
+            {
+                switch (intTotemName)
+                {
+                    case 1:
+                        totemName = TotemName.detection;
+                        break;
+                    case 2:
+                        totemName = TotemName.healing;
+                        break;
+                    case 3:
+                        totemName = TotemName.prey;
+                        break;
+                    case 4:
+                        totemName = TotemName.stamina;
+                        break;
+                    case 5:
+                        totemName = TotemName.shock;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        if (totemData[2] != "")
+        {
+            //base.Name = totemData[2].ToString();
             int intTotemType;
-            if (int.TryParse(totemData[1], out intTotemType))
+            if (int.TryParse(totemData[2], out intTotemType))
             {
                 switch (intTotemType)
                 {
@@ -48,10 +77,6 @@ public abstract class TotemSO : Item
                         break;
                 }
             }
-        }
-        if (totemData[2] != "")
-        {
-            base.Name = totemData[2].ToString();
         }
         if (totemData[3] != "")
         {
