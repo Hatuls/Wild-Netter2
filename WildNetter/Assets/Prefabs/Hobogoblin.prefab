@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070463579209948634}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.358, y: -0.038, z: 0.588}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -0.305, y: 0.77, z: 0.588}
+  m_LocalScale: {x: 0.46, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 6750406175513938502}
   m_RootOrder: 0
@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070463579209948634}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -93,7 +93,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.5496464, y: 2.931735, z: 2.2003002}
-  m_Center: {x: -1.7447195, y: 1.634093, z: -0.6001501}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7674703021837475081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,7 +107,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PartSo: {fileID: 11400000, guid: 01e15690f2c411d4eb71dcbdb199a07d, type: 2}
+  creatOnAwake: 0
+  particleSystem: {fileID: 0}
+  particleSystemGO: {fileID: 0}
   thisPart: 0
+  armor: 0
   isBroken: 0
 --- !u!1 &3498344384310782505
 GameObject:
@@ -137,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3498344384310782505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.323, y: 0.246, z: -0.256}
+  m_LocalPosition: {x: -0.309, y: 0.954, z: -0.805}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 6750406175513938502}
@@ -158,7 +162,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3498344384310782505}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -202,7 +206,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.0681186, y: 2.6265998, z: 2.175518}
-  m_Center: {x: -0.54503226, y: 0.83704734, z: -1.199707}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7386333573620936614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +220,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _PartSo: {fileID: 11400000, guid: 01e15690f2c411d4eb71dcbdb199a07d, type: 2}
+  creatOnAwake: 0
+  particleSystem: {fileID: 0}
+  particleSystemGO: {fileID: 0}
   thisPart: 5
+  armor: 0
   isBroken: 0
 --- !u!1 &6750406175513938500
 GameObject:
@@ -304,6 +312,9 @@ MonoBehaviour:
     Attack2_RangeFromSource: 0
     Attack2_AnimDelay: 0
     attack2_animLenght: 0
+    lookRange: 0
+    rangeFromBody: 0
+    stayInRangeTime: 0
     lootDropsID: 
     enemyAnim: []
     DamagedMat: {fileID: 0}
