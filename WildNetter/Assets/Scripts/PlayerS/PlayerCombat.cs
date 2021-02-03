@@ -33,7 +33,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         }
 
     }
-    public int GetSetAttackDMG { 
+    public int GetAttackDMG { 
         get {
             System.Random rnd = new System.Random();
             
@@ -165,7 +165,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         
     }
    public void CalculateDMGToEnemy(EnemyPart enemy) {
-        int finalDmg = GetSetAttackDMG;
+        int finalDmg = GetAttackDMG;
         int StrengthAgainstArmour = _playerStats.GetSetStrength - enemy.armor;
 
         if (StrengthAgainstArmour < 0)

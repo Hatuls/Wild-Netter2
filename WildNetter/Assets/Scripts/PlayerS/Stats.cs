@@ -7,11 +7,11 @@ public class Stats
    public int wisdom;
    public int agility;
    public int stamina;
-   public int currentEXP;
-   public int expToNextLevel;
+   public float currentEXP;
+   public float expToNextLevel;
    public int abilityPoints;
-   public int currentHealth = 10;
-   public int maxHealth = 10;
+   public float currentHealth = 10;
+   public float maxHealth = 10;
    public int armorPoints;
     public float MaxStamina;
 
