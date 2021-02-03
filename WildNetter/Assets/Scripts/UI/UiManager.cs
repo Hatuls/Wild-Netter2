@@ -1,15 +1,13 @@
-﻿using System.Diagnostics.Contracts;
-using System.Runtime.CompilerServices;
+﻿
 using TMPro;
-using TMPro.Examples;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UiManager : MonoBehaviour
+public class UiManager : MonoSingleton<UiManager>
 {
     // Script References:
-    static UiManager _instance;
+
     PlayerInventory _playerInventory;
     PlayerWallet _wallet;
     // Component References:
@@ -23,29 +21,15 @@ public class UiManager : MonoBehaviour
     Item[] inventory;
     //SerializeField] TextMeshProUGUI inventoryCapacityText;
 
-     PlayerWallet wallet;
+     
     // Variables:
 
     // Getter & Setters:
-   public static UiManager GetInstance {
-        get {
-            if (_instance == null)
-            {
-               _instance = new UiManager();
-             }
 
-            return _instance;
-        }
-        set { _instance = value; }
-    
-    }
-    private void Awake()
+  
+    public override void Init()
     {
-        GetInstance = this;
-    }
-    public void Init()
-    {
-        wallet = PlayerWallet.GetInstance;
+        _wallet = PlayerWallet.GetInstance;
         _playerInventory = PlayerInventory.GetInstance;
         inventory = _playerInventory.GetInventory;
          Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
@@ -69,7 +53,7 @@ public class UiManager : MonoBehaviour
             return;
         
         //Need to create PlayerWallet - > _wallet
-          currencyTMP.text = string.Format("Gold : {0}    Silver : {1}    Copper : {2}", wallet.GetSetPlayersGold, wallet.GetSetPlayersSilver, wallet.GetSetPlayersCopper);
+          currencyTMP.text = string.Format("Gold : {0}    Silver : {1}    Copper : {2}", _wallet.GetSetPlayersGold, _wallet.GetSetPlayersSilver, _wallet.GetSetPlayersCopper);
         inventoryCapacityTMP.text= string.Format("{0}/{1}", inventory.Length - _playerInventory.GetAmountOfItem(null)  , inventory.Length);
         string text = " / " + _playerInventory.maxCapacityOfItemsInSlot;
     
@@ -90,7 +74,7 @@ public class UiManager : MonoBehaviour
                 
 
 
-                Slots[i].GetComponent<Image>().sprite = ItemFactory.GetInstance().GetItemSprite(inventory[i].ID);
+                Slots[i].GetComponent<Image>().sprite = ItemFactory._Instance.GetItemSprite(inventory[i].ID);
                 if (inventory[i].amount > 1)
                 {
 
@@ -123,9 +107,9 @@ public class UiManager : MonoBehaviour
     public void DropItemFromInventory(int i) {
         if (inventory[i] != null)
         {
-            var itemToDrop = ItemFactory.GetInstance().GenerateItem(inventory[i].ID);
+            var itemToDrop = ItemFactory._Instance.GenerateItem(inventory[i].ID);
             itemToDrop.amount = inventory[i].amount;
-            PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager.GetInstance.GetPlayerTransform.position, PlayerManager.GetInstance.GetPlayerTransform);
+            PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager._Instance.GetPlayerTransform.position, PlayerManager._Instance.GetPlayerTransform);
             _playerInventory.RemoveItemFromInventory(inventory[i]);
             UpdateInventory();
 

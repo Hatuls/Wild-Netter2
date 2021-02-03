@@ -1,15 +1,8 @@
 ﻿
 using UnityEngine;
-public class InputManager : MonoBehaviour
+public class InputManager : MonoSingleton<InputManager>
 {
-    static InputManager _instance;
-    public static InputManager GetInstance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+   
     PlayerCombat _playerCombat;
     PlayerMovement _playerMovement;
     float playerRadius = 1.5f;
@@ -44,10 +37,11 @@ public class InputManager : MonoBehaviour
 
 
     }
-    public void Init() {
-        _instance = this;
-        _playerMovement = PlayerMovement.GetInstance;
-        _playerCombat = PlayerCombat.GetInstance;
+  
+    public override void Init() {
+        
+        _playerMovement = PlayerMovement._Instance;
+        _playerCombat = PlayerCombat._Instance;
     }
 
     // Update is called once per frame

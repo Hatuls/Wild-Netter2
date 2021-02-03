@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : MonoSingleton<SoundManager>
 {
     //Varaibles:
     float volume;
     //Component References:
     public AudioSource _audioSource;
     //Script References:
-    public static SoundManager _instance;
+  
 
     // Collections:
     public static Dictionary<string, AudioClip> soundDictionary;
@@ -19,7 +19,7 @@ public class SoundManager : MonoBehaviour
         set { volume = value; }
     }
     //Functions:
-    public void Init()
+    public override void Init()
     {
         
     }

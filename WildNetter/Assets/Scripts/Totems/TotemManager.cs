@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public enum TotemName { prey, healing, detection, stamina, shock };
 public enum TotemType { baiting, buff, debuff, detection, trapping };
-public class TotemManager : MonoBehaviour
+public class TotemManager : MonoSingleton<TotemManager>
 {
     // Script References:
     // Component References:
     // Variables:
     // Getter & Setters:
-    public static TotemManager _instance;
+
     public Vector3 totemOffset;
     public GameObject totem1;
     public LayerMask enemiesLayer;
@@ -20,12 +21,8 @@ public class TotemManager : MonoBehaviour
     public List<Transform> ActiveTotem;
     public TotemSO[] AllGameTotems = new TotemSO[5];
 
-    private void Awake()
-    {
-        _instance = this;
-    }
 
-    public void Init()
+    public override void Init()
     {
         //Debug.Log(System.DateTime.Now);
         LoadTotemData();
@@ -82,7 +79,7 @@ public class TotemManager : MonoBehaviour
         // need to fix it to how many totem types there is
         for (int i = 0; i < 5; i++)
         {
-            AllGameTotems[i] = ItemFactory.GetInstance().GenerateItem(startOfTotemID + i) as TotemSO;
+            AllGameTotems[i] = ItemFactory._Instance.GenerateItem(startOfTotemID + i) as TotemSO;
         }
     }
 }

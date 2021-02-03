@@ -289,20 +289,32 @@ public abstract class Enemy : MonoBehaviour
 
     public void Move(Vector3 Target)
     {
+        if (agent.enabled!=false)
+        {
+
         if (agent.isStopped)
         {
         agent.Resume();
             ActivateFootsteps(true);
         }
         agent.destination = Target;
+        }
         
     }
     //Currently for totems
     public void StopMoving()
     {
+        if (agent.enabled != false)
+        {
+
         ActivateFootsteps(false);
 
-        agent.isStopped = true ;
+        if (agent.isOnNavMesh)
+   agent.isStopped = true ;
+        
+
+        }
+
         
     }
 
@@ -355,7 +367,7 @@ public abstract class Enemy : MonoBehaviour
                 TargetFinder();
                 
         }
-        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory.GetInstance().GenerateItem(_enemySO.lootDropsID[dropLevel-1]), RetrieveDeathLocation(), TargetAquierd.transform);
+        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory._Instance.GenerateItem(_enemySO.lootDropsID[dropLevel-1]), RetrieveDeathLocation(), TargetAquierd.transform);
 
         Dropable.GetComponent<PickUpObject>().GetItem().amount = dropAmont;
 
@@ -481,6 +493,8 @@ public abstract class Enemy : MonoBehaviour
     public void PartBroke(monsterParts part)
     {
         Debug.Log(part +"Broke");
+        _enemySheet.EnemyParts[part].SetActive(false);
+
         PartDebuffer();
     }
     void PartDebuffer()

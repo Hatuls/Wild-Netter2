@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 public enum AttackType {Melee , Ranged, Totem };
-public class PlayerCombat : MonoBehaviour
+public class PlayerCombat : MonoSingleton<PlayerCombat>
 {
     // Script References:
     WeaponSO _equippedWeaponSO;
@@ -14,8 +14,8 @@ public class PlayerCombat : MonoBehaviour
     
    [SerializeField] Collider _weaponCollider;
     [SerializeField]GameObject _weaponGO;
-    static PlayerCombat _instance;
-    public static PlayerCombat GetInstance { get { return _instance; } }
+   
+   
     // Variables:
     bool canAttack;
      int  attackDMG;
@@ -43,18 +43,15 @@ public class PlayerCombat : MonoBehaviour
         } 
    
     }
-    private void Awake()
-    {
-        _instance = this;
-    }
-    public void Init(WeaponSO startingWeapon)
+
+    public override void Init() //WeaponSO startingWeapon
     {
         ToggleWeaponCollider(false);
-        _playerStats = PlayerStats.GetInstance;
-        _playerMovement = PlayerMovement.GetInstance;
-        Debug.Log(startingWeapon.GetType());
+        _playerStats = PlayerStats._Instance;
+        _playerMovement = PlayerMovement._Instance;
+        
         canAttack = true;
-        GetSetWeaponSO = startingWeapon;
+        GetSetWeaponSO = ItemFactory._Instance.GenerateItem(20000) as WeaponSO; 
         ResetAttackAction();
         AttackAction += MeleeAttack;
     }
@@ -85,14 +82,14 @@ public class PlayerCombat : MonoBehaviour
     //move to player manager
     public void GetHit(int RecieveDMG, Vector3 Source)
     {
-        _playerStats.GetSetCurrentHealth += -RecieveDMG;
+        _playerStats.ApplyDMGToPlayer(RecieveDMG);
         _playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
     }
     public void Attack() {  
         if (canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
             AttackAction?.Invoke();
-            PlayerGFX.GetInstance.SetAnimationTrigger("Attack");
+            PlayerGFX._Instance.SetAnimationTrigger("Attack");
         }
     }
      void MeleeAttack() {
@@ -107,9 +104,8 @@ public class PlayerCombat : MonoBehaviour
     }
      void DeployTotem(TotemName type)
     {
-
-        PlayerGFX.GetInstance.SetAnimationTrigger("PlaceTotem");
-        TotemManager._instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
+        PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
+        TotemManager._Instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
     }
     public void SetAttackType(AttackType type) {
     
@@ -165,13 +161,18 @@ public class PlayerCombat : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (_weaponCollider.enabled)
-        {
             CalculateDMGToEnemy(other.gameObject.GetComponent<EnemyPart>());
-        }
+        
     }
-    void CalculateDMGToEnemy(EnemyPart enemy) {
+   public void CalculateDMGToEnemy(EnemyPart enemy) {
         int finalDmg = GetSetAttackDMG;
-        finalDmg+= Convert.ToInt32(  finalDmg * (_playerStats.GetSetStrengh*.1f));//- enemy.armor
-       enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
+        int StrengthAgainstArmour = _playerStats.GetSetStrength - enemy.armor;
+
+        if (StrengthAgainstArmour < 0)
+            StrengthAgainstArmour = 0;
+
+        // attack dmg of the weapon + attack dmg of the weapon * (playerStength% - enemy armour%)
+        finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
+        enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 }

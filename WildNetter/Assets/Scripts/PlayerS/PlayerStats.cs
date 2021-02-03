@@ -1,28 +1,42 @@
-﻿
-using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+
+public class PlayerStats : MonoSingleton<PlayerStats>
 {
-    static PlayerStats _instance;
- 
+
+
     [SerializeField] Stats playerStats;
     //Component References:
     //Script References:
     // Collections:
     //Getters & Setters:
 
-    private void Awake()
+ 
+    public override void Init()
     {
-        _instance = this;
+        playerStats.ResetStats();
+        playerStats.MaxStamina = staminaPerLevel * GetSetStaminaPoints;
+        currentStamina = playerStats.MaxStamina;
+
+
+
+        StopCoroutine(Regeneration());
+        StartCoroutine(Regeneration());
     }
 
-    public static PlayerStats GetInstance
+
+
+
+    #region Player Stats
+    public int playerLevel;
+    public int GetSetAbilityPoints
     {
-        get { return _instance; }
+        get { return playerStats.abilityPoints; }
+        set { playerStats.abilityPoints = value; }
     }
-    public int GetSetStrengh
+    public int GetSetStrength
     {
         get { return playerStats.strengh; }
         set { playerStats.strengh = value; }
@@ -37,41 +51,111 @@ public class PlayerStats : MonoBehaviour
         get { return playerStats.agility; }
         set { playerStats.agility = value; }
     }
-    public int GetSetCurrentEXP
+    public int GetSetStaminaPoints
+    {
+        get { return playerStats.stamina; }
+        set { playerStats.stamina = value; }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #endregion
+    #region EXP Manager
+
+
+    public int GetCurrentEXP
     {
         get { return playerStats.currentEXP; }
-        set { playerStats.currentEXP = value; }
     }
     public int GetSetExpToNextLevel
     {
         get { return playerStats.expToNextLevel; }
         set { playerStats.expToNextLevel = value; }
     }
-    public int GetSetAbilityPoints
+
+
+    public void GainEXP(int amount)
     {
-        get { return playerStats.abilityPoints; }
-        set { playerStats.abilityPoints = value; }
+        if (amount == 0)
+            return;
+
+        if (amount < 0)
+            amount *= -1;
+
+        playerStats.currentEXP += amount;
+
+        if (GetSetExpToNextLevel - GetCurrentEXP == 0)
+            LevelUp();
+        else if (GetSetExpToNextLevel - GetCurrentEXP <= 0)
+        {
+            LevelUp();
+            GainEXP(GetSetExpToNextLevel - GetCurrentEXP);
+        }
+    }
+
+
+    int EXPtoNextLevelModifier = 2;
+    void LevelUp()
+    {
+        playerLevel++;
+        playerStats.currentEXP = 0;
+        GetSetExpToNextLevel *= playerLevel / EXPtoNextLevelModifier;
+    }
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #region Health
+    public int GetSetMaxHealth
+    {
+        get { return playerStats.maxHealth; }
+        set { playerStats.maxHealth = value; }
     }
     public int GetSetCurrentHealth
     {
         get { return playerStats.currentHealth; }
         set
         {
-            Debug.Log("Current health is: " + playerStats.currentHealth);
+
+            if (playerStats.currentHealth + value >= playerStats.maxHealth) { 
+                playerStats.currentHealth = playerStats.maxHealth;
+                return;
+            }
+ 
             playerStats.currentHealth = value;
-            Debug.Log("Current health is: " + playerStats.currentHealth);
+ 
 
             if (playerStats.currentHealth <= 0)
-            {
+            { 
+                playerStats.currentHealth = 0;
                 gameObject.SetActive(false);
             }
 
         }
-    }
-    public int GetSetMaxHealth
-    {
-        get { return playerStats.maxHealth; }
-        set { playerStats.maxHealth = value; }
     }
     public int GetSetArmorPoints
     {
@@ -79,93 +163,193 @@ public class PlayerStats : MonoBehaviour
         set { playerStats.armorPoints = value; }
     }
 
-    #region Stamina 
-    [SerializeField] float defaultStaminaRegenerationSpeed = 4f;
-    [SerializeField] float currentStamina = 0;
-    float staminaQuater = 25f;
 
-    public float GetSetMaxStaminaBar {
-        get => playerStats.MaxStaminaBar;
-        set {
-            
-            if (value < playerStats.MaxStaminaBar)
-                return;
-
-            playerStats.MaxStaminaBar = value;
-        }
-    }
-    public int GetSetStaminaPoints
+    public void AddHealthAmount(int amount)
     {
-        get { return playerStats.stamina; }
-        set { playerStats.stamina = value; }
+        if (amount == 0)
+            return;
+
+
+        if (amount < 0)
+            amount *= 0;
+
+        GetSetCurrentHealth += amount;
     }
-    public float GetSetStaminaRegenerationSpeed {
+    public void ApplyDMGToPlayer(int amount)
+    {
+        if (amount == 0)
+            return;
+
+        if (amount < 0)
+            amount *= -1;
+
+
+
+
+
+        GetSetCurrentHealth -= DMGAfterArmour(amount);
+
+    }
+    public int DMGAfterArmour(int amount) { return amount; }//  < return the dmg after the armor protection 
+
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #region Stamina 
+    [SerializeField] float defaultStaminaRegeneration = 4f;
+    [SerializeField] float currentStamina = 0;
+    float staminaPerLevel = 25f;
+
+    public float GetSetMaxStamina
+    {
+        get => playerStats.MaxStamina;
         set
         {
-            defaultStaminaRegenerationSpeed = value;
-            if (defaultStaminaRegenerationSpeed < 0)
+
+            if (value < playerStats.MaxStamina)
+                return;
+
+            playerStats.MaxStamina = value;
+        }
+    }
+
+    public float GetSetStaminaRegenerationAmount
+    {
+        set
+        {
+            defaultStaminaRegeneration = value;
+            if (defaultStaminaRegeneration < 0)
             {
-                defaultStaminaRegenerationSpeed = 0;
+                defaultStaminaRegeneration = 0;
             }
 
         }
-        get => defaultStaminaRegenerationSpeed;
+        get => defaultStaminaRegeneration;
 
     }
-  public float GetSetStaminaBar
+    public float GetPlayerStamina
     {
         get { return currentStamina; }
 
-        set {
-
-
-            if (currentStamina + value <= 0)
-            {
-                currentStamina = 0;
-                return;
-            }
-            currentStamina = value;
-
-            if (currentStamina > playerStats.MaxStaminaBar)
-                currentStamina = playerStats.MaxStaminaBar;
-            
-
-        }
     }
-    #endregion
 
-  
-    //Functions:
-    public void Init()
+    public void AddStaminaAmount(float amount)
     {
-        playerStats.ResetStats();
-        playerStats.MaxStaminaBar = staminaQuater * GetSetStaminaPoints;
-       currentStamina = playerStats.MaxStaminaBar;
-        StopCoroutine(Regeneration());
-        StartCoroutine(Regeneration());
+
+        if (amount == 0)
+            return;
+
+
+        if (currentStamina + amount >= GetSetMaxStamina)
+        {
+            currentStamina = GetSetMaxStamina;
+            return;
+        }
+
+        else if (currentStamina + amount <= 0)
+        {
+            currentStamina = 0;
+            return;
+        }
+
+
+        currentStamina += amount;
+
     }
-
-
-    IEnumerator Regeneration() {
-
-        // check if some action happens
-        GetSetStaminaBar += GetSetStaminaRegenerationSpeed;
-        yield return new WaitForSeconds(1f);
-        StartCoroutine(Regeneration());
-    }
-    public void ApplyDMG(int amount) { }
-    //public int DMGAfterArmour(int amount) { return 1; }  < return the dmg after the armor protection 
-    public void HealPlayer(int amount) { }
 
     internal bool CheckEnoughStamina(float amount)
     {
-        if (amount<0)
-           amount *= -1;
-        
-        if (GetSetStaminaBar - amount < 0)
-           return false;
+        if (amount < 0)
+            amount *= -1;
 
-        GetSetStaminaBar -= amount;
+        if (GetPlayerStamina - amount < 0)
+            return false;
+
+        AddStaminaAmount(-amount);
         return true;
     }
+    #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #region Regeneration Params
+    int healthRegenerationAmount = 4;
+    [SerializeField] bool stopStaminaRegeneration = false;
+    [SerializeField] bool stopHealthRegeneration = false;
+    public bool SetStopHealthRegeneration
+    {
+        set
+        {
+            if (stopHealthRegeneration != value)
+                stopHealthRegeneration = value;
+
+        }
+    }
+    public bool SetStopStaminaRegeneration
+    {
+        set
+        {
+            if (stopStaminaRegeneration != value)
+                stopStaminaRegeneration = value;
+        }
+    }
+    public int GetSetHPRegenerationSpeed { set => healthRegenerationAmount = value; get => healthRegenerationAmount; }
+    IEnumerator Regeneration()
+    {
+
+        // check if some action happens
+        if (!stopStaminaRegeneration)
+            AddStaminaAmount(GetSetStaminaRegenerationAmount);
+
+        if (!stopHealthRegeneration)
+            AddHealthAmount(healthRegenerationAmount);
+
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(Regeneration());
+    }
+    #endregion
+
 }

@@ -2,44 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : MonoSingleton<EnemyManager>
 {
     public Habitat currentHabitat;
-    static EnemyManager _instance;
+  
     public EnemyList _enemyList;
     public EnemySpawner _enemySpawner;
     [Tooltip("insert % between 0-100")]
     [Range(0, 100)]
     [SerializeField] float wildSpawnChance;
-    
 
-
-
-    public static EnemyManager GetInstance()
+    public override void Init()
     {
-        if (_instance == null)
-        {
-            _instance = new EnemyManager();
+ WildSpawnChance();
+    }
 
-        }
-        return _instance;
-    }
-    private void Awake()
-    {
-        _instance = this;
 
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            
-        }
-    }
-    private void Start()
-    {
-        WildSpawnChance();
-    }
+
     
     
         

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGFX : MonoBehaviour
+public class PlayerGFX : MonoSingleton<PlayerGFX>
 {
-    static PlayerGFX _instance;
+  
     //Variables:
 
     //Components:
@@ -13,16 +13,13 @@ public class PlayerGFX : MonoBehaviour
     Dictionary<string, float> animationDurationDict = new Dictionary<string, float>();
 
     //Functions:
-    private void Awake()
-    {
-        _instance = this;
-    }
-    public void Init()
+
+    public override void Init()
     {
         UpdateAnimClipTimes();
 
     }
-    public static PlayerGFX GetInstance => _instance;
+  
     public void UpdateAnimClipTimes()
     {
         AnimationClip[] clips = _Animator.runtimeAnimatorController.animationClips;
@@ -45,10 +42,10 @@ public class PlayerGFX : MonoBehaviour
     IEnumerator AnimCoru()
     {
 
-        InputManager.GetInstance.GetSetCanPlayerRotate = false;
+        InputManager._Instance.GetSetCanPlayerRotate = false;
 
         yield return new WaitForSeconds(_Animator.GetCurrentAnimatorClipInfo(0).Length);
-        InputManager.GetInstance.GetSetCanPlayerRotate = true;
+        InputManager._Instance.GetSetCanPlayerRotate = true;
         Debug.Log("End");
     }
 }

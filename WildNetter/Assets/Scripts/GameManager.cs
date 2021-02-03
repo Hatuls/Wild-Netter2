@@ -1,56 +1,40 @@
 ﻿
-using UnityEngine;
-
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingleton<GameManager>
 {
-
-    //Script References
-    static GameManager _instance;
-
-    public GameManager GetInstance {
-        get
-        {
-
-        if (_instance == null)
-        {
-            _instance = new GameManager();
-        }
-        return _instance;
-        }
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerInventory.GetInstance.PrintInventory();
-        }
-    }
-   
+    public ISingleton[] singletons;
     private void Start()
     {
-              Init();
+        Init();
     }
 
-    private void Init()
+    public override void Init()
     {
+        singletons = new ISingleton[12] {
 
+            ItemFactory._Instance,
+            MyCamera._Instance,
+            PlayerManager._Instance,
+            PlayerStats._Instance,
+            TotemManager._Instance,
+            UiManager._Instance,
+            InputManager._Instance,
+            PlayerCombat._Instance,
+            PlayerMovement._Instance,
+            SoundManager._Instance,
+            EnemyManager._Instance,
+            EnemySpawner._Instance
+        };
 
-      var playersWeapon = ItemFactory.GetInstance().GenerateItem( 20000);
-        (playersWeapon as WeaponSO).PrintWeaponSO();
-        playersWeapon.Print();
-        Debug.ClearDeveloperConsole();
-        PlayerInventory.GetInstance.PrintInventory();
-        PlayerManager.GetInstance.Init(playersWeapon as WeaponSO);
-        TotemManager._instance.Init();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < singletons.Length; i++)
         {
-            var x = ItemFactory.GetInstance().GenerateItem(10000);
-            x.amount = 39;
-            PlayerInventory.GetInstance.AddToInventory(x);
+            if (singletons[i] != null)
+                singletons[i].Init();
+
+
         }
-
-        UiManager.GetInstance.Init();
-
-
     }
+
+
+
+    
 }

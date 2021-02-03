@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 public enum monsterParts {Tail,Leg,Groin,Chest, back, head }
 public class EnemyPart : MonoBehaviour
 {
@@ -10,11 +8,15 @@ public class EnemyPart : MonoBehaviour
     int brakeMultiplier=2;
 
 
-    
+
+    public bool creatOnAwake;
+    [SerializeField] ParticleSystem particleSystem;
+    [SerializeField] GameObject particleSystemGO;
 
     private Vulnerability vulnerability;
     [SerializeField] monsterParts thisPart;
-    int BreakPoints,armor,VuDamageMultiplayer;
+    public int armor;
+    int BreakPoints,VuDamageMultiplayer;
     private Collider collider;
     public bool isBroken;
 
@@ -25,6 +27,10 @@ public class EnemyPart : MonoBehaviour
         collider = GetComponent<Collider>();
         GetMonster();
         GetPartSettings();
+        if (creatOnAwake)
+        {
+            Instantiate(particleSystem, transform.position, Quaternion.identity);
+        }
     }
     public void GetDamage(int hitDamage,Vector3 hitPoint,Vulnerability weaponVulnerabilityEffect)
     {
@@ -71,5 +77,10 @@ public class EnemyPart : MonoBehaviour
         vulnerability = _Enemy._enemySheet.enemyVulnerability;
     }
 
+
+  
+
 }
+
+
 
