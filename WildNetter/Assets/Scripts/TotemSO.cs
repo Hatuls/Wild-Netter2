@@ -105,8 +105,8 @@ public class TotemOfHealing : TotemSO
     {
         if (CheckRange(totemLocation, targetLocation, range))
    {   
-            PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth += (int)((healingPrecentage * PlayerManager.GetInstance.GetPlayerStatsScript.GetSetMaxHealth) / 100);
-            Debug.Log("Healing Totem Effect:" + " " + PlayerManager.GetInstance.GetPlayerStatsScript.GetSetCurrentHealth);
+            PlayerStats._Instance.GetSetCurrentHealth += (int)((healingPrecentage * PlayerStats._Instance.GetSetMaxHealth) / 100);
+            Debug.Log("Healing Totem Effect:" + " " + PlayerStats._Instance.GetSetCurrentHealth);
         }
     }
     public override IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem)
@@ -137,7 +137,7 @@ public class TotemOfDetection : TotemSO
         if (SpawnDetectedEnemy(totemLocation) == true)
         {
             Collider[] objectCollider;
-            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
             foreach (Collider col in objectCollider)
             {
                 if (CheckRange(totemLocation, col.transform.position, range))
@@ -151,7 +151,7 @@ public class TotemOfDetection : TotemSO
     {
         //we will set how much time the monster take to spawn
         float randomTime = Random.Range(1, 10);
-        EnemyManager _enemyManager = EnemyManager.GetInstance();
+        EnemyManager _enemyManager = EnemyManager._Instance;
         if (Random.value > 0.5)
         {
            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0,2), (Size)Random.Range(0,2), Random.Range(1,100), spawnPoint, randomTime);
@@ -200,7 +200,7 @@ public class TotemOfPrey : TotemSO
     public override void DoEffect(Vector3 totemLocation, GameObject totem)
     {
         Collider[] objectCollider;
-        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._instance.enemiesLayer);
+        objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
         Debug.Log(objectCollider.Length);
         foreach (Collider col in objectCollider)
         {

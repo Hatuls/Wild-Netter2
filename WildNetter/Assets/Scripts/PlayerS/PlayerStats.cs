@@ -3,7 +3,7 @@ using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoSingleton<PlayerStats>
 {
 
 
@@ -13,16 +13,8 @@ public class PlayerStats : MonoBehaviour
     // Collections:
     //Getters & Setters:
 
-    private void Awake()
-    {
-        _instance = this;
-    }
-    static PlayerStats _instance;
-    public static PlayerStats GetInstance
-    {
-        get { return _instance; }
-    }
-    public void Init()
+ 
+    public override void Init()
     {
         playerStats.ResetStats();
         playerStats.MaxStamina = staminaPerLevel * GetSetStaminaPoints;

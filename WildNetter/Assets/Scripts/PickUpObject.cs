@@ -10,7 +10,7 @@ public class PickUpObject : MonoBehaviour
     public static PickUpObject SpawnItemInWorld(Item item, Vector3 pos , Transform PlayerTransform) {
         playerPos = PlayerTransform;
 
-     Transform t =   Instantiate(ItemFactory.GetInstance().itemPF, pos, Quaternion.identity, pickUpContianer);
+     Transform t =   Instantiate(ItemFactory._Instance.itemPF, pos, Quaternion.identity, pickUpContianer);
 
         PickUpObject pickUpObject = t.GetComponent<PickUpObject>();
 
@@ -26,7 +26,7 @@ public class PickUpObject : MonoBehaviour
     }
     private void SetSprite(Item item)
     { 
-        GetComponent<SpriteRenderer>().sprite =ItemFactory.GetInstance().GetItemSprite(item.ID); ;
+        GetComponent<SpriteRenderer>().sprite =ItemFactory._Instance.GetItemSprite(item.ID); ;
 
     }
 

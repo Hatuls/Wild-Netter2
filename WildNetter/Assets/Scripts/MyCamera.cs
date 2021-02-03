@@ -4,11 +4,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class MyCamera : MonoBehaviour
+public class MyCamera : MonoSingleton<MyCamera>
 {
-    //Script References:
-    public static MyCamera _Instance;
-
     //Parameters
     float cameraZoom;
     public const float offSetTimeToFollow = 2f;  // <- after adjustment change to private
@@ -29,14 +26,9 @@ public class MyCamera : MonoBehaviour
     public RaycastHit _HitInfo;
     [SerializeField] float currentZoom , maxZoomIn, maxZoomOut, zoomSpeed , zoomAmount;
     public float smoothTime;
-    private void Awake()
-    {
-        _Instance = this;
-        Init();
-    }
-
-    public void Init() {
-        playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
+ 
+    public override void Init() {
+        playerTransform = PlayerManager._Instance.GetPlayerTransform;
         _Ray = new Ray();
         _HitInfo = new RaycastHit();
       

@@ -358,7 +358,7 @@ public abstract class Enemy : MonoBehaviour
                 TargetFinder();
                 
         }
-        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory.GetInstance().GenerateItem(_enemySO.lootDropsID[dropLevel-1]), RetrieveDeathLocation(), TargetAquierd.transform);
+        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory._Instance.GenerateItem(_enemySO.lootDropsID[dropLevel-1]), RetrieveDeathLocation(), TargetAquierd.transform);
 
         Dropable.GetComponent<PickUpObject>().GetItem().amount = dropAmont;
 

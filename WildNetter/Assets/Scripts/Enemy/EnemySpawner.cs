@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
     public enum EnemyType {Hobogoblin,DireWolf,Deathdog };
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : MonoSingleton<EnemySpawner>
 {
     public Habitat currentHabitat;
     EnemyManager _enemyManager;
@@ -20,22 +20,17 @@ public class EnemySpawner : MonoBehaviour
 
 
 
-    private void Awake()
+    
+    public override void Init()
     {
-        _enemyManager = EnemyManager.GetInstance();
+        _enemyManager = EnemyManager._Instance;
         _enemyManager._enemySpawner = this;
 
 
 
 
         SetSpawner();
-    }
-    void Start()
-    {
-    
-
-
-
+       
     }
     public void Spawnmobs()
     {

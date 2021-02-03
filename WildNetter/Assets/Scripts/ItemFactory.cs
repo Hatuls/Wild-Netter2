@@ -1,21 +1,17 @@
 ﻿
 using UnityEngine;
 
-public class ItemFactory : MonoBehaviour
+public class ItemFactory : MonoSingleton<ItemFactory>
 {
-    private static ItemFactory _instance;
-    public Transform itemPF;
-    public Sprite[] itemSprites; 
 
-    public static ItemFactory GetInstance()
+    public Transform itemPF;
+    public Sprite[] itemSprites;
+
+    public override void Init()
     {
      
-        return _instance;
     }
-    private void Awake()
-    {
-        _instance = this;
-    }
+
     public Sprite GetItemSprite(int _ID)
     {
         // needed to add dictionary to search for those pictures

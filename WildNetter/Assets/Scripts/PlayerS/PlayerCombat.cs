@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 public enum AttackType {Melee , Ranged, Totem };
-public class PlayerCombat : MonoBehaviour
+public class PlayerCombat : MonoSingleton<PlayerCombat>
 {
     // Script References:
     WeaponSO _equippedWeaponSO;
@@ -14,8 +14,8 @@ public class PlayerCombat : MonoBehaviour
     
    [SerializeField] Collider _weaponCollider;
     [SerializeField]GameObject _weaponGO;
-    static PlayerCombat _instance;
-    public static PlayerCombat GetInstance { get { return _instance; } }
+   
+   
     // Variables:
     bool canAttack;
      int  attackDMG;
@@ -43,18 +43,15 @@ public class PlayerCombat : MonoBehaviour
         } 
    
     }
-    private void Awake()
-    {
-        _instance = this;
-    }
-    public void Init(WeaponSO startingWeapon)
+
+    public override void Init() //WeaponSO startingWeapon
     {
         ToggleWeaponCollider(false);
-        _playerStats = PlayerStats.GetInstance;
-        _playerMovement = PlayerMovement.GetInstance;
-        Debug.Log(startingWeapon.GetType());
+        _playerStats = PlayerStats._Instance;
+        _playerMovement = PlayerMovement._Instance;
+        
         canAttack = true;
-        GetSetWeaponSO = startingWeapon;
+        GetSetWeaponSO = ItemFactory._Instance.GenerateItem(20000) as WeaponSO; 
         ResetAttackAction();
         AttackAction += MeleeAttack;
     }
@@ -87,7 +84,7 @@ public class PlayerCombat : MonoBehaviour
         if (canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
             AttackAction?.Invoke();
-            PlayerGFX.GetInstance.SetAnimationTrigger("Attack");
+            PlayerGFX._Instance.SetAnimationTrigger("Attack");
         }
     }
      void MeleeAttack() {
@@ -102,8 +99,8 @@ public class PlayerCombat : MonoBehaviour
     }
      void DeployTotem(TotemType type)
     {
-        PlayerGFX.GetInstance.SetAnimationTrigger("PlaceTotem");
-        TotemManager._instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
+        PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
+        TotemManager._Instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
     }
     public void SetAttackType(AttackType type) {
     

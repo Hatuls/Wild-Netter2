@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoSingleton<PlayerMovement>
 {
     // Config parameters:
     [SerializeField] float walkingSpeed = 70f, runningSpeed = 120f, currentSpeed , maxSpeed =70f;
@@ -15,14 +15,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 direction;
     Vector3 rotationAngle;
     Vector3 input;
-    static PlayerMovement _instance;
-    public static PlayerMovement GetInstance
-    {
-        get
-        {
-            return _instance;
-        }
-    }
+   
     // Component References:
      Rigidbody _RB;
     public Rigidbody GetPlayerRB => _RB;
@@ -43,13 +36,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //functions
-    private void Awake()
+ 
+    public override void Init()
     {
-        _instance = this;
-    }
-    public void Init()
-    {
-        _inputManager = InputManager.GetInstance;
+        _inputManager = InputManager._Instance;
         _RB = GetComponent<Rigidbody>();
         input = Vector3.zero;
     }
@@ -131,13 +121,13 @@ public class PlayerMovement : MonoBehaviour
 
     internal void Dash(Vector3 dashInput)
     {
-        if (!PlayerStats.GetInstance.CheckEnoughStamina(dashAmount)) //
+        if (!PlayerStats._Instance.CheckEnoughStamina(dashAmount)) //
             return;
         Vector3 dashVector = dashInput.z * transform.forward +
                            dashInput.x * transform.right;
 
 
-        PlayerGFX.GetInstance.SetAnimationTrigger("DoDash");
+        PlayerGFX._Instance.SetAnimationTrigger("DoDash");
 
         if (dashVector.magnitude <= 0.1f)
             dashVector= transform.forward;
@@ -165,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
             _RB.AddForce(moveVector , ForceMode.Force);
 
 
-        PlayerGFX.GetInstance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
+        PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
   
     }
 

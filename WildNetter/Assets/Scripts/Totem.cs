@@ -62,7 +62,7 @@ public class Totem : MonoBehaviour
             case TotemType.healing:
                 if (playerTransform == null)
                 {
-                    playerTransform = PlayerManager.GetInstance.GetPlayerTransform;
+                    playerTransform = PlayerManager._Instance.GetPlayerTransform;
                 }
               //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
                 healVFX.Play();
