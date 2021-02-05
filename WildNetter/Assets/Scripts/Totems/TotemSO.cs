@@ -18,6 +18,10 @@ public abstract class TotemSO : Item
     public int currentZone;
     public Animator _animator;
 
+
+    public float? effectAmountPrecentage = null;
+    private int? minEffectAmount = null;
+    private int? maxEffectAmount = null;
     public TotemSO(string[] lootData, string[] totemData) : base(lootData)
     {
         if (totemData == null)
@@ -97,6 +101,8 @@ public abstract class TotemSO : Item
         {
             int.TryParse(totemData[5], out MinimumPlayerLevel);
         }
+        AssignEffectPrecentage(totemData[7]);
+        AssignEffectAmount(totemData[8]);
     }
 
     public virtual void DoEffect(Vector3 totemLocation, Vector3 targetLocation) { }
@@ -125,5 +131,80 @@ public abstract class TotemSO : Item
     public virtual void PlayAnimation(string animName)
     {
         _animator.Play(animName);
+    }
+
+    private void AssignEffectAmount(string csvRangeAmount)
+    {
+        if(csvRangeAmount == "")
+        {
+            return;
+        }
+
+        int minEffectAmountCache;
+
+        if (csvRangeAmount.Contains("-") == false)
+        {
+            if(int.TryParse(csvRangeAmount, out minEffectAmountCache))
+            {
+            minEffectAmount = minEffectAmountCache;
+            }
+            return;
+        }
+
+        if (csvRangeAmount.Contains("-"))
+        {
+            string[] cache = csvRangeAmount.Split(new char[] { '-' });
+
+            if (int.TryParse(cache[0], out minEffectAmountCache))
+            {
+                minEffectAmount = minEffectAmountCache;
+            }
+
+            int maxEffectAmountCache;
+
+            if(int.TryParse(cache[1], out maxEffectAmountCache))
+            {
+                maxEffectAmount = maxEffectAmountCache;
+            }
+        }
+    }
+
+    private void AssignEffectPrecentage(string csvPrecentage)
+    {
+        if (csvPrecentage != "")
+        {
+            float effectAmountPrecentageCache;
+            if (float.TryParse(csvPrecentage, out effectAmountPrecentageCache))
+            {
+                effectAmountPrecentage = effectAmountPrecentageCache;
+            }
+        }
+    }
+
+    public int GetTotemEffectAmount 
+    { 
+        get
+        {
+            if(maxEffectAmount == null && minEffectAmount == null)
+            {
+                return 0;
+            }
+
+            else if(maxEffectAmount == null)
+            {
+                return minEffectAmount.GetValueOrDefault();
+            }
+
+            else if(minEffectAmount == null)
+            {
+                return maxEffectAmount.GetValueOrDefault();
+            }
+
+            else
+            {
+                int amountCache = Random.Range(minEffectAmount.GetValueOrDefault(), maxEffectAmount.GetValueOrDefault() + 1);
+                return amountCache;
+            }
+        } 
     }
 }

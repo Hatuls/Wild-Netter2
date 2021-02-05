@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TotemOfStamina : TotemSO
 {
-    int staminaPrecentage = 20;
     public TotemOfStamina(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
         
@@ -14,7 +13,7 @@ public class TotemOfStamina : TotemSO
     {
         if (CheckRange(totemLocation, targetLocation, range))
         {
-            PlayerStats._Instance.AddStaminaAmount((int)((staminaPrecentage * PlayerStats._Instance.GetSetMaxStamina) / 100));
+            PlayerStats._Instance.AddStaminaAmount((int)((this.effectAmountPrecentage * PlayerStats._Instance.GetSetMaxStamina) / 100));
         }
     }
     public override IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem)

@@ -19,6 +19,7 @@ public class TotemOfShock : TotemSO
         {
             if (CheckRange(totemLocation, col.transform.position, range))
             {
+                //apply slow to enemy - from totemSO
                 if (enemyShocked.Contains(col.gameObject))
                 {
                     continue;
@@ -27,8 +28,14 @@ public class TotemOfShock : TotemSO
                 else
                 {
                     enemyShocked.Add(col.gameObject);
+                    //apply damage to enemy - GetTotemEffectAmount
                     col.transform.root.GetComponent<Enemy>().TotemEffect(TotemName.shock, totem);
                 }
+            }
+
+            else
+            {
+                //remove slow
             }
         }
     }

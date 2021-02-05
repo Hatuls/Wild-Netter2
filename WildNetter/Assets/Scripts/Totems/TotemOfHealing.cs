@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class TotemOfHealing : TotemSO
 {
-    int healingPrecentage = 5;
-
     public TotemOfHealing(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
-        //healingPrecentage = goes up per level
+
     }
 
     public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
     {
         if (CheckRange(totemLocation, targetLocation, range))
         {
-            PlayerStats._Instance.AddHealthAmount((int)((healingPrecentage * PlayerStats._Instance.GetSetMaxHealth) / 100));
+            PlayerStats._Instance.AddHealthAmount((int)((this.effectAmountPrecentage * PlayerStats._Instance.GetSetMaxHealth) / 100));
             Debug.Log("Healing Totem Effect:" + " " + PlayerStats._Instance.GetSetCurrentHealth);
         }
     }

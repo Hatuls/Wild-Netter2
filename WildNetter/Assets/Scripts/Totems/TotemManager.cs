@@ -35,8 +35,24 @@ public class TotemManager : MonoSingleton<TotemManager>
 
     public void DeployAtLocation(Vector3 location, TotemName type)
     {
-        Totem t = GetActiveTotem(location).GetComponent<Totem>();
-        t.Init(location, GetRelevantTotemData(type));
+        bool isDetection = false, isHealing = false, isPrey = false, isStamina = false, isShock = false;
+        bool canPlace = false;
+        if(type == TotemName.detection && !isDetection)
+        {
+            canPlace = true;
+            isDetection = true;
+        }
+
+
+        if (canPlace)
+        {
+            Totem t = GetActiveTotem(location).GetComponent<Totem>();
+            t.Init(location, GetRelevantTotemData(type));
+            canPlace = false;
+        }
+        //range between totems
+        //can't place the same totem twice
+        //totems in combat
     }
 
     public GameObject GetActiveTotem(Vector3 location)
