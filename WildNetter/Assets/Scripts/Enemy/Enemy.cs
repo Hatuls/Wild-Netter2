@@ -32,6 +32,8 @@ public abstract class Enemy : MonoBehaviour
     private int enemyID = 0;
     private int dropLevel;
     private int dropAmont;
+
+    private float slowAmount;
  
     bool isHeading = false;
     bool isKnocked = false;
@@ -350,6 +352,48 @@ public abstract class Enemy : MonoBehaviour
         rb.AddExplosionForce(force*20,new Vector3(Source.x, 0, Source.z), 4);
         
         
+    }
+    public void SlowSetter(float slowAmount,bool add)
+    {
+        if (add)
+        {
+            _enemySheet.movementSpeed += slowAmount;
+        }
+        else
+        {
+            _enemySheet.movementSpeed -= slowAmount;
+        }
+
+        SetSpeed();
+    }
+   public void SetSpeed()
+    {
+        agent.speed = _enemySheet.movementSpeed;
+    }
+    public void Debuffer(Debuff debuffType, int effectTime, int effectInPresentage)
+    {
+        StartCoroutine(DebuffHandler(debuffType, effectTime, effectInPresentage));
+         
+    }
+    IEnumerator DebuffHandler(Debuff debuffType, int effectTime, int effectInPresentage)
+    {
+        switch (debuffType)
+        {
+            case Debuff.Slow:
+                float slowInValue= (_enemySheet.movementSpeed / 100) *effectInPresentage;
+                SlowSetter(slowInValue, true);
+                yield return new WaitForSeconds(effectTime);
+                SlowSetter(slowInValue, false);
+
+                break;
+            
+        }
+       
+    }
+
+    public void FlatDamage(int Damage)
+    {
+        OnRecieveDmg(Damage);
     }
     public virtual void EnemyKilled() 
     { 

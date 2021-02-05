@@ -4,7 +4,8 @@ using UnityEngine;
 public enum AttackEffectType { None, Shock, Fire, Cold, Poison }
 public enum Vulnerability { None, Fire, Poison, Cold }
 public enum Habitat { Forest, Mountain, GrassLands, Deserts };
-public enum EnemyState { None, Idle, Chase ,Attack,lured};
+public enum EnemyState { None, Idle, Chase ,Attack,lured,Slow};
+public enum Debuff { Slow};
 
 public enum Size { Small,Medium,Large }
 public enum Difficulty {Easy,Hard,Challange }
@@ -15,6 +16,8 @@ public class EnemySheet
     
     public Dictionary<monsterParts, GameObject> EnemyParts = new Dictionary<monsterParts, GameObject>();
     public Dictionary<monsterParts, Collider> Colliders = new Dictionary<monsterParts, Collider>();
+
+
     
 
     [Header("rawData")]
@@ -76,3 +79,5 @@ public class EnemySheet
 
 
 }
+
+
