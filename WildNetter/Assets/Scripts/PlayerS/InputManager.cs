@@ -114,14 +114,12 @@ public class InputManager : MonoSingleton<InputManager>
 
 
         if (Input.GetButtonDown("Sprint"))
-        {
             _playerMovement.Sprint(true);
-        }
+        
 
         if (Input.GetButtonUp("Sprint"))
-        {
             _playerMovement.Sprint(false);
-        }
+        
 
        
     }

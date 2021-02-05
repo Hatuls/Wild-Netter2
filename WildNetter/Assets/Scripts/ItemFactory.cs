@@ -59,6 +59,10 @@ public class ItemFactory : MonoSingleton<ItemFactory>
                     return new TotemOfHealing(itemData, totemData);
                 case 3:
                     return new TotemOfPrey(itemData, totemData);
+                case 4:
+                    return new TotemOfStamina(itemData, totemData);
+                case 5:
+                    return new TotemOfShock(itemData, totemData);
                 default:
                     break;
             }

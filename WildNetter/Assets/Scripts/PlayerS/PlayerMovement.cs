@@ -15,7 +15,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     Vector3 direction;
     Vector3 rotationAngle;
     Vector3 input;
-   
+    public bool GetIsRunning => isRunning;
     // Component References:
      Rigidbody _RB;
     public Rigidbody GetPlayerRB => _RB;
@@ -101,8 +101,10 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     public void Sprint(bool toSprint) {
 
 
-        if (toSprint && !isRunning)
+        if (toSprint && !isRunning )
         {
+          
+
             isRunning = true;
             maxSpeed = runningSpeed;
 
@@ -112,10 +114,13 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
         if (!toSprint)
         {
+            
             isRunning = false;
             maxSpeed = walkingSpeed;
             forceLimit = 6f;
         }
+
+        
 
     }
 
@@ -123,18 +128,18 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     {
         if (!PlayerStats._Instance.CheckEnoughStamina(dashAmount)) //
             return;
-        Vector3 dashVector = dashInput.z * transform.forward +
-                           dashInput.x * transform.right;
+        //Vector3 dashVector = dashInput.z * transform.forward +
+        //                   dashInput.x * transform.right;
 
 
         PlayerGFX._Instance.SetAnimationTrigger("DoDash");
 
-        if (dashVector.magnitude <= 0.1f)
-            dashVector= transform.forward;
+        // if (dashVector.magnitude <= 0.1f)
+        Vector3 dashVector = -transform.forward;
         
 
-        RotateTowardsDirection(dashVector);
-        float dashStrength = 25;
+        //RotateTowardsDirection(dashVector);
+        float dashStrength = 30;
         dashVector *= dashStrength;
 
         _RB.AddForce(dashVector, ForceMode.Impulse);
@@ -156,16 +161,35 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
 
         PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
-  
+
+
+
+
+
+
+
+        if (GetIsRunning)
+            PlayerStats._Instance.AddStaminaAmount(-10f * Time.deltaTime);
+        if (!PlayerStats._Instance.CheckEnoughStamina(-5f))
+            Sprint(false);
+        
     }
 
     IEnumerator ApplyDash()
     {
-        _inputManager.GetSetCanPlayerMove = false;
-        _inputManager.GetSetCanPlayerRotate = false;
-        yield return new WaitForSeconds(1f);
-        _inputManager.GetSetCanPlayerRotate = true;
-        _inputManager.GetSetCanPlayerMove = true;
+        GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+
+        FreezeRecievingRotationAndMovement(false);
+           yield return new WaitForSeconds(.9f);
+        FreezeRecievingRotationAndMovement(true);
+        
     }
 
+
+
+    void FreezeRecievingRotationAndMovement(bool toFreeze) {
+
+        _inputManager.GetSetCanPlayerRotate = toFreeze;
+        _inputManager.GetSetCanPlayerMove = toFreeze;
+    }
 }
