@@ -29,12 +29,7 @@ public class GameManager : MonoSingleton<GameManager>
         {
             if (singletons[i] != null)
                 singletons[i].Init();
-
-
         }
     }
 
-
-
-    
 }

@@ -14,7 +14,7 @@ public class EnemyManager : MonoSingleton<EnemyManager>
 
     public override void Init()
     {
- WildSpawnChance();
+        WildSpawnChance();
     }
 
 
