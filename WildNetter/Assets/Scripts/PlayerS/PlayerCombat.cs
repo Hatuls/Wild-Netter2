@@ -168,6 +168,11 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
 
         // attack dmg of the weapon + attack dmg of the weapon * (playerStength% - enemy armour%)
         finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
+
+
+        TextPopUp.Create(TextType.NormalDMG, enemy.transform.position, finalDmg);
+
+
         enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 }

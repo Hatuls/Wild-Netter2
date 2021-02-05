@@ -18,7 +18,7 @@ TagManager:
   - 'Assets '
   - Player
   - PlayersWeapon
-  - 
+  - TextTop
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: PlayersWeapon
     uniqueID: 2533774099
+    locked: 0
+  - name: TextTop
+    uniqueID: 1919791533
     locked: 0
