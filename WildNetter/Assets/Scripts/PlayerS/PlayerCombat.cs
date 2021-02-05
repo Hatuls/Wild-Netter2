@@ -33,7 +33,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         }
 
     }
-    public int GetSetAttackDMG { 
+    public int GetAttackDMG { 
         get {
             System.Random rnd = new System.Random();
             
@@ -59,17 +59,22 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            DeployTotem(TotemType.detection);
+            DeployTotem(TotemName.detection);
             StartCoroutine(FreezeMovement(1f));
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DeployTotem(TotemType.healing);
+            DeployTotem(TotemName.healing);
             StartCoroutine(FreezeMovement(1f));
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            DeployTotem(TotemType.prey);
+            DeployTotem(TotemName.prey);
+            StartCoroutine(FreezeMovement(1f));
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            DeployTotem(TotemName.stamina);
             StartCoroutine(FreezeMovement(1f));
         }
     }
@@ -97,7 +102,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         Debug.Log("Range AttacK");
 
     }
-     void DeployTotem(TotemType type)
+     void DeployTotem(TotemName type)
     {
         PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
         TotemManager._Instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
@@ -160,7 +165,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         
     }
    public void CalculateDMGToEnemy(EnemyPart enemy) {
-        int finalDmg = GetSetAttackDMG;
+        int finalDmg = GetAttackDMG;
         int StrengthAgainstArmour = _playerStats.GetSetStrength - enemy.armor;
 
         if (StrengthAgainstArmour < 0)
