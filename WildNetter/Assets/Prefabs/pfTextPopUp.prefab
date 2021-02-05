@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 558329804470344228}
   - component: {fileID: 3368396726677496255}
   m_Layer: 13
-  m_Name: pfDamagePopUp
+  m_Name: pfTextPopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089610813193351101}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 25.245823}
+  m_LocalPosition: {x: 0, y: 0, z: 20.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 17.623215, w: 3.6806722}
+  m_margin: {x: 8.928162, y: 0, z: 8.988571, w: 3.6806722}
   m_textInfo:
     textComponent: {fileID: 558329804470344228}
     characterCount: 3

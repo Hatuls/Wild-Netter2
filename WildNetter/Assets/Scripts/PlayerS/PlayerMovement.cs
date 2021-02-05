@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 
@@ -10,7 +9,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     float dashAmount = 20f;
     float forceLimit = 5f;
     InputManager _inputManager; 
-    bool isRunning;
+   [SerializeField] bool isRunning , canDash;
     [SerializeField] float rotaionSpeed;
     Vector3 direction;
     Vector3 rotationAngle;
@@ -34,7 +33,13 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
         set { currentSpeed = value; }
     }
-
+    public bool GetSetCanDash { set
+        {
+            if (value != canDash)
+                canDash = value;
+        }
+        get => canDash;
+    }
     //functions
  
     public override void Init()
@@ -42,6 +47,8 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         _inputManager = InputManager._Instance;
         _RB = GetComponent<Rigidbody>();
         input = Vector3.zero;
+        canDash = true;
+        isRunning = false;
     }
     private void FixedUpdate()
     {
@@ -126,12 +133,16 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
     internal void Dash(Vector3 dashInput)
     {
-        if (!PlayerStats._Instance.CheckEnoughStamina(dashAmount)) //
+        if (!PlayerStats._Instance.CheckEnoughStamina(dashAmount)||!canDash)
             return;
+
+
+
         //Vector3 dashVector = dashInput.z * transform.forward +
         //                   dashInput.x * transform.right;
 
-
+        
+        GetSetCanDash = false;
         PlayerGFX._Instance.SetAnimationTrigger("DoDash");
 
         // if (dashVector.magnitude <= 0.1f)
@@ -143,8 +154,8 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         dashVector *= dashStrength;
 
         _RB.AddForce(dashVector, ForceMode.Impulse);
-        StopCoroutine(ApplyDash());
-        StartCoroutine(ApplyDash());
+
+        StartDashCooldown(1f);
     }
     private void MovePlayer()
     {
@@ -175,21 +186,30 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         
     }
 
-    IEnumerator ApplyDash()
-    {
-        GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+ 
 
-        FreezeRecievingRotationAndMovement(false);
-           yield return new WaitForSeconds(.9f);
-        FreezeRecievingRotationAndMovement(true);
+    bool flag;
+    public void StartDashCooldown(float amount) {
+        if (flag == false)
+        {
+            flag = true;
+StopCoroutine(DashCooldown(amount));
+        StartCoroutine(DashCooldown(amount));
+
+        }
         
+    
     }
-
-
-
-    void FreezeRecievingRotationAndMovement(bool toFreeze) {
-
-        _inputManager.GetSetCanPlayerRotate = toFreeze;
-        _inputManager.GetSetCanPlayerMove = toFreeze;
+    IEnumerator DashCooldown(float amount) {
+        _inputManager.SetFreelyMoveAndRotate(false);
+        GetSetCanDash = false;
+        _inputManager.FreezeRB(false);
+        yield return new WaitForSeconds(amount);
+        
+        InputManager._Instance.FreezeRB(false);
+        _inputManager.SetFreelyMoveAndRotate(true);
+        flag = false;
+        GetSetCanDash = true;
     }
+ 
 }
