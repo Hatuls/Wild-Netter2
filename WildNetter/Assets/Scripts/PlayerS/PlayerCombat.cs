@@ -153,7 +153,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
        
         canAttack = false;
         ToggleWeaponCollider(true);
- InputManager._Instance.SetFreelyMoveAndRotate(false);
+        InputManager._Instance.SetFreelyMoveAndRotate(false);
         InputManager._Instance.FreezeRB(true);
            yield return new WaitForSeconds(.3f);
        

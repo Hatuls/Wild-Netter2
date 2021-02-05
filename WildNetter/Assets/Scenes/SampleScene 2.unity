@@ -2069,6 +2069,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6750406175513938504, guid: 59c2071977254d74484087f48d326289,
+        type: 3}
+      propertyPath: m_StoppingDistance
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59c2071977254d74484087f48d326289, type: 3}
 --- !u!1 &762761704 stripped
@@ -8831,12 +8836,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Singleton
       objectReference: {fileID: 0}
-    - target: {fileID: 4677179125194629511, guid: df0a0d7c6f6cf1f47a694d51057b3a63,
-        type: 3}
-      propertyPath: itemPF
-      value: 
-      objectReference: {fileID: 1411461080229871741, guid: d26f9447f705a984cab9254b0f7c5c9f,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0a0d7c6f6cf1f47a694d51057b3a63, type: 3}
 --- !u!1001 &5297514507621517583

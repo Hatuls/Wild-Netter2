@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TotemOfShock : TotemSO
 {
+   
     private List<GameObject> enemyShocked = new List<GameObject>();
     public TotemOfShock(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
@@ -22,13 +23,14 @@ public class TotemOfShock : TotemSO
                 //apply slow to enemy - from totemSO
                 if (enemyShocked.Contains(col.gameObject))
                 {
+
                     continue;
                 }
-
                 else
                 {
-                    enemyShocked.Add(col.gameObject);
+
                     //apply damage to enemy - GetTotemEffectAmount
+
                     col.transform.root.GetComponent<Enemy>().TotemEffect(TotemName.shock, totem);
                 }
             }
