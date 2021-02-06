@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - AreaTriggers
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - Player
   - PlayersWeapon
   - TextTop
-  - 
+  - TriggerArea
   - 
   - 
   - 
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: TextTop
     uniqueID: 1919791533
+    locked: 0
+  - name: TriggerArea
+    uniqueID: 2284314257
     locked: 0

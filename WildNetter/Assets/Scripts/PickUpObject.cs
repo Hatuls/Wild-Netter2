@@ -14,7 +14,7 @@ public class PickUpObject : MonoBehaviour
 
         PickUpObject pickUpObject = t.GetComponent<PickUpObject>();
 
-      pickUpObject.GetComponent<Rigidbody>().AddForce(ShootItemInRandomDirection());
+      pickUpObject.GetComponent<Rigidbody>().AddForce(ShootItemInRandomDirection(),ForceMode.Impulse);
 
         pickUpObject.SetItem(item);
 
@@ -32,14 +32,14 @@ public class PickUpObject : MonoBehaviour
 
 
   static  Vector3 ShootItemInRandomDirection() {
-        float Amount= 5f;
+        float Amount= 10;
         float x, y, z;
-        x = Random.Range(0, 1);
-        y = Random.Range(0, 1);
-        z = Random.Range(0, 1);
-  
+        x = Random.Range(-1f, 1f);
+        y = Random.Range(0f, 1f);
+        z = Random.Range(-1f, 1f);
 
-    return new Vector3(x, y, z).normalized * Amount; 
+
+        return (new Vector3(x, y, z).normalized * Amount) ; 
     }
     public void SetItem(Item item) { 
         this.item = item;

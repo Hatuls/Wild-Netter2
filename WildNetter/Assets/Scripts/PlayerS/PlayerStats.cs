@@ -378,7 +378,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         if (!stopStaminaRegeneration)
             StaminaRegeneration();
 
-        if (!stopHealthRegeneration)
+        if (stopHealthRegeneration)
             HealthRegeneration();
 
         yield return new WaitForSeconds(1f);

@@ -23,18 +23,17 @@ public class TotemOfShock : TotemSO
                 //apply slow to enemy - from totemSO
                 if (enemyShocked.Contains(col.gameObject))
                 {
-
+                   // col.transform.root.GetComponent<Enemy>().SlowSetter(Debuff.Slow)
                     continue;
                 }
                 else
                 {
 
-                    //apply damage to enemy - GetTotemEffectAmount
-
+                  
                     col.transform.root.GetComponent<Enemy>().TotemEffect(TotemName.shock, totem);
+                    col.transform.root.GetComponent<Enemy>().FlatDamage(this.GetTotemEffectAmount);
                 }
             }
-
             else
             {
                 //remove slow
