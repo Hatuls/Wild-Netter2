@@ -17,6 +17,10 @@ public class TotemManager : MonoSingleton<TotemManager>
     public LayerMask enemiesLayer;
     public Transform totemContainer;
 
+    //bool
+    public bool canPlace = false;
+    public bool isDetection, isHealing, isPrey, isStamina, isShock;
+
 
     public List<Transform> ActiveTotem;
     public TotemSO[] AllGameTotems = new TotemSO[5];
@@ -35,20 +39,12 @@ public class TotemManager : MonoSingleton<TotemManager>
 
     public void DeployAtLocation(Vector3 location, TotemName type)
     {
-        bool isDetection = false, isHealing = false, isPrey = false, isStamina = false, isShock = false;
-        bool canPlace = false;
-        if(type == TotemName.detection && !isDetection)
-        {
-            canPlace = true;
-            isDetection = true;
-        }
-
-
+        CanPlaceATotem(type);
         if (canPlace)
         {
             Totem t = GetActiveTotem(location).GetComponent<Totem>();
             t.Init(location, GetRelevantTotemData(type));
-            canPlace = false;
+            SetBoolToFalse(canPlace);
         }
         //range between totems
         //can't place the same totem twice
@@ -97,5 +93,60 @@ public class TotemManager : MonoSingleton<TotemManager>
         {
             AllGameTotems[i] = ItemFactory._Instance.GenerateItem(startOfTotemID + i) as TotemSO;
         }
+    }
+
+    private void CanPlaceATotem(TotemName type)
+    {
+        switch (type)
+        {
+            case TotemName.detection:
+                if (!isDetection)
+                {
+                    canPlace = true;
+                    isDetection = true;
+                }
+                
+                break;
+
+            case TotemName.healing:
+                if (!isHealing)
+                {
+                    isHealing = true;
+                    canPlace = true;
+                }
+                break;
+
+            case TotemName.prey:
+                if (!isPrey)
+                {
+                    isPrey = true;
+                    canPlace = true;
+                }
+                break;
+
+            case TotemName.stamina:
+                if (!isStamina)
+                {
+                    isStamina = true;
+                    canPlace = true;
+                }
+                break;
+
+            case TotemName.shock:
+                if (!isShock)
+                {
+                    isShock = true;
+                    canPlace = true;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public bool SetBoolToFalse(bool toChange)
+    {
+        toChange = false;
+        return toChange;
     }
 }
