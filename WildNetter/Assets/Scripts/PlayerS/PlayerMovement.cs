@@ -14,6 +14,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     Vector3 direction;
     Vector3 rotationAngle;
     Vector3 input;
+    [SerializeField] Transform HeadTransform;
     public bool GetIsRunning => isRunning;
     // Component References:
      Rigidbody _RB;
@@ -63,24 +64,36 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     
     } 
     public void RotatePlayer(Vector3 mousePos , bool mouseOnPlayer)
-    {
+ {
         
 
+       
         if (!mouseOnPlayer )
         {
         rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
-         transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
+        transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
         }
-        
 
-        
-       // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
+        // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
 
     }
-
+    void HeadRotation(Vector3 rotation,bool toRotate) {
+        if (toRotate)
+        {
+            HeadTransform.rotation = Quaternion.LookRotation(rotation.normalized);
+        }
+        else
+        {
+            HeadTransform.rotation = Quaternion.LookRotation(transform.rotation * Vector3.one);
+        }
+        
+    }
     public void RotateTowardsDirection(Vector3 mousePos)
     {
         rotationAngle = new Vector3(mousePos.x, 0, mousePos.z );
+
+
+       // HeadRotation(rotationAngle, true);
         transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
     }
 

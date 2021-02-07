@@ -162,6 +162,8 @@ MonoBehaviour:
   runningSpeed: 150
   currentSpeed: 1
   maxSpeed: 70
+  isRunning: 0
+  canDash: 0
   rotaionSpeed: 90
 --- !u!114 &1924940592
 MonoBehaviour:
@@ -249,9 +251,11 @@ MonoBehaviour:
     currentHealth: 10
     maxHealth: 125
     armorPoints: 0
-    MaxStaminaBar: 100
-  defaultStaminaRegenerationSpeed: 4
+    MaxStamina: 0
+  playerLevel: 0
   currentStamina: 0
+  stopStaminaRegeneration: 0
+  stopHealthRegeneration: 1
 --- !u!114 &126790567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e306170973c79414d9b2e38b94fe7801, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canPlayerMove: 1
+  isPlayerRotateAble: 1
 --- !u!114 &126790575
 MonoBehaviour:
   m_ObjectHideFlags: 0
