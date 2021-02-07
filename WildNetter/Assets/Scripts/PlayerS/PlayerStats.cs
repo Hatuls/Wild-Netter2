@@ -1,8 +1,6 @@
-﻿using Boo.Lang;
-using System;
+﻿
 using System.Collections;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -152,6 +150,14 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         get { return playerStats.currentHealth; }
         set
         {
+            if (value > playerStats.currentHealth)
+                TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value));
+            
+            else
+                TextPopUp.Create(TextType.NormalDMG, transform.root.position, (int)(playerStats.currentHealth - value));
+
+            
+
 
             if (playerStats.currentHealth + value >= playerStats.maxHealth) { 
                 playerStats.currentHealth = playerStats.maxHealth;
@@ -251,7 +257,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
         if (amount == 0)
             return;
-        Debug.Log("currentStamina " + currentStamina);
+
 
         if (currentStamina + amount >= GetSetMaxStamina)
         {
@@ -313,7 +319,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
     List<Buffs> RegenerationBuffs ;
 
     [SerializeField] bool stopStaminaRegeneration = false;
-    [SerializeField] bool stopHealthRegeneration = false;
+    [SerializeField] bool stopHealthRegeneration = true;
     public bool SetStopHealthRegeneration
     {
         set

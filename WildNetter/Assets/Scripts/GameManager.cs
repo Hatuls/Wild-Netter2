@@ -9,7 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public override void Init()
     {
-        singletons = new ISingleton[12] {
+        singletons = new ISingleton[13] {
 
             ItemFactory._Instance,
             MyCamera._Instance,
@@ -22,7 +22,8 @@ public class GameManager : MonoSingleton<GameManager>
             PlayerMovement._Instance,
             SoundManager._Instance,
             EnemyManager._Instance,
-            EnemySpawner._Instance
+            EnemySpawner._Instance,
+            TextPopUpHandler._Instance
         };
 
         for (int i = 0; i < singletons.Length; i++)

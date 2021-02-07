@@ -42,10 +42,8 @@ public class PlayerGFX : MonoSingleton<PlayerGFX>
     IEnumerator AnimCoru()
     {
 
-        InputManager._Instance.GetSetCanPlayerRotate = false;
-
         yield return new WaitForSeconds(_Animator.GetCurrentAnimatorClipInfo(0).Length);
-        InputManager._Instance.GetSetCanPlayerRotate = true;
+     
         Debug.Log("End");
     }
 }

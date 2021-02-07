@@ -38,8 +38,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     }
     public void SpawnBeast(int Rank,Vector3 WorldPosition)
     {
-       
-        
+      
 
         if (CheckIfOnView(WorldPosition))
         {
@@ -61,6 +60,8 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     }
     public bool CheckIfOnView(Vector3 position)
     {
+       
+ 
         Vector3 screenPoint = mainCam.WorldToViewportPoint(position);
 
         return screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
@@ -76,9 +77,9 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     }
 
 
-
     private void FixedUpdate()
     {
+      
         CheckQueuedEnemies();
     }
     public void CheckQueuedEnemies()

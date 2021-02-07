@@ -2,15 +2,15 @@
 using UnityEngine;
 public class InputManager : MonoSingleton<InputManager>
 {
-   
+
     PlayerCombat _playerCombat;
     PlayerMovement _playerMovement;
     float playerRadius = 1.5f;
     Vector3 inputVector;
     Vector3 mousePos;
-    private  bool canPlayerMove = true;
-    private  bool isPlayerRotateAble = true;
-    public  bool GetSetCanPlayerRotate
+   [SerializeField] private bool canPlayerMove = true;
+    [SerializeField] private bool isPlayerRotateAble = true;
+    public bool GetSetCanPlayerRotate
     {
         get => isPlayerRotateAble;
         set
@@ -21,7 +21,7 @@ public class InputManager : MonoSingleton<InputManager>
             }
         }
     }
-    public  bool GetSetCanPlayerMove
+    public bool GetSetCanPlayerMove
     {
         set
         {
@@ -37,9 +37,9 @@ public class InputManager : MonoSingleton<InputManager>
 
 
     }
-  
+
     public override void Init() {
-        
+
         _playerMovement = PlayerMovement._Instance;
         _playerCombat = PlayerCombat._Instance;
     }
@@ -65,11 +65,11 @@ public class InputManager : MonoSingleton<InputManager>
             _playerCombat.Attack();
 
 
-     
+
     }
 
 
-     void SetAttackType()
+    void SetAttackType()
     {
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -85,14 +85,14 @@ public class InputManager : MonoSingleton<InputManager>
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             _playerCombat.SetAttackType(AttackType.Totem);
-          
+
         }
     }
     void MouseInput()
     {
         if (!GetSetCanPlayerRotate)
             return;
-        
+
         mousePos = new Vector3(MyCamera._Instance._HitInfo.point.x, 0, MyCamera._Instance._HitInfo.point.z);
 
         _playerMovement.RotatePlayer(mousePos, CheckIfMouseIsOnPlayer());
@@ -105,25 +105,40 @@ public class InputManager : MonoSingleton<InputManager>
 
         if (Input.GetKeyDown(KeyCode.Space))
             _playerMovement.Dash(inputVector);
-        
+
 
         if (!GetSetCanPlayerRotate)
-           return;
-        
+            return;
+
         _playerMovement.SetInput = inputVector;
 
 
         if (Input.GetButtonDown("Sprint"))
             _playerMovement.Sprint(true);
-        
+
 
         if (Input.GetButtonUp("Sprint"))
             _playerMovement.Sprint(false);
-        
 
-       
+
+
     }
+    public void FreezeRB(bool ToFreeAllOnRB) { 
 
-  
+            if (ToFreeAllOnRB)
+                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
+            else
+                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+        
+    }
+    public void SetFreelyMoveAndRotate(bool CanFreelyMove)
+    {
+
+            GetSetCanPlayerRotate = CanFreelyMove;
+
+      
+            GetSetCanPlayerMove = CanFreelyMove;
+
+    }
 
 }

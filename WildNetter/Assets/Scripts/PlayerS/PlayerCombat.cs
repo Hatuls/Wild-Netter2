@@ -60,22 +60,22 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         if (Input.GetKeyDown(KeyCode.E))
         {
             DeployTotem(TotemName.detection);
-            StartCoroutine(FreezeMovement(1f));
+        
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             DeployTotem(TotemName.healing);
-            StartCoroutine(FreezeMovement(1f));
+           
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
             DeployTotem(TotemName.prey);
-            StartCoroutine(FreezeMovement(1f));
+      
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
             DeployTotem(TotemName.stamina);
-            StartCoroutine(FreezeMovement(1f));
+            
         }
     }
 
@@ -94,18 +94,27 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
     }
      void MeleeAttack() {
         Debug.Log("SWord AttacK");
-        StartCoroutine(MeleeAttackCoroutine());
+        if (isNotInCooldown) {
+            StartCoroutine(MeleeAttackCoroutine());
+        }
     // apply GFX Anim, sound
     }   
      void RangeAttack() {
-      
-        Debug.Log("Range AttacK");
+        if (isNotInCooldown)
+        {
+            Debug.Log("Range AttacK");
+            StartCoroutine(FreezeMovement(1f));
+        }
 
     }
-     void DeployTotem(TotemName type)
+    void DeployTotem(TotemName type)
     {
-        PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
-        TotemManager._Instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection()*2f), type);
+        if (isNotInCooldown)
+        {
+            PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
+            TotemManager._Instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), type);
+            StartCoroutine(FreezeMovement(1f));
+        }
     }
     public void SetAttackType(AttackType type) {
     
@@ -144,15 +153,36 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
        
         canAttack = false;
         ToggleWeaponCollider(true);
-        yield return FreezeMovement(1f);
+ InputManager._Instance.SetFreelyMoveAndRotate(false);
+        InputManager._Instance.FreezeRB(true);
+           yield return new WaitForSeconds(.3f);
+       
+        _playerMovement.GetSetCanDash = false;
+        yield return new WaitForSeconds(1f);
+        _playerMovement.GetSetCanDash = true;
+
+        InputManager._Instance.SetFreelyMoveAndRotate(true) ;
+            InputManager._Instance.FreezeRB(false);
+        
+
         ToggleWeaponCollider(false);
         canAttack = true;
-      
+    
+
     }
+
+    bool isNotInCooldown = true;
     IEnumerator FreezeMovement(float duration) {
-        _playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
+        isNotInCooldown = false;
+
+        InputManager._Instance.FreezeRB(true);
+            InputManager._Instance.SetFreelyMoveAndRotate(false);
+     
+
         yield return new WaitForSeconds(duration);
-        _playerMovement.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+        InputManager._Instance.FreezeRB(false);
+        InputManager._Instance.SetFreelyMoveAndRotate(true);
+        isNotInCooldown = true;
     }
     private void OnDestroy()
     {
@@ -173,6 +203,12 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
 
         // attack dmg of the weapon + attack dmg of the weapon * (playerStength% - enemy armour%)
         finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
+
+        TextPopUp.Create(TextType.NormalDMG, enemy.transform.root.position, finalDmg);
+
         enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
+
+
+  
 }
