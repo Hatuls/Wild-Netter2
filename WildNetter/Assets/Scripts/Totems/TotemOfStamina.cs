@@ -28,11 +28,16 @@ public class TotemOfStamina : TotemSO
                 return;
 
             isCurrentlyInRange = value;
-
-            if (isCurrentlyInRange)
-                PlayerStats._Instance.AddBuffRegeneration(buff);
+            if (this.isCurrentlyInRange)
+            {
+                PlayerStats._Instance.AddBuffRegeneration(this.buff);
+                buff.SetGetBuffActive = true;
+            }
             else
-                PlayerStats._Instance.RemoveBuffRegeneration(buff);
+            {
+                buff.SetGetBuffActive = false;
+                PlayerStats._Instance.RemoveBuffRegeneration(this.buff);
+            }
         }
     }
 

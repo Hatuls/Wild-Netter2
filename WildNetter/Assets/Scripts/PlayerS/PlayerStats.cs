@@ -502,7 +502,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
             }
         }
 
-
+        Debug.Log("!" +totalAmount);
         AddStaminaAmount(totalAmount);
     }
     private void HealthRegeneration() {
