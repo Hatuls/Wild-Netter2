@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using System.Net.Http.Headers;
 using UnityEngine;
 public class InputManager : MonoSingleton<InputManager>
@@ -220,5 +221,15 @@ public class InputManager : MonoSingleton<InputManager>
             GetSetCanPlayerMove = CanFreelyMove;
 
     }
-
+    IEnumerator FreezeCoroutine(float time) {
+        FreezeRB(true);
+        SetFreelyMoveAndRotate(false);
+        yield return new WaitForSeconds(time);
+        SetFreelyMoveAndRotate(true);
+        FreezeRB(false);
+    }
+    public void FreezeCoroutineForShotPeriodOfTime(float time) {
+        StopAllCoroutines();
+        StartCoroutine(FreezeCoroutine(time));
+    }
 }

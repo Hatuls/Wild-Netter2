@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 using UnityEngine.SceneManagement;
 public enum PlayPhase {TotemCheckPhase, PlanningPhase, BattlePhase };
 public class SceneHandler : MonoSingleton<SceneHandler>
@@ -63,7 +64,10 @@ public class SceneHandler : MonoSingleton<SceneHandler>
             case TriggerAreaEffect.GoToScene:
                 Debug.Log("GoToNext Scene!!!");
                 //LoadScene(theTriggered.goToScene);
-
+                PlayerMovement._Instance.GetSetPlayerSpeed = 0;
+          
+                PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
+                SpawnPlayer(theTriggered.gameObject.transform.position);
                 break;
             default:
                 break;
@@ -73,9 +77,11 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     }
 
     void SpawnPlayer(Vector3 position) {
-        PlayerManager._Instance.GetPlayerTransform.position = position;
-        PlayerMovement._Instance.RotateTowardsDirection(panel.position);
     
+       
+        PlayerManager._Instance.GetPlayerTransform.position = position;
+        InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
+ 
     }
 
 
