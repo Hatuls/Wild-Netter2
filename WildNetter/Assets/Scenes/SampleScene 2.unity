@@ -1647,6 +1647,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 570cbf15cb0d43045be855f4471fd705, type: 3}
+--- !u!4 &686390882 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4921780675817557972, guid: d678dd9afd6a1b9488ed4caa95571c31,
+    type: 3}
+  m_PrefabInstance: {fileID: 828794928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &698718694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2230,6 +2236,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1879629519, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
+      propertyPath: TotemContainer
+      value: 
+      objectReference: {fileID: 686390882}
     - target: {fileID: 30063121527683930, guid: d678dd9afd6a1b9488ed4caa95571c31,
         type: 3}
       propertyPath: name
@@ -7239,6 +7249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5940bb82bbb1348b6fb4d6db0f8d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  currentPlayPhase: 0
 --- !u!4 &1955429595 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5945902883541790451, guid: 25fe12de0e000b149b1fe9614fa61a42,

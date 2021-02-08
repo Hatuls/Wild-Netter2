@@ -23,9 +23,14 @@ public class TotemOfHealing : TotemSO
             this.isCurrentlyInRange = value;
 
             if (this.isCurrentlyInRange)
-              PlayerStats._Instance.AddBuffRegeneration(this.buff);
-            else
+            {
+                PlayerStats._Instance.AddBuffRegeneration(this.buff);
+                buff.SetGetBuffActive = true;
+            }
+            else {
+                buff.SetGetBuffActive = false;
                 PlayerStats._Instance.RemoveBuffRegeneration(this.buff);
+            }
         }    
     
     
@@ -53,7 +58,7 @@ public class TotemOfHealing : TotemSO
         {
             Debug.Log("~");
             this.DoEffect(totem.transform.position, targetPos.position);
-
+             
             if (toBreakOut)
                 break;
             
