@@ -13,6 +13,10 @@ public class UiManager : MonoSingleton<UiManager>
     // Component References:
     // ****Add here all the panel/buttons/images component of the UI****
     [SerializeField] GameObject playerInventoryUIWindow;
+    [SerializeField] GameObject mainMenu;
+    [SerializeField] GameObject loadGameMenu;
+    [SerializeField] GameObject newsMenu;
+    [SerializeField] GameObject optionsMenu;
     [SerializeField] GameObject inventorySlotHolder;
     [SerializeField] GameObject[] Slots;
     TextMeshProUGUI currencyTMP;
@@ -44,7 +48,10 @@ public class UiManager : MonoSingleton<UiManager>
         defaultSpriteForSlot = inventorySlotHolder.transform.GetChild(0).GetComponent<Image>().sprite;
       UpdateInventory();
     }
-    public void ToggleMainMenu(bool state) { }
+    public void ToggleMainMenu(bool state) 
+    {
+        mainMenu.SetActive(state);
+    }
 
 
     public void UpdateInventory()
@@ -101,6 +108,18 @@ public class UiManager : MonoSingleton<UiManager>
     public void ToggleTotemModifierMSG(bool state) { }
     public void ToggleMissionMenu(bool state) { }
     public void ToggleGUIinScene(bool state) { }
+    public void ToggleOptionsMenu(bool state) 
+    {
+        optionsMenu.SetActive(state);
+    }
+    public void ToggleLoadGameMenu (bool state) 
+    {
+        loadGameMenu.SetActive(state);
+    }
+    public void ToggleNewsMenu(bool state)
+    {
+        newsMenu.SetActive(state);
+    }
     public void CloseAllMenus() { }
 
 
