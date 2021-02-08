@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7037817608880200455}
   - component: {fileID: 7037817608880200454}
   m_Layer: 2
-  m_Name: TopRightBorder
+  m_Name: CameraBoundCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

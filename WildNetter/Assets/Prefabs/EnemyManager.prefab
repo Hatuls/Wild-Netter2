@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHabitat: 2
   _enemyList: {fileID: 11400000, guid: c47ccabbe1f276c42a0e2f6cc2025c25, type: 2}
+  _enemySpawner: {fileID: 0}
+  wildSpawnChance: 10

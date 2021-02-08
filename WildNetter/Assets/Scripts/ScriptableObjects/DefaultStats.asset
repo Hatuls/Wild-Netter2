@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DefaultStats
   m_EditorClassIdentifier: 
   stats:
-    strengh: 0
+    strengh: 20
     wisdom: 0
     agility: 0
     stamina: 0
@@ -23,3 +23,4 @@ MonoBehaviour:
     currentHealth: 10
     maxHealth: 10
     armorPoints: 0
+    MaxStamina: 0

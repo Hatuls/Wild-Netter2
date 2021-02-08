@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -17,35 +17,67 @@ public class Totem : MonoBehaviour
     public VisualEffect preyVFX;
     public VisualEffect detectionVFX;
     public bool continueSpawning;
-
+    MeshFilter myMshFilter;
     // Getter & Setters:
+    Transform rangeField;
+    int totemID;
+    public int GetMyTotemID {
+        get => totemID;
+    
+    }
     IEnumerator TotemDuration(float duration)
     {
-        yield return new WaitForSeconds(duration);
-        gameObject.SetActive(false);
+        yield return new WaitForSeconds(duration);        //StopAllCoroutines();
+        //relevantSO.StopCoroutines();
+        TotemManager._Instance.RemoveTotem(totemID);
+    }
+    void NeedToAssignComponenets() {
+
+        if (!rangeField )
+            rangeField = gameObject.transform.GetChild(0).GetComponent<Transform>();
+
+        if (!myMshFilter)
+        myMshFilter = GetComponent<MeshFilter>();
     }
 
-    public void Init(Vector3 location, TotemSO totemSO)
+    public static Totem DeployTotem(int totemID ,Vector3 location, TotemSO totemSO, Mesh meshForTotem) {
+        var trnsfrm = Instantiate(TotemManager._Instance.totem1, location, Quaternion.identity, TotemManager._Instance.TotemContainer);
+        var totem = trnsfrm.GetComponent<Totem>();
+             
+        totem.Init(totemID, totemSO, meshForTotem);
+        return totem; 
+     }
+
+
+
+    public void Init(int id, TotemSO totemSO, Mesh meshForTotem)
     {
+        NeedToAssignComponenets();
+        if (meshForTotem != null && myMshFilter != null)
+            myMshFilter.mesh = meshForTotem;
+
         relevantSO = totemSO;
-        gameObject.transform.position = location;
-        Debug.Log(relevantSO.totemType);
-        gameObject.transform.GetChild(0).GetComponent<Transform>().localScale = new Vector3(relevantSO.range/2, relevantSO.range/2, 1);
+        totemID = id;
+      
+        rangeField.localScale = new Vector3(relevantSO.range / 2, relevantSO.range / 2, 1);
         gameObject.SetActive(true);
         totemName = relevantSO.totemName;
         if (relevantSO.duration > 0)
         {
-            StopCoroutine(TotemDuration(relevantSO.duration));
-            StartCoroutine(TotemDuration(relevantSO.duration));
+            StopCoroutine(TotemDuration(this.relevantSO.duration));
+            StartCoroutine(TotemDuration(this.relevantSO.duration));
         }
-        else 
+        else
         {
             //Active only in relevant zone
         }
 
         ApplyingEffect();
     }
+    public Buffs GetBuff => relevantSO.GetBuff();
 
+    
+    
     private void ApplyingEffect ()
     {
         switch (totemName)
@@ -55,21 +87,20 @@ public class Totem : MonoBehaviour
                 //preyVFX.gameObject.SetActive(true);
                 preyVFX.Play();
 
-                StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
-                StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
+                StopCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
+                StartCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
                 break;
 
             case TotemName.healing:
                 if (playerTransform == null)
-                {
                     playerTransform = PlayerManager._Instance.GetPlayerTransform;
-                }
+                
                 //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
                 // healVFX.gameObject.SetActive(true);
                 healVFX.Play();
 
-                StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
-                StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                StartCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
 
             case TotemName.detection:
@@ -77,26 +108,41 @@ public class Totem : MonoBehaviour
                 //detectionVFX.gameObject.SetActive(true);
                 detectionVFX.Play();
 
-                StopCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
-                StartCoroutine(relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
+                StopCoroutine(this.relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
+                StartCoroutine(this.relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
                 break;
 
             case TotemName.stamina:
                 if (playerTransform == null)
-                {
                     playerTransform = PlayerManager._Instance.GetPlayerTransform;
-                }
-                StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
-                StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                
+                StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                StartCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
 
             case TotemName.shock:
-                StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
-                StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
+                StopCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
+                StartCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
+                Debug.Log("Activate Shock");
                 break;
 
             default:
                 break;
         }
+        
+    }
+   public void UnsubscibeBuffs() {
+
+        switch (totemName)
+        {            case TotemName.healing:
+                (this.relevantSO as TotemOfHealing).DisableBuff();
+                break;
+            case TotemName.stamina:
+                (this.relevantSO as TotemOfStamina).DisableBuff();
+                break;
+        }
+
+
+        Destroy(this.gameObject);
     }
 }
