@@ -13,7 +13,7 @@ public class TotemOfPrey : TotemSO
     {
         Collider[] objectCollider;
         objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
-        Debug.Log(objectCollider.Length);
+       
         foreach (Collider col in objectCollider)
         {
             if (CheckRange(totemLocation, col.transform.position, range))
@@ -31,16 +31,6 @@ public class TotemOfPrey : TotemSO
             }
 
 
-            /*if (pull)
-            {
-                //remove from here when enemy is done
-                col.GetComponent<Enemy>().TotemEffect(TotemType.prey, totem);
-                if (currentRealTime > GetCurrentTime())
-                {
-                    pull = false;
-                    col.GetComponent<Enemy>().CancelEffect();
-                }
-            }*/
         }
     }
     public override IEnumerator ActivateTotemEffect(GameObject totem)

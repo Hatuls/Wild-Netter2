@@ -86,13 +86,14 @@ public class Totem : MonoBehaviour
                 {
                     playerTransform = PlayerManager._Instance.GetPlayerTransform;
                 }
-                StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StopCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
+                StartCoroutine(relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
 
             case TotemName.shock:
-                StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
                 StopCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
+                StartCoroutine(relevantSO.ActivateTotemEffect(this.gameObject));
+                Debug.Log("Activate Shock");
                 break;
 
             default:

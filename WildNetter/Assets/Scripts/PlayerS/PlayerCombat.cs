@@ -22,7 +22,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
     public string currentWeaponName;
     event Action AttackAction;
 
-
+    TotemName currentTotemHolder;
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
         get { return _equippedWeaponSO; }
@@ -32,6 +32,20 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
             currentWeaponName = _equippedWeaponSO.Name;
         }
 
+    }
+
+    public TotemName GetSetCurrentTotemToDeploy {
+        get => currentTotemHolder;
+
+        set {
+
+            if (currentTotemHolder == value)
+                return;
+
+
+            currentTotemHolder = value;
+        
+        }
     }
     public int GetAttackDMG { 
         get {
@@ -49,7 +63,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         ToggleWeaponCollider(false);
         _playerStats = PlayerStats._Instance;
         _playerMovement = PlayerMovement._Instance;
-        
+        currentTotemHolder = TotemName.None;
         canAttack = true;
         GetSetWeaponSO = ItemFactory._Instance.GenerateItem(20000) as WeaponSO; 
         ResetAttackAction();
@@ -59,23 +73,27 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            DeployTotem(TotemName.detection);
+            GetSetCurrentTotemToDeploy = (TotemName.detection);
         
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DeployTotem(TotemName.healing);
+            GetSetCurrentTotemToDeploy = (TotemName.healing);
            
         }
         if (Input.GetKeyDown(KeyCode.T))
         {
-            DeployTotem(TotemName.prey);
+            GetSetCurrentTotemToDeploy = TotemName.prey;
       
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            DeployTotem(TotemName.stamina);
-            
+GetSetCurrentTotemToDeploy = TotemName.shock;
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            GetSetCurrentTotemToDeploy = TotemName.stamina;
+
         }
     }
 
@@ -89,12 +107,12 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         if (canAttack && !EventSystem.current.IsPointerOverGameObject())
         {
             AttackAction?.Invoke();
-            PlayerGFX._Instance.SetAnimationTrigger("Attack");
         }
     }
      void MeleeAttack() {
         Debug.Log("SWord AttacK");
-        if (isNotInCooldown) {
+        if (isNotInCooldown) {   
+            PlayerGFX._Instance.SetAnimationTrigger("Attack");
             StartCoroutine(MeleeAttackCoroutine());
         }
     // apply GFX Anim, sound
@@ -107,15 +125,18 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         }
 
     }
-    void DeployTotem(TotemName type)
+    void DeployTotem()
     {
         if (isNotInCooldown)
         {
-            PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
-            TotemManager._Instance.DeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), type);
-            StartCoroutine(FreezeMovement(1f));
+            if (TotemManager._Instance.TryDeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), GetSetCurrentTotemToDeploy))
+            {
+                StartCoroutine(FreezeMovement(1f));
+                PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
+            } 
         }
     }
+   
     public void SetAttackType(AttackType type) {
     
      ResetAttackAction();
@@ -130,7 +151,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
                 Debug.Log("Range");
                 break;
             case AttackType.Totem:
-                //AttackAction += DeployTotem;
+                AttackAction += DeployTotem;
                 Debug.Log("Deploy Totem");
                 break;
             default:
@@ -142,7 +163,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
     private void ResetAttackAction()
     {
         AttackAction -= RangeAttack;
-        //AttackAction -= DeployTotem;
+        AttackAction -= DeployTotem;
         AttackAction -= MeleeAttack;
     }
 //  private Vector3 LockOnEnemy() { } <- will be used later on

@@ -1,25 +1,31 @@
-﻿
-using Boo.Lang;
-using System.Linq;
-using System.Security.Policy;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+public enum PlayPhase { PlanningPhase, BattlePhase };
 public class SceneHandler : MonoSingleton<SceneHandler>
 {
 
     List<TriggerArea> triggers;
 
 
-
-
-
-
-
-
     public static int currentSceneIndex;
 
     // Getter & Setters:
+
+
+   [SerializeField] PlayPhase currentPlayPhase;
+
+    public PlayPhase GetSetPlayPhase {
+        set
+        {
+            if (value == currentPlayPhase)
+                return;
+            currentPlayPhase = value;
+
+        }
+      get  => currentPlayPhase;
+    
+    }
 
     public override void Init() {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
@@ -27,7 +33,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
 
         AssignTriggerAreasToSceneHandler();
-
+        GetSetPlayPhase = PlayPhase.PlanningPhase;
     }
 
 

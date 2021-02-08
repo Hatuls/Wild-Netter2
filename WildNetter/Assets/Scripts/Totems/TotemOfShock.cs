@@ -15,27 +15,30 @@ public class TotemOfShock : TotemSO
     {
         Collider[] objectCollider;
         objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
-        Debug.Log(objectCollider.Length);
+        Debug.Log("enemyShocked DO effect");
         foreach (Collider col in objectCollider)
         {
             if (CheckRange(totemLocation, col.transform.position, range))
             {
                 //apply slow to enemy - from totemSO
-                if (enemyShocked.Contains(col.gameObject))
+                if (enemyShocked.Contains(col.transform.root.gameObject))
                 {
-                   // col.transform.root.GetComponent<Enemy>().SlowSetter(Debuff.Slow)
+                     col.transform.root.GetComponent<Enemy>().SlowSetter(this.effectAmountPrecentage.GetValueOrDefault(), true);
                     continue;
                 }
                 else
                 {
 
-                  
+                    enemyShocked.Add(col.transform.root.gameObject);
                     col.transform.root.GetComponent<Enemy>().TotemEffect(TotemName.shock, totem);
                     col.transform.root.GetComponent<Enemy>().FlatDamage(this.GetTotemEffectAmount);
+                   
                 }
             }
             else
             {
+                //this.effectAmountPrecentage.GetValueOrDefault()
+                col.transform.root.GetComponent<Enemy>().SlowSetter(this.effectAmountPrecentage.GetValueOrDefault(), false);
                 //remove slow
             }
         }

@@ -21,8 +21,8 @@ public class GameManager : MonoSingleton<GameManager>
             PlayerCombat._Instance,
             PlayerMovement._Instance,
             SoundManager._Instance,
-            EnemyManager._Instance,
             EnemySpawner._Instance,
+            EnemyManager._Instance,
             TextPopUpHandler._Instance
         };
 

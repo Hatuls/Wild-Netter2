@@ -3,6 +3,7 @@ using System.Collections;
 
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public abstract class Enemy : MonoBehaviour
     public int GetSetEnemyCurrentHP {
         get { return currentHP; }
         set {
+            TextPopUp.Create(TextType.CritDMG, transform.position, currentHP - value);
             currentHP = value;
             if (currentHP <= 0)
             {
@@ -339,7 +341,6 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnRecieveDmg(int dmgToApply) {
 
-        Debug.Log("GotDMG");
         GetSetEnemyCurrentHP -=  dmgToApply;
     }
     private void ApplyKnockback(int force,Vector3 Source)
@@ -355,13 +356,17 @@ public abstract class Enemy : MonoBehaviour
     }
     public void SlowSetter(float slowAmount,bool add)
     {
-        if (add)
+        if (isSlowed == add)
+            return;
+        isSlowed = add;
+
+        if (!add)
         {
             _enemySheet.movementSpeed += slowAmount;
         }
         else
         {
-            _enemySheet.movementSpeed -= slowAmount;
+            _enemySheet.movementSpeed  = _enemySheet.defaultSpeed;
         }
 
         SetSpeed();
@@ -375,6 +380,9 @@ public abstract class Enemy : MonoBehaviour
         StartCoroutine(DebuffHandler(debuffType, effectTime, effectInPresentage));
          
     }
+
+   
+   
     IEnumerator DebuffHandler(Debuff debuffType, int effectTime, int effectInPresentage)
     {
         switch (debuffType)
@@ -386,7 +394,7 @@ public abstract class Enemy : MonoBehaviour
                 SlowSetter(slowInValue, false);
 
                 break;
-            
+             
         }
        
     }
@@ -422,14 +430,20 @@ public abstract class Enemy : MonoBehaviour
 
     public bool CheckIfPlayerIsClose() { return true; }
     //public Transform GetTarget() { } <- clear comment when getting new target to move to
+
+     
+ bool isSlowed = false;
+  
+
     public void TotemEffect(TotemName type,GameObject totem) 
     {
         switch (type)
         {
+           
 
             case TotemName.prey:
                 
-                TargetAquierd = totem;
+                TargetAquierd = totem.gameObject;
                 _enemySheet.enemyState = EnemyState.lured;
                 break;
         }

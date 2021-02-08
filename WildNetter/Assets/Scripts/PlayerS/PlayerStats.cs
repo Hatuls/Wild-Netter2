@@ -151,7 +151,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         set
         {
             if (value > playerStats.currentHealth)
-                TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value));
+                TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value)*-1);
             
             else
                 TextPopUp.Create(TextType.CritDMG, transform.root.position, (int)(playerStats.currentHealth - value));
