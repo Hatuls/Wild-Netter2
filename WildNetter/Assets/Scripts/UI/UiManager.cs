@@ -18,6 +18,8 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject newsMenu;
     [SerializeField] GameObject optionsMenu;
     [SerializeField] GameObject inventorySlotHolder;
+    [SerializeField] GameObject playerMenu;
+    [SerializeField] GameObject gui;
     [SerializeField] GameObject[] Slots;
     TextMeshProUGUI currencyTMP;
     TextMeshProUGUI inventoryCapacityTMP;
@@ -107,7 +109,14 @@ public class UiManager : MonoSingleton<UiManager>
     public void ToggleMapUI(bool state) { }
     public void ToggleTotemModifierMSG(bool state) { }
     public void ToggleMissionMenu(bool state) { }
-    public void ToggleGUIinScene(bool state) { }
+    public void TogglePlayerMenu (bool state)
+    {
+        playerMenu.SetActive(state);
+    }
+    public void ToggleGUIinScene(bool state) 
+    {
+        gui.SetActive(state);
+    }
     public void ToggleOptionsMenu(bool state) 
     {
         optionsMenu.SetActive(state);
