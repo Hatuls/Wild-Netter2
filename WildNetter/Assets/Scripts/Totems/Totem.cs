@@ -17,7 +17,7 @@ public class Totem : MonoBehaviour
     public VisualEffect preyVFX;
     public VisualEffect detectionVFX;
     public bool continueSpawning;
-
+    
     // Getter & Setters:
     IEnumerator TotemDuration(float duration)
     {
@@ -25,8 +25,11 @@ public class Totem : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Init(Vector3 location, TotemSO totemSO)
+    public void Init(Vector3 location, TotemSO totemSO, Mesh meshForTotem)
     {
+        if (meshForTotem!= null)
+                GetComponent<MeshFilter>().mesh = meshForTotem;
+        
         relevantSO = totemSO;
         gameObject.transform.position = location;
         Debug.Log(relevantSO.totemType);

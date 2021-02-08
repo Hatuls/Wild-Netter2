@@ -11,36 +11,35 @@ public class TotemOfDetection : TotemSO
     }
     public override void DoEffect(Vector3 totemLocation)
     {
-        if (SpawnDetectedEnemy(totemLocation) == true)
-        {
-            Collider[] objectCollider;
-            objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
-            foreach (Collider col in objectCollider)
-            {
-                if (CheckRange(totemLocation, col.transform.position, range))
-                {
-                    Debug.Log("Beast was found!");
-                }
-            }
-        }
+        SpawnDetectedEnemy(totemLocation);
+       
     }
-    public bool SpawnDetectedEnemy(Vector3 spawnPoint)
+     void SpawnDetectedEnemy(Vector3 spawnPoint)
     {
-        //we will set how much time the monster take to spawn
-        float randomTime = Random.Range(1, 10);
-        EnemyManager _enemyManager = EnemyManager._Instance;
-        if (Random.value > 0.5)
-        {
-            _enemyManager.GetBeastSettings((Difficulty)Random.Range(0, 2), (Size)Random.Range(0, 2), Random.Range(1, 100), spawnPoint, randomTime);
-            Debug.Log(randomTime + "seconds to spawn");
-            // notify player that totem detected an enemy
-            return true;
-        }
 
-        else
-        {
-            return false;
-        }
+        EnemyManager._Instance.GetBeastSettings((Difficulty)Random.Range(0, 2), (Size)Random.Range(0, 2), Random.Range(1, 100), spawnPoint, 5);
+
+        // notify player that totem detected an enemy
+
+
+        // good V will be uncommented after video
+
+
+        ////we will set how much time the monster take to spawn
+        //float randomTime = Random.Range(1, 10);
+        //EnemyManager _enemyManager = EnemyManager._Instance;
+        //if (Random.value > 0.5)
+        //{
+        //    _enemyManager.GetBeastSettings((Difficulty)Random.Range(0, 2), (Size)Random.Range(0, 2), Random.Range(1, 100), spawnPoint, randomTime);
+        //    Debug.Log(randomTime + "seconds to spawn");
+        //    // notify player that totem detected an enemy
+        //    return true;
+        //}
+
+        //else
+        //{
+        //    return false;
+        //}
     }
     public override IEnumerator ActivateTotemEffect(bool toContinueSpawn, GameObject totem)
     {

@@ -54,7 +54,6 @@ public class EnemyPart : MonoBehaviour
 
         _Enemy.GetDamageFromPart(hitDamage, thisPart, hitPoint);
 
-        Debug.Log(hitDamage);
     }
 
 

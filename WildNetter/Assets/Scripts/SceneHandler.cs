@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public enum PlayPhase { PlanningPhase, BattlePhase };
+public enum PlayPhase {TotemCheckPhase, PlanningPhase, BattlePhase };
 public class SceneHandler : MonoSingleton<SceneHandler>
 {
 
     List<TriggerArea> triggers;
-
+   [SerializeField] Transform panel;
 
     public static int currentSceneIndex;
 
@@ -72,7 +72,11 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
     }
 
-
+    void SpawnPlayer(Vector3 position) {
+        PlayerManager._Instance.GetPlayerTransform.position = position;
+        PlayerMovement._Instance.RotateTowardsDirection(panel.position);
+    
+    }
 
 
   public void ResetAllTriggers() {

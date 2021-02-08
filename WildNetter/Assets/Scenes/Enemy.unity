@@ -1057,7 +1057,7 @@ Transform:
   m_Children:
   - {fileID: 2111181535}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &295021332
 GameObject:
@@ -2623,6 +2623,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1879629519, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
+      propertyPath: totemMeshArr.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1879629519, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
+      propertyPath: totemMeshArr.Array.data[0]
+      value: 
+      objectReference: {fileID: 4300000, guid: bdc96791136966f45bbfa4d77a71b69f, type: 3}
+    - target: {fileID: 1879629519, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
+      propertyPath: totemMeshArr.Array.data[1]
+      value: 
+      objectReference: {fileID: 4300000, guid: 1ba1ca7f46bcbd4409f255c9512af146, type: 3}
+    - target: {fileID: 1879629519, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
+      propertyPath: totemMeshArr.Array.data[2]
+      value: 
+      objectReference: {fileID: 4300000, guid: cb986909415711e40a6713970a0db28d, type: 3}
+    - target: {fileID: 1879629519, guid: d678dd9afd6a1b9488ed4caa95571c31, type: 3}
+      propertyPath: totemMeshArr.Array.data[3]
+      value: 
+      objectReference: {fileID: 4300000, guid: 2200b69c90f1c704b8cba034c8a862a8, type: 3}
     - target: {fileID: 30063121527683930, guid: d678dd9afd6a1b9488ed4caa95571c31,
         type: 3}
       propertyPath: continueSpawning
@@ -5243,7 +5263,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1288716549
 MonoBehaviour:
@@ -5274,8 +5294,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ExecuteInEditor: 1
   m_Bindings:
-  - {fileID: 1288716549}
   - {fileID: 1288716551}
+  - {fileID: 1288716549}
   m_VisualEffect: {fileID: 1288716547}
 --- !u!114 &1288716551
 MonoBehaviour:
@@ -7507,7 +7527,7 @@ PrefabInstance:
     - target: {fileID: 5889068861643692609, guid: 49e330e3d386a7c40b0e0779d786d586,
         type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 5889068861643692609, guid: 49e330e3d386a7c40b0e0779d786d586,
         type: 3}
@@ -10138,6 +10158,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Singleton
       objectReference: {fileID: 0}
+    - target: {fileID: 4677179125194629511, guid: df0a0d7c6f6cf1f47a694d51057b3a63,
+        type: 3}
+      propertyPath: itemSprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4677179125194629511, guid: df0a0d7c6f6cf1f47a694d51057b3a63,
+        type: 3}
+      propertyPath: itemSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8766827530edba64196f9249bc491ad7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0a0d7c6f6cf1f47a694d51057b3a63, type: 3}
 --- !u!1001 &6129027828117029952
@@ -10383,7 +10414,7 @@ PrefabInstance:
     - target: {fileID: 7037817608880200455, guid: cbfd44d5f7ff22a4b8a65b9c48482357,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7037817608880200455, guid: cbfd44d5f7ff22a4b8a65b9c48482357,
         type: 3}

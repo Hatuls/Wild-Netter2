@@ -61,4 +61,24 @@ public class TotemOfShock : TotemSO
             yield return new WaitForSeconds(1);
         }
     }
+
+    public override void ResetMe() {
+
+
+        for (int i = 0; i < enemyShocked.Count; i++)
+        {
+            if (!enemyShocked[i])
+                continue;
+
+            enemyShocked[i].GetComponent<Enemy>().SlowSetter(0, false);
+        }
+
+
+        enemyShocked.Clear();
+
+
+
+
+
+    }
 }

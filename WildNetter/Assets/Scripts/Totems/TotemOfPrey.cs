@@ -51,4 +51,9 @@ public class TotemOfPrey : TotemSO
             yield return new WaitForSeconds(1);
         }
     }
+
+    public override void ResetMe()
+    {
+        enemyCatched.Clear();
+    }
 }

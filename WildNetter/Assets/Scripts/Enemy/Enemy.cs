@@ -34,6 +34,7 @@ public abstract class Enemy : MonoBehaviour
     private int dropLevel;
     private int dropAmont;
 
+  [SerializeField]  private float defaultSpeed;
     private float slowAmount;
  
     bool isHeading = false;
@@ -90,15 +91,10 @@ public abstract class Enemy : MonoBehaviour
         _instance = this;
 
         _enemySheet = new EnemySheet();
-
+        defaultSpeed = _enemySheet.movementSpeed;
         GetInfoFromEnemySO();
         _enemyMesh = GetComponentInChildren<MeshRenderer>();
         originalMat = _enemyMesh.material;
-
-
-
-
-
 
     }
 
@@ -188,10 +184,13 @@ public abstract class Enemy : MonoBehaviour
         //Timers
         _enemySheet.getUpAnimTime = GetEnemySO.getUpAnimTime;
 
-        
+
         //setting Componnents Values
-        agent.speed = _enemySheet.movementSpeed;
-       // footsteps = _enemySheet.Trails;
+        SetSpeed(_enemySheet.movementSpeed);
+        // footsteps = _enemySheet.Trails;
+
+
+        defaultSpeed = agent.speed;
     }
     public void AddPart(monsterParts partType,GameObject partGO,Collider col)
     {
@@ -354,26 +353,26 @@ public abstract class Enemy : MonoBehaviour
         
         
     }
-    public void SlowSetter(float slowAmount,bool add)
+    public void SlowSetter(float slowAmount, bool add)
     {
         if (isSlowed == add)
             return;
         isSlowed = add;
 
-        if (!add)
-        {
-            _enemySheet.movementSpeed += slowAmount;
-        }
-        else
-        {
-            _enemySheet.movementSpeed  = _enemySheet.defaultSpeed;
-        }
 
-        SetSpeed();
+
+        if (!add)
+            SetSpeed(defaultSpeed);
+
+        else
+            SetSpeed(_enemySheet.movementSpeed - (slowAmount * _enemySheet.movementSpeed / 100f));
+
+
     }
-   public void SetSpeed()
+   public void SetSpeed(float speed)
     {
-        agent.speed = _enemySheet.movementSpeed;
+        agent.speed = speed;
+        Debug.Log("Speed is : " + agent.speed);
     }
     public void Debuffer(Debuff debuffType, int effectTime, int effectInPresentage)
     {

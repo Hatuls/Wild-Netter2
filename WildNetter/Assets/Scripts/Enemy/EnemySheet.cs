@@ -30,7 +30,7 @@ public class EnemySheet
     public float movementSpeed;
     public float attackSpeed;
     public float wanderRadius;
-    public float defaultSpeed;
+   
     [Header("AnimationTimers")]
 
     public float getUpAnimTime;

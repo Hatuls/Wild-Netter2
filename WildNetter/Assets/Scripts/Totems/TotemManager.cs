@@ -18,7 +18,7 @@ public class TotemManager : MonoSingleton<TotemManager>
     public GameObject totem1;
     public LayerMask enemiesLayer;
     public Transform totemContainer;
-
+    public Mesh[] totemMeshArr;
 
     public List<Transform> ActiveTotem;
     public TotemSO[] AllGameTotems = new TotemSO[5];
@@ -47,8 +47,29 @@ public class TotemManager : MonoSingleton<TotemManager>
 
 
             Totem t = GetActiveTotem(location).GetComponent<Totem>();
-            t.Init(location, totemCache);
+            t.Init(location, totemCache , AssignMeshToTotem(type));
         return true;
+    }
+
+    Mesh AssignMeshToTotem(TotemName ttmName) {
+
+        switch (ttmName)
+        {
+            
+            case TotemName.prey:
+                return totemMeshArr[0];
+            case TotemName.healing:
+                return totemMeshArr[1];
+            case TotemName.detection:
+                return totemMeshArr[2];
+            case TotemName.stamina:
+                return totemMeshArr[3];
+            case TotemName.shock:
+                return totemMeshArr[1];
+         
+        }
+
+        return null;
     }
 
     bool CheckTotemPlacementLocation(Vector3 position, TotemSO ttm) {
@@ -141,7 +162,7 @@ public class TotemManager : MonoSingleton<TotemManager>
                 case TotemName.stamina:
                 case TotemName.shock:
                     return true;
-            }  
+            }
         }
         else if (phase == PlayPhase.PlanningPhase)
         {
@@ -152,6 +173,8 @@ public class TotemManager : MonoSingleton<TotemManager>
                     return true;
             }
         }
+        else if (phase == PlayPhase.TotemCheckPhase)
+            return true;
 
         return false;
     }
