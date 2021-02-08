@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 
@@ -127,6 +128,7 @@ public abstract class TotemSO : Item
     public virtual IEnumerator ActivateTotemEffect(bool toContinuteSpawning, GameObject totem) { yield return null; }
 
     public virtual void ResetMe() { }
+    public virtual Buffs GetBuff() => null;
 
     public virtual void PlayAnimation(string animName)
     {
@@ -206,5 +208,11 @@ public abstract class TotemSO : Item
                 return amountCache;
             }
         } 
+    }
+
+
+    public void StopCoroutines() {
+
+        TotemManager._Instance.StopAllCoroutines();
     }
 }

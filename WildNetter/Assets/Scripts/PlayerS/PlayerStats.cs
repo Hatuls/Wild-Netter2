@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
     // Collections:
     //Getters & Setters:
 
- 
+
     public override void Init()
     {
         playerStats.ResetStats();
@@ -22,7 +23,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         currentStamina = playerStats.MaxStamina;
 
 
-       
+
         StopCoroutine(Regeneration());
         StartCoroutine(Regeneration());
 
@@ -150,25 +151,23 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         get { return playerStats.currentHealth; }
         set
         {
-            if (value > playerStats.currentHealth)
-                TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value)*-1);
-            
-            else
+            if (value< playerStats.currentHealth)
+          
                 TextPopUp.Create(TextType.CritDMG, transform.root.position, (int)(playerStats.currentHealth - value));
 
-            
 
 
-            if (playerStats.currentHealth + value >= playerStats.maxHealth) { 
+
+            if (playerStats.currentHealth + value >= playerStats.maxHealth) {
                 playerStats.currentHealth = playerStats.maxHealth;
                 return;
             }
- 
+            TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value) * -1);
             playerStats.currentHealth = value;
- 
+
 
             if (playerStats.currentHealth <= 0)
-            { 
+            {
                 playerStats.currentHealth = 0;
                 gameObject.SetActive(false);
             }
@@ -228,7 +227,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
 
     #region Stamina 
- 
+
     [SerializeField] float currentStamina = 0;
     float staminaPerLevel = 25f;
 
@@ -245,7 +244,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         }
     }
 
-  
+
     public float GetPlayerStamina
     {
         get { return currentStamina; }
@@ -304,22 +303,89 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
 
 
+    #region BuffArrayFunctions
+   [SerializeField] Buffs[] buffsArr;
+     int capacityTree =5;
+    int counter = 0;
+    void AddBuff(Buffs f) {
+        if (buffsArr == null)
+            buffsArr = new Buffs[5];
+
+           AddCapacity();
+
+        for (int i = 0; i < buffsArr.Length; i++)
+        {
+            if (buffsArr[i] == null)
+            {
+                counter++;
+                buffsArr[i] = f;
+                return;
+            }
+        }
+
+    }
+    void AddCapacity() {
+        if (counter == capacityTree -1)
+        {
+            Buffs[] newArray = new Buffs[capacityTree * 2];
+            Array.Copy(buffsArr, newArray, capacityTree);
+            capacityTree *= 2;
+            buffsArr = newArray;
+        }
+
+    }
+
+   public void RemoveBuff(Buffs f) {
+        if (counter == 0 || f == null)
+            return;
+        int resetFrom = buffsArr.Length;
+        for (int i = 0; i < buffsArr.Length; i++)
+        {
+            if (buffsArr[i] == null)
+                return;
+
+            if (buffsArr[i] == f)
+            {
+                buffsArr[i] = null;
+                resetFrom = i;
+                counter--;
+                SortArray(resetFrom);
+                return;
+            }
+        }
+        
+}
+
+    void SortArray(int resetFrom) {
+        if (resetFrom == buffsArr.Length)
+            return;
 
 
+        for (int i = resetFrom; i < buffsArr.Length; i++)
+        {
+            if (i + 1 >= buffsArr.Length - 1)
+                break;
 
+            buffsArr[i] = buffsArr[i + 1];
+        }
+        if (buffsArr[buffsArr.Length - 1] == buffsArr[buffsArr.Length - 2])
+            buffsArr[buffsArr.Length - 1] = null;
 
+    }
+
+    
+    #endregion
 
 
 
 
     #region Regeneration Params
-    const float healthRegenerationAmount = 2;
+    const float healthRegenerationAmount = 0;
     const float staminaRegenerationAmount = 2;
-
-    List<Buffs> RegenerationBuffs ;
+   // List<Buffs> RegenerationBuffs ;
 
     [SerializeField] bool stopStaminaRegeneration = false;
-    [SerializeField] bool stopHealthRegeneration = true;
+    [SerializeField] bool stopHealthRegeneration = false;
     public bool SetStopHealthRegeneration
     {
         set
@@ -338,38 +404,47 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         }
     }
 
-    private void RemoveBuffRegeneration(Buffs buff)
+    public void RemoveBuffRegeneration(Buffs buff)
     {
-        if (buff == null || RegenerationBuffs == null || RegenerationBuffs.Count <=0)
+        if (buff == null )//|| RegenerationBuffs == null || RegenerationBuffs.Count <=0
             return;
 
-        if (RegenerationBuffs.Contains(buff))
-            RegenerationBuffs.Remove(buff);
+        //if (RegenerationBuffs.Contains(buff))
+        //    RegenerationBuffs.Remove(buff);
+
+
+        RemoveBuff(buff);
+
+
     }
     public void AddBuffRegeneration(Buffs buff) {
         if (buff == null)
             return;
 
-        if (buff.GetIsOverTime == false)
-        {
-            switch (buff.GetRegenerationType)
-            {
-                case RegenerationType.Stamina:
-                    AddStaminaAmount(buff.GetAmount);
-                    break;
-                case RegenerationType.Health:
-                    AddHealthAmount(buff.GetAmount);
-                    break;
-                default:
-                    break;
-            }
+        AddInstantBuff(buff);
+
+        //if (RegenerationBuffs == null)
+        //    RegenerationBuffs = new List<Buffs>();
+
+        // RegenerationBuffs.Add(buff);
+        AddBuff(buff);
+    }
+
+
+    public void AddInstantBuff(Buffs instantBuff) {
+        if (instantBuff == null || instantBuff.GetIsOverTime == true)
             return;
+        switch (instantBuff.GetRegenerationType)
+        {
+            case RegenerationType.Stamina:
+                AddStaminaAmount(instantBuff.GetAmount);
+                break;
+            case RegenerationType.Health:
+                AddHealthAmount(instantBuff.GetAmount);
+                break;
+            default:
+                break;
         }
-
-        if (RegenerationBuffs == null)
-            RegenerationBuffs = new List<Buffs>();
-
-        RegenerationBuffs.Add(buff);
     }
     IEnumerator Regeneration()
     {
@@ -380,7 +455,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
         if (stopHealthRegeneration)
             HealthRegeneration();
-
+      
         yield return new WaitForSeconds(1f);
         CheckBuffTimers();
         StartCoroutine(Regeneration());
@@ -388,27 +463,53 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
 
     private void CheckBuffTimers() {
-        if (RegenerationBuffs == null || RegenerationBuffs.Count == 0)
+        //if (RegenerationBuffs == null || RegenerationBuffs.Count == 0)
+        //    return;
+
+        //for (int i = 0; i < RegenerationBuffs.Count; i++)
+        //{
+        //    if (!RegenerationBuffs[i].CheckIfSupposedToContinue())
+        //     RemoveBuffRegeneration(RegenerationBuffs[i]);
+        //}
+
+        if (counter < 1)
             return;
 
-        for (int i = 0; i < RegenerationBuffs.Count; i++)
+        for (int i = 0; i < buffsArr.Length; i++)
         {
-            if (!RegenerationBuffs[i].CheckIfSupposedToContinue())
-             RemoveBuffRegeneration(RegenerationBuffs[i]);
-        }
+            if (buffsArr[i] == null)
+                return;
 
+            if (buffsArr[i].CheckIfSupposedToContinue() == false) { 
+                RemoveBuff(buffsArr[i]);
+                i--;
+            }
+        }
 
     }
     private void StaminaRegeneration() {
         float totalAmount = staminaRegenerationAmount;
 
 
-        if (RegenerationBuffs != null && RegenerationBuffs.Count > 0)
+        //if (RegenerationBuffs != null && RegenerationBuffs.Count > 0)
+        //{
+        //    for (int i = 0; i < RegenerationBuffs.Count; i++)
+        //    {
+        //        if (RegenerationBuffs[i].GetRegenerationType == RegenerationType.Stamina)
+        //            totalAmount += RegenerationBuffs[i].GetAmount;
+        //    }
+        //}
+
+        if (buffsArr == null)
+            return;
+        if (buffsArr.Length > 0 && counter > 0)
         {
-            for (int i = 0; i < RegenerationBuffs.Count; i++)
+            for (int i = 0; i < buffsArr.Length; i++)
             {
-                if (RegenerationBuffs[i].GetRegenerationType == RegenerationType.Stamina)
-                    totalAmount += RegenerationBuffs[i].GetAmount;
+                if (buffsArr[i] == null)
+                    break;
+                if (buffsArr[i].GetRegenerationType == RegenerationType.Stamina)
+                totalAmount += buffsArr[i].GetAmount;
             }
         }
 
@@ -418,18 +519,28 @@ public class PlayerStats : MonoSingleton<PlayerStats>
     private void HealthRegeneration() {
         float totalAmount = healthRegenerationAmount;
 
-        if (RegenerationBuffs!= null && RegenerationBuffs.Count > 0)
+        //if (RegenerationBuffs!= null && RegenerationBuffs.Count > 0)
+        //{
+        //    for (int i = 0; i < RegenerationBuffs.Count; i++)
+        //    {
+        //        if (RegenerationBuffs[i].GetRegenerationType == RegenerationType.Health)
+        //            totalAmount += RegenerationBuffs[i].GetAmount;
+        //    }
+        //}
+        if (buffsArr == null)
+            return;
+        if (buffsArr.Length > 0 && counter > 0)
         {
-            for (int i = 0; i < RegenerationBuffs.Count; i++)
+            for (int i = 0; i < buffsArr.Length; i++)
             {
-                if (RegenerationBuffs[i].GetRegenerationType == RegenerationType.Health)
-                    totalAmount += RegenerationBuffs[i].GetAmount;
+                if (buffsArr[i] == null)
+                    break;
+                if (buffsArr[i].GetRegenerationType == RegenerationType.Health)
+                    totalAmount += buffsArr[i].GetAmount;
             }
         }
-
-
-
-        AddStaminaAmount(totalAmount);
+        Debug.Log("totalAmount : " + totalAmount);
+        AddHealthAmount(totalAmount);
     }
 
     #endregion
@@ -446,7 +557,7 @@ public class Buffs {
     RegenerationType typeOf;
     float? endTime;
     public Buffs(RegenerationType type, float amount, float timer) {
-        typeOf = type;
+       typeOf = type;
         isOverTime = true;
         this.amount = amount;
         endTime = Time.time + timer;
@@ -460,7 +571,7 @@ public class Buffs {
 
     public bool CheckIfSupposedToContinue() {
 
-        if (!isOverTime || endTime > Time.time)
+        if (!isOverTime || endTime < Time.time)
             return false;
         return true ;
 

@@ -135,8 +135,14 @@ public class InputManager : MonoSingleton<InputManager>
 
     enum LookState { Forward, Backward, LookLeft, LookForwardLeft, LookRight, LookForwardRight, Default };
     LookState lookingToward;
-    Vector3 GetDirectionTowardTheMouse() => new Vector3(MyCamera._Instance._HitInfo.point.x, 0, MyCamera._Instance._HitInfo.point.z);
+    Vector3 dirtoMouse;
+    Vector3 GetDirectionTowardTheMouse() {
+        dirtoMouse = Vector3.zero;
+        if (MyCamera._Instance != null)
+            dirtoMouse=  new Vector3(MyCamera._Instance._HitInfo.point.x, 0, MyCamera._Instance._HitInfo.point.z);
 
+        return dirtoMouse;
+    }
     void SetLookState() {
         LookState lookingNowToward = LookState.Default;
         float xInput = inputVector.x

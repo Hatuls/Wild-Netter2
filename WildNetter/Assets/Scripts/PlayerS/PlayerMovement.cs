@@ -183,14 +183,15 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         if (_RB.velocity.magnitude < forceLimit)
             _RB.AddForce(moveVector , ForceMode.Force);
 
-
-        PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
-
-
+        if (PlayerGFX._Instance!=null)
+                PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
 
 
 
 
+
+        if (PlayerStats._Instance == null)
+            return;
 
         if (GetIsRunning)
             PlayerStats._Instance.AddStaminaAmount(-10f * Time.deltaTime);

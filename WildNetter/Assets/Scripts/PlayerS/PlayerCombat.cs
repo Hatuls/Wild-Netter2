@@ -131,7 +131,8 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         {
             if (TotemManager._Instance.TryDeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), GetSetCurrentTotemToDeploy))
             {
-                StartCoroutine(FreezeMovement(1f));
+                InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(1f);
+                //StartCoroutine(FreezeMovement(1f));
                 PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
             } 
         }
