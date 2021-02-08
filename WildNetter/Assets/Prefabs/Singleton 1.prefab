@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4677179125194629498}
   - component: {fileID: 4677179125194629511}
   - component: {fileID: 1398032489}
+  - component: {fileID: 1915492428}
   m_Layer: 0
   m_Name: Singleton 1
   m_TagString: Untagged
@@ -89,3 +90,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canPlayerMove: 1
   isPlayerRotateAble: 1
+--- !u!114 &1915492428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4677179125194629499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da5940bb82bbb1348b6fb4d6db0f8d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  currentPlayPhase: 0

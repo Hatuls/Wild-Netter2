@@ -520,10 +520,10 @@ public class PlayerStats : MonoSingleton<PlayerStats>
                    
                     totalAmount += buffsArr[i].GetAmount;
                 } 
-                Debug.Log(" ++++ " + totalAmount);
+            
             }
         }
-        Debug.Log("totalAmount : " + totalAmount);
+
         AddHealthAmount(totalAmount);
     }
 

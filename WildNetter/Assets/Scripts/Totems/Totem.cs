@@ -58,7 +58,7 @@ public class Totem : MonoBehaviour
 
         relevantSO = totemSO;
         totemID = id;
-        Debug.Log(relevantSO.totemType);
+      
         rangeField.localScale = new Vector3(relevantSO.range / 2, relevantSO.range / 2, 1);
         gameObject.SetActive(true);
         totemName = relevantSO.totemName;

@@ -56,7 +56,7 @@ public class TotemOfHealing : TotemSO
         float timeToDestroy = duration + GetCurrentTime();
         while (GetCurrentTime() < timeToDestroy)
         {
-            Debug.Log("~");
+
             this.DoEffect(totem.transform.position, targetPos.position);
              
             if (toBreakOut)

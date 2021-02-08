@@ -4978,7 +4978,7 @@ MonoBehaviour:
   isRunning: 0
   canDash: 0
   rotaionSpeed: 90
-  HeadTransform: {fileID: 0}
+  HeadTransform: {fileID: 1108690221480744202}
 --- !u!114 &1924940592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5097,8 +5097,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outlineMode: 0
-  outlineColor: {r: 0.7830189, g: 0.15881987, b: 0.15881987, a: 1}
-  outlineWidth: 0.85
+  outlineColor: {r: 0.82176334, g: 0.8490566, b: 0.18823424, a: 1}
+  outlineWidth: 0.2
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -5577,6 +5577,12 @@ GameObject:
 --- !u!4 &5945902883541790451 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 47fc9f70eddee6e44a4bdcaed6152da4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6129027827368446232}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1108690221480744202 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6515712193588681746, guid: 47fc9f70eddee6e44a4bdcaed6152da4,
     type: 3}
   m_PrefabInstance: {fileID: 6129027827368446232}
   m_PrefabAsset: {fileID: 0}
