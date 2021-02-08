@@ -126,7 +126,7 @@ public abstract class TotemSO : Item
 
     public virtual IEnumerator ActivateTotemEffect(bool toContinuteSpawning, GameObject totem) { yield return null; }
 
-
+    public virtual void ResetMe() { }
 
     public virtual void PlayAnimation(string animName)
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TotemOfShock : TotemSO
 {
+   
     private List<GameObject> enemyShocked = new List<GameObject>();
     public TotemOfShock(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
@@ -14,27 +15,30 @@ public class TotemOfShock : TotemSO
     {
         Collider[] objectCollider;
         objectCollider = Physics.OverlapSphere(totemLocation, range, TotemManager._Instance.enemiesLayer);
-        Debug.Log(objectCollider.Length);
+        Debug.Log("enemyShocked DO effect");
         foreach (Collider col in objectCollider)
         {
             if (CheckRange(totemLocation, col.transform.position, range))
             {
                 //apply slow to enemy - from totemSO
-                if (enemyShocked.Contains(col.gameObject))
+                if (enemyShocked.Contains(col.transform.root.gameObject))
                 {
+                     col.transform.root.GetComponent<Enemy>().SlowSetter(this.effectAmountPrecentage.GetValueOrDefault(), true);
                     continue;
                 }
-
                 else
                 {
-                    enemyShocked.Add(col.gameObject);
-                    //apply damage to enemy - GetTotemEffectAmount
+
+                    enemyShocked.Add(col.transform.root.gameObject);
                     col.transform.root.GetComponent<Enemy>().TotemEffect(TotemName.shock, totem);
+                    col.transform.root.GetComponent<Enemy>().FlatDamage(this.GetTotemEffectAmount);
+                   
                 }
             }
-
             else
             {
+                //this.effectAmountPrecentage.GetValueOrDefault()
+                col.transform.root.GetComponent<Enemy>().SlowSetter(this.effectAmountPrecentage.GetValueOrDefault(), false);
                 //remove slow
             }
         }
@@ -56,5 +60,25 @@ public class TotemOfShock : TotemSO
             currentRealTime = GetCurrentTime();
             yield return new WaitForSeconds(1);
         }
+    }
+
+    public override void ResetMe() {
+
+
+        for (int i = 0; i < enemyShocked.Count; i++)
+        {
+            if (!enemyShocked[i])
+                continue;
+
+            enemyShocked[i].GetComponent<Enemy>().SlowSetter(0, false);
+        }
+
+
+        enemyShocked.Clear();
+
+
+
+
+
     }
 }
