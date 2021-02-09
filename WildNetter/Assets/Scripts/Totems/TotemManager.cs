@@ -189,7 +189,7 @@ public class TotemManager : MonoSingleton<TotemManager>
             return true;    
     }
 
-    public void SpawnBeastAtDetectionLocation() {
+    public void CheckIfToSpawnBeastAtDetectionLocation() {
 
         if (!ThereIsDetectionTotemInScene())
             return ;
@@ -199,10 +199,8 @@ public class TotemManager : MonoSingleton<TotemManager>
         if (totem == null)
             return;
 
-        EnemyManager._Instance.GetBeastSettings((Difficulty)UnityEngine.Random.Range(0, 2), (Size)UnityEngine.Random.Range(0, 2), UnityEngine.Random.Range(1, 100), totem.gameObject.transform.position, 5);
+        EnemyManager._Instance.GetBeastSettings((Difficulty)UnityEngine.Random.Range(0, 2), (Size)UnityEngine.Random.Range(0, 2), UnityEngine.Random.Range(1, 100), totem.transform.position, 5);
 
-
- 
     }
 
     private bool CheckPlayPhaseForTotem(TotemName totemName) {

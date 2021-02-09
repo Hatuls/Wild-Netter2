@@ -53,7 +53,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            TotemManager._Instance.SpawnBeastAtDetectionLocation(); 
+            TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation(); 
         }
     }
 
@@ -111,6 +111,6 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
 
 
-        TotemManager._Instance.SpawnBeastAtDetectionLocation();
+        TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation();
     }
 }
