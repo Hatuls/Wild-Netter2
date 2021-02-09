@@ -58,7 +58,7 @@ public abstract class Enemy : MonoBehaviour
     public int GetSetEnemyCurrentHP {
         get { return currentHP; }
         set {
-            TextPopUp.Create(TextType.CritDMG, transform.position, currentHP - value);
+          
             currentHP = value;
             if (currentHP <= 0)
             {
@@ -400,6 +400,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void FlatDamage(int Damage)
     {
+        PlayerGFX._Instance.ApplyPlayerVFX( transform.position , VFXWorldType.EnemyGotHit);
         OnRecieveDmg(Damage);
     }
     public virtual void EnemyKilled() 

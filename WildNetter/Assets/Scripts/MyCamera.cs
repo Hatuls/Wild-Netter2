@@ -2,6 +2,7 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class MyCamera : MonoSingleton<MyCamera>
@@ -11,7 +12,7 @@ public class MyCamera : MonoSingleton<MyCamera>
     public const float offSetTimeToFollow = 2f;  // <- after adjustment change to private
     float distanceFromTarget;
     bool engableFog = false;
-
+    Vector3 lastMousePos;
     Vector3 targetVector;
 
     //Components References:
@@ -26,14 +27,22 @@ public class MyCamera : MonoSingleton<MyCamera>
     public RaycastHit _HitInfo;
     [SerializeField] float currentZoom , maxZoomIn, maxZoomOut, zoomSpeed , zoomAmount;
     public float smoothTime;
- 
+    bool mouseMoved;
+    public bool SetGetMouseMove {
+        get => mouseMoved;
+        set
+        {
+            if (mouseMoved != value)
+                mouseMoved = value;
+        }
+    }
     public override void Init() {
         playerTransform = PlayerManager._Instance.GetPlayerTransform;
         _Ray = new Ray();
         _HitInfo = new RaycastHit();
-      
+        lastMousePos = Input.mousePosition;
 
-        currentZoom = cmv.m_Lens.OrthographicSize;
+          currentZoom = cmv.m_Lens.OrthographicSize;
     
     }
 
@@ -50,10 +59,23 @@ public class MyCamera : MonoSingleton<MyCamera>
         return _HitInfo;
 
     }
+    private void FixedUpdate()
+    {
+       
+    }
     private void Update()
     {
+        CheckIfMouseMoved();
         mouseTransform.position = AdjustCameraFromMouse();
         ZoomFunction();
+    }
+
+    private void CheckIfMouseMoved()
+    {
+        if (Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
+            SetGetMouseMove = true;
+        else
+            SetGetMouseMove = false;
     }
     void ZoomFunction() {
         if (Input.mouseScrollDelta.y != 0)
@@ -81,6 +103,10 @@ public class MyCamera : MonoSingleton<MyCamera>
         Vector3 mousePos = new Vector3(Mathf.Clamp(_HitInfo.point.x, playerTransform.position.x - clampRange, playerTransform.position.x + clampRange), _HitInfo.point.y, Mathf.Clamp(_HitInfo.point.z, playerTransform.position.z - clampRange, playerTransform.position.z + clampRange));
 
 
-        return Vector3.Lerp(mouseTransform.position, mousePos, smoothTime); ;
+        return Vector3.Lerp(mouseTransform.position, mousePos, smoothTime); 
+        
     }
+
+
+
 }

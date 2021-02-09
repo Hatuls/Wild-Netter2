@@ -100,6 +100,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     //move to player manager
     public void GetHit(int RecieveDMG, Vector3 Source)
     {
+        PlayerGFX._Instance.ApplyPlayerVFX((transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
         _playerStats.ApplyDMGToPlayer(RecieveDMG);
         _playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
     }
@@ -226,8 +227,8 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         // attack dmg of the weapon + attack dmg of the weapon * (playerStength% - enemy armour%)
         finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
 
-        TextPopUp.Create(TextType.NormalDMG, enemy.transform.root.position, finalDmg);
-
+         TextPopUp.Create(TextType.NormalDMG, ( transform.position + enemy.transform.root.position)/2f, finalDmg);
+         PlayerGFX._Instance.ApplyPlayerVFX((enemy.transform.parent.position + transform.position) / 2f, VFXWorldType.EnemyGotHit);
         enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 

@@ -28,10 +28,11 @@ public class TotemOfShock : TotemSO
                 }
                 else
                 {
-
+                    Enemy enmCache = col.transform.root.GetComponent<Enemy>();
                     enemyShocked.Add(col.transform.parent.gameObject);
-                    col.transform.root.GetComponent<Enemy>().TotemEffect(TotemName.shock, totem);
-                    col.transform.root.GetComponent<Enemy>().FlatDamage(this.GetTotemEffectAmount);
+                    TextPopUp.Create(TextType.CritDMG, enmCache.transform.position, this.GetTotemEffectAmount);
+                    enmCache.TotemEffect(TotemName.shock, totem);
+                    enmCache.FlatDamage(this.GetTotemEffectAmount);
                    
                 }
             }
