@@ -12,6 +12,9 @@ public class InputManager : MonoSingleton<InputManager>
     Vector3 mousePos;
    [SerializeField] private bool canPlayerMove = true;
     [SerializeField] private bool isPlayerRotateAble = true;
+   public AttackType currectAttackType;
+    enum MovementState { followAndMoveTowardMouse, MoveTowardWASD}
+    MovementState movementState;
     public bool GetSetCanPlayerRotate
     {
         get => isPlayerRotateAble;
@@ -41,9 +44,10 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     public override void Init() {
-
+        movementState = MovementState.followAndMoveTowardMouse;
         _playerMovement = PlayerMovement._Instance;
         _playerCombat = PlayerCombat._Instance;
+        currectAttackType = AttackType.Melee;
     }
 
     // Update is called once per frame
@@ -53,9 +57,9 @@ public class InputManager : MonoSingleton<InputManager>
     }
     void PlayersInputs()
     {
-
-        Movements();
+        AssignMovementState();
         MouseInput();
+        Movements();
         CombatInput();
     }
 
@@ -77,6 +81,7 @@ public class InputManager : MonoSingleton<InputManager>
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             _playerCombat.SetAttackType(AttackType.Melee);
+
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -86,12 +91,26 @@ public class InputManager : MonoSingleton<InputManager>
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            if (currectAttackType != AttackType.Totem)
             _playerCombat.SetAttackType(AttackType.Totem);
+            else
+                EquipTotem();
+            
+            
 
         }
     }
+    int totemSlotCounter = 1;
+    void EquipTotem() {
 
-    bool flag = true;
+        PlayerCombat._Instance.SetCurrentTotemHolderByInt(totemSlotCounter);
+        Debug.Log(totemSlotCounter);
+        totemSlotCounter++;
+
+        if (totemSlotCounter > 5)
+            totemSlotCounter = 1;
+
+    }
     void MouseInput()
     {
         if (!GetSetCanPlayerRotate)
@@ -104,7 +123,7 @@ public class InputManager : MonoSingleton<InputManager>
         //           SetLookState();
 
 
-
+        mousePos = GetPointFromRayCast();
 
 
 
@@ -128,7 +147,7 @@ public class InputManager : MonoSingleton<InputManager>
         //}
         //_playerMovement.RotateTowardsDirection(transform.forward);
         ////_playerMovement.RotatePlayer(transform.forward, CheckIfMouseIsOnPlayer());
-        _playerMovement.RotatePlayer(GetDirectionTowardTheMouse(), CheckIfMouseIsOnPlayer());
+        _playerMovement.RotatePlayer(GetPointFromRayCast(), CheckIfMouseIsOnPlayer());
     }
 
 
@@ -136,7 +155,7 @@ public class InputManager : MonoSingleton<InputManager>
     enum LookState { Forward, Backward, LookLeft, LookForwardLeft, LookRight, LookForwardRight, Default };
     LookState lookingToward;
     Vector3 dirtoMouse;
-    Vector3 GetDirectionTowardTheMouse() {
+    Vector3 GetPointFromRayCast() {
         dirtoMouse = Vector3.zero;
         if (MyCamera._Instance != null)
             dirtoMouse=  new Vector3(MyCamera._Instance._HitInfo.point.x, 0, MyCamera._Instance._HitInfo.point.z);
@@ -185,10 +204,35 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     bool CheckIfMouseIsOnPlayer() => Vector3.Distance(mousePos, transform.position) < playerRadius;
+
+
+
+
+    void AssignMovementState() {
+
+
+        if (!MyCamera._Instance.SetGetMouseMove && inputVector != Vector3.zero)
+            movementState = MovementState.MoveTowardWASD;
+
+
+        else if (MyCamera._Instance.SetGetMouseMove && (inputVector != Vector3.zero || inputVector == Vector3.zero))
+            movementState = MovementState.followAndMoveTowardMouse;
+
+
+        // Debug.Log("movementState " + movementState);
+    
+    }
+
+
+
+
+
     void Movements()
     {
 
         inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+
 
         if (Input.GetKeyDown(KeyCode.Space))
             _playerMovement.Dash(inputVector);
@@ -223,7 +267,6 @@ public class InputManager : MonoSingleton<InputManager>
 
             GetSetCanPlayerRotate = CanFreelyMove;
 
-      
             GetSetCanPlayerMove = CanFreelyMove;
 
     }

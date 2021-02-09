@@ -1,8 +1,7 @@
 ﻿
-using JetBrains.Annotations;
 using System;
 using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 
@@ -70,18 +69,6 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     #region EXP Manager
 
 
@@ -124,20 +111,6 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         GetSetExpToNextLevel *= playerLevel / EXPtoNextLevelModifier;
     }
     #endregion
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -494,22 +467,21 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         float totalAmount = staminaRegenerationAmount;
 
 
-       
 
-        if (buffsArr == null)
-            return;
-        if (buffsArr.Length > 0 && counter > 0)
-        {
-            for (int i = 0; i < buffsArr.Length; i++)
+
+            if (buffsArr != null &&buffsArr.Length > 0 && counter > 0)
             {
-                if (buffsArr[i] == null)
-                    break;
-                if (buffsArr[i].GetRegenerationType == RegenerationType.Stamina && buffsArr[i].SetGetBuffActive)
-                totalAmount += buffsArr[i].GetAmount;
+                for (int i = 0; i < buffsArr.Length; i++)
+                {
+                    if (buffsArr[i] == null)
+                        break;
+                    if (buffsArr[i].GetRegenerationType == RegenerationType.Stamina && buffsArr[i].SetGetBuffActive)
+                        totalAmount += buffsArr[i].GetAmount;
+                }
             }
-        }
+        
 
-
+        Debug.Log("!" +totalAmount);
         AddStaminaAmount(totalAmount);
     }
     private void HealthRegeneration() {

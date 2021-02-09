@@ -15,7 +15,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     [SerializeField]Camera mainCam;
     Dictionary<Vector3, GameObject> spawnQueue = new Dictionary<Vector3, GameObject>();
     Dictionary<Vector3, QueuedEnemy> queuedEnemies = new Dictionary<Vector3, QueuedEnemy>();
-    List<Vector3> queuedPoints = new List<Vector3>();
+    List<Vector3> queuedPoints ;
     [SerializeField]float distance;
 
 
@@ -25,7 +25,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     {
         _enemyManager = EnemyManager._Instance;
         _enemyManager._enemySpawner = this;
-
+        queuedPoints = new List<Vector3>();
 
 
 
@@ -84,26 +84,37 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     }
     public void CheckQueuedEnemies()
     {
-        if (queuedPoints == null || queuedPoints.Count ==0)
+        if (queuedPoints == null || queuedPoints.Count == 0)
             return;
-
-        foreach (Vector3 position in queuedPoints)
+        try
         {
-            
-            if (CheckDistance(position))
+            foreach (Vector3 position in queuedPoints.ToArray())
             {
-                Debug.Log("onView");
-               
-                Instantiate(spawnQueue[position], queuedEnemies[position].worldPosition, queuedEnemies[position].spawnQuaternion);
-                if (queuedEnemies.ContainsKey(position))
-                 queuedEnemies.Remove(position);
 
-                if (spawnQueue.ContainsKey(position))
-                  spawnQueue.Remove(position);
+                if (CheckDistance(position))
+                {
+                    Debug.Log("onView");
+                    if (spawnQueue != null && queuedEnemies != null)
+                    {
 
-                if (queuedPoints.Contains(position))
-                   queuedPoints.Remove(position);
+                        Instantiate(spawnQueue[position], queuedEnemies[position].worldPosition, queuedEnemies[position].spawnQuaternion);
+                        if (queuedEnemies.ContainsKey(position))
+                            queuedEnemies.Remove(position);
+
+                        if (spawnQueue.ContainsKey(position))
+                            spawnQueue.Remove(position);
+
+                        if (queuedPoints.Contains(position))
+                            queuedPoints.Remove(position);
+                    }
+                }
             }
+
+        }
+        catch (System.Exception)
+        {
+
+            throw;
         }
     }
 

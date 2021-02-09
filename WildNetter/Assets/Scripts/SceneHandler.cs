@@ -49,7 +49,13 @@ public class SceneHandler : MonoSingleton<SceneHandler>
         ResetAllTriggers();
     }
 
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation(); 
+        }
+    }
 
 
     public void TriggerNotification(TriggerArea theTriggered) {
@@ -77,11 +83,9 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     }
 
     void SpawnPlayer(Vector3 position) {
-    
-       
         PlayerManager._Instance.GetPlayerTransform.position = position;
         InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
- 
+        currentPlayPhase = PlayPhase.BattlePhase;
     }
 
 
@@ -101,5 +105,10 @@ public class SceneHandler : MonoSingleton<SceneHandler>
         Scene SceneToLoad = SceneManager.GetSceneAt(sceneToLoad);
 
         SceneManager.SetActiveScene(SceneToLoad);
+        TotemManager._Instance.AssignCurrentTotemDictToScene(sceneToLoad);
+
+
+
+        TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation();
     }
 }

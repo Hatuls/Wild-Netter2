@@ -33,7 +33,40 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         }
 
     }
+    public void SetCurrentTotemHolderByInt(int index) {
+        TotemName ttmcache = TotemName.None;
+        if (index < 0 || index > 5)
+            return;
 
+        switch (index)
+        {
+           
+            case 1:
+                ttmcache = TotemName.prey;
+                break;
+            case 2:
+                ttmcache = TotemName.healing;
+                break;
+            case 3:
+                ttmcache = TotemName.detection;
+                break;
+            case 4:
+                ttmcache = TotemName.stamina;
+                break;
+            case 5:
+                ttmcache = TotemName.shock;
+                break; 
+
+            //default:
+            //case 0:
+            //    ttmcache = TotemName.None;
+            //    break;
+        }
+
+        Debug.Log("Now Holding Totem : " + ttmcache);
+        GetSetCurrentTotemToDeploy = ttmcache;
+    }
+    
     public TotemName GetSetCurrentTotemToDeploy {
         get => currentTotemHolder;
 
@@ -100,6 +133,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     //move to player manager
     public void GetHit(int RecieveDMG, Vector3 Source)
     {
+        PlayerGFX._Instance.ApplyPlayerVFX((transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
         _playerStats.ApplyDMGToPlayer(RecieveDMG);
         _playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
     }
@@ -158,7 +192,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
             default:
                 break;
         }
-
+       InputManager._Instance.currectAttackType = type;
 
     }
     private void ResetAttackAction()
@@ -217,6 +251,10 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         
     }
    public void CalculateDMGToEnemy(EnemyPart enemy) {
+
+        if (enemy == null)
+            return;
+
         int finalDmg = GetAttackDMG;
         int StrengthAgainstArmour = _playerStats.GetSetStrength - enemy.armor;
 
@@ -226,8 +264,8 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         // attack dmg of the weapon + attack dmg of the weapon * (playerStength% - enemy armour%)
         finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
 
-        TextPopUp.Create(TextType.NormalDMG, enemy.transform.root.position, finalDmg);
-
+         TextPopUp.Create(TextType.NormalDMG, ( transform.position + enemy.transform.root.position)/2f, finalDmg);
+         PlayerGFX._Instance.ApplyPlayerVFX((enemy.transform.parent.position + transform.position) / 2f, VFXWorldType.EnemyGotHit);
         enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 

@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.SceneManagement;
 
 public enum TotemName {None, prey, healing, detection, stamina, shock };
 public enum TotemType { baiting, buff, debuff, detection, trapping };
@@ -15,24 +14,46 @@ public class TotemManager : MonoSingleton<TotemManager>
     // Getter & Setters:
 
     public Vector3 totemOffset;
+
+
     public  GameObject totem1;
     public LayerMask enemiesLayer;
     public  Transform TotemContainer;
     public Mesh[] totemMeshArr;
-
+    
    // public List<Transform> ActiveTotem;
-    public Dictionary<int, Totem> allGameTotemDict;
-
+    public Dictionary<int, Totem> currentGameTotemDict;
+    public Dictionary<int, Dictionary<int, Totem>> ActiveTotemsInSceneDict = new Dictionary<int, Dictionary<int, Totem>>();
     int totemID;
     public override void Init()
     {
-        allGameTotemDict= new Dictionary<int, Totem>();
+        currentGameTotemDict = new Dictionary<int, Totem>();
         totemID = 0;
         //Debug.Log(System.DateTime.Now);
          
     }
-    //public void ActivateTotemEffect() { }
-    
+ 
+
+  
+    public Dictionary<int, Totem> SetDictionaryForScene
+    {
+        set {
+            if (currentGameTotemDict != value)
+                currentGameTotemDict = value;
+        }
+    }
+
+    public void AssignCurrentTotemDictToScene(int sceneID)
+    {
+        if (ActiveTotemsInSceneDict.ContainsKey(sceneID))
+        {
+            SetDictionaryForScene = ActiveTotemsInSceneDict[sceneID];
+            return;
+        }
+        ActiveTotemsInSceneDict.Add(sceneID, new Dictionary<int, Totem>());
+        SetDictionaryForScene = ActiveTotemsInSceneDict[sceneID];
+    }
+
     public bool TryDeployAtLocation(Vector3 location, TotemName type)
     {
         if (!CheckPlayPhaseForTotem(type))
@@ -44,7 +65,7 @@ public class TotemManager : MonoSingleton<TotemManager>
             return false;
         totemID++;
     var ttm =    Totem.DeployTotem(totemID,location, totemCache, AssignMeshToTotem(type));
-        allGameTotemDict.Add(totemID, ttm);
+        currentGameTotemDict.Add(totemID, ttm);
 
             //Totem t = GetActiveTotem(location).GetComponent<Totem>();
             //t.Init(location, totemCache , AssignMeshToTotem(type));
@@ -53,10 +74,10 @@ public class TotemManager : MonoSingleton<TotemManager>
 
     public void RemoveTotem(int totemID)
     {
-        if (allGameTotemDict.ContainsKey(totemID)) {
-            PlayerStats._Instance.RemoveBuff(allGameTotemDict[totemID].GetBuff);
-            allGameTotemDict[totemID].UnsubscibeBuffs();
-           allGameTotemDict.Remove(totemID);
+        if (currentGameTotemDict.ContainsKey(totemID)) {
+            PlayerStats._Instance.RemoveBuff(currentGameTotemDict[totemID].GetBuff);
+            currentGameTotemDict[totemID].UnsubscibeBuffs();
+            currentGameTotemDict.Remove(totemID);
         
         }
     }
@@ -74,9 +95,9 @@ public class TotemManager : MonoSingleton<TotemManager>
             case TotemName.detection:
                 return totemMeshArr[2];
             case TotemName.stamina:
-                return totemMeshArr[3];
+                return totemMeshArr[2];
             case TotemName.shock:
-                return totemMeshArr[1];
+                return totemMeshArr[0];
          
         }
 
@@ -87,10 +108,10 @@ public class TotemManager : MonoSingleton<TotemManager>
         bool canLocate= true;
         float minimumCheckRange = 40f;
 
-        if (allGameTotemDict.Count == 0)
+        if (currentGameTotemDict.Count == 0)
             return true;
 
-        foreach (var item in allGameTotemDict)
+        foreach (var item in currentGameTotemDict)
         {
      
             if (!item.Value.gameObject.activeSelf||Vector3.Distance(position, item.Value.transform.position) > minimumCheckRange)
@@ -109,7 +130,7 @@ public class TotemManager : MonoSingleton<TotemManager>
     }
 
 
-    public TotemSO GetRelevantTotemData(TotemName totemSO)
+    private TotemSO GetRelevantTotemData(TotemName totemSO)
     {
         if (totemSO == TotemName.None)
             return null;
@@ -143,12 +164,44 @@ public class TotemManager : MonoSingleton<TotemManager>
         return LoadTotemData(startOfTotemID+ CsVID);
     }
 
-    public TotemSO LoadTotemData(int id)=> ItemFactory._Instance.GenerateItem(id) as TotemSO;
-        
-    
+    private TotemSO LoadTotemData(int id)=> ItemFactory._Instance.GenerateItem(id) as TotemSO;
 
 
 
+    private Totem TryGetTotemFromDictionary(TotemName totemName) {
+        if (totemName == TotemName.None || currentGameTotemDict == null || currentGameTotemDict.Count == 0)
+            return null;
+
+        foreach (var ttm in currentGameTotemDict)
+        {
+            if (ttm.Value.relevantSO.totemName == totemName)
+                return ttm.Value;
+        }
+        return null;
+    }
+     bool ThereIsDetectionTotemInScene() {
+        var cache = TryGetTotemFromDictionary(TotemName.detection);
+        if (cache == null)
+            return false;
+
+
+
+            return true;    
+    }
+
+    public void CheckIfToSpawnBeastAtDetectionLocation() {
+
+        if (!ThereIsDetectionTotemInScene())
+            return ;
+
+
+        var totem = TryGetTotemFromDictionary(TotemName.detection);
+        if (totem == null)
+            return;
+
+        EnemyManager._Instance.GetBeastSettings((Difficulty)UnityEngine.Random.Range(0, 2), (Size)UnityEngine.Random.Range(0, 2), UnityEngine.Random.Range(1, 100), totem.transform.position, 5);
+
+    }
 
     private bool CheckPlayPhaseForTotem(TotemName totemName) {
 
@@ -163,7 +216,7 @@ public class TotemManager : MonoSingleton<TotemManager>
             {
                 case TotemName.healing:
                 case TotemName.stamina:
-                case TotemName.shock:
+               // case TotemName.shock:
                     return true;
             }
         }
@@ -171,7 +224,8 @@ public class TotemManager : MonoSingleton<TotemManager>
         {
             switch (totemName)
             {
-                case TotemName.prey:
+                // case TotemName.prey:
+                case TotemName.shock:
                 case TotemName.detection:
                     return true;
             }
