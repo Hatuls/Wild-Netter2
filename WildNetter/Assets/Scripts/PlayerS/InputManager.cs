@@ -12,7 +12,7 @@ public class InputManager : MonoSingleton<InputManager>
     Vector3 mousePos;
    [SerializeField] private bool canPlayerMove = true;
     [SerializeField] private bool isPlayerRotateAble = true;
-
+   public AttackType currectAttackType;
     enum MovementState { followAndMoveTowardMouse, MoveTowardWASD}
     MovementState movementState;
     public bool GetSetCanPlayerRotate
@@ -47,7 +47,7 @@ public class InputManager : MonoSingleton<InputManager>
         movementState = MovementState.followAndMoveTowardMouse;
         _playerMovement = PlayerMovement._Instance;
         _playerCombat = PlayerCombat._Instance;
-
+        currectAttackType = AttackType.Melee;
     }
 
     // Update is called once per frame
@@ -81,6 +81,7 @@ public class InputManager : MonoSingleton<InputManager>
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             _playerCombat.SetAttackType(AttackType.Melee);
+
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -90,12 +91,26 @@ public class InputManager : MonoSingleton<InputManager>
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            if (currectAttackType != AttackType.Totem)
             _playerCombat.SetAttackType(AttackType.Totem);
+            else
+                EquipTotem();
+            
+            
 
         }
     }
+    int totemSlotCounter = 1;
+    void EquipTotem() {
 
-    bool flag = true;
+        PlayerCombat._Instance.SetCurrentTotemHolderByInt(totemSlotCounter);
+        Debug.Log(totemSlotCounter);
+        totemSlotCounter++;
+
+        if (totemSlotCounter > 5)
+            totemSlotCounter = 1;
+
+    }
     void MouseInput()
     {
         if (!GetSetCanPlayerRotate)

@@ -5,7 +5,7 @@ public enum TextType { NormalDMG, CritDMG, Healing, Money }
 public class TextPopUp : MonoBehaviour
 {
     public static TextPopUp Create(TextType type , Vector3 Position,int Amount) {
-        Transform textPopUpTransform = Instantiate(TextPopUpHandler._Instance.GetTextPF,Position,Quaternion.identity,TextPopUpHandler._Instance.transform);
+        Transform textPopUpTransform = Instantiate(TextPopUpHandler._Instance.GetTextPF,Position + Vector3.forward * 3f,Quaternion.identity,TextPopUpHandler._Instance.transform);
 
         TextPopUp textPopUp = textPopUpTransform.GetComponent<TextPopUp>();
         textPopUp.Setup(type, Amount);
