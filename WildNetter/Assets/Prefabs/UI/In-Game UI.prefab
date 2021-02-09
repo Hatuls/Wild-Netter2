@@ -6435,7 +6435,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
@@ -7531,7 +7531,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: BackFromSettings
         m_Mode: 1
         m_Arguments:
@@ -7837,7 +7837,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: SoundSettings
         m_Mode: 1
         m_Arguments:
@@ -8041,7 +8041,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: InventoryMenu
         m_Mode: 1
         m_Arguments:
@@ -10112,7 +10112,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: StartOver
         m_Mode: 1
         m_Arguments:
@@ -11302,7 +11302,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: PlayerMenu
         m_Mode: 1
         m_Arguments:
@@ -12230,7 +12230,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: PauseMenuSettings
         m_Mode: 1
         m_Arguments:
@@ -12644,7 +12644,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: PlayerMenu
         m_Mode: 1
         m_Arguments:
@@ -13001,7 +13001,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: ControlsSettings
         m_Mode: 1
         m_Arguments:
@@ -17684,7 +17684,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: WorldMap
         m_Mode: 1
         m_Arguments:
@@ -20048,8 +20048,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: BackFromSettings
+      - m_Target: {fileID: 761878603}
+        m_MethodName: PauseMenuSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20419,7 +20419,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: MapMenu
         m_Mode: 1
         m_Arguments:
@@ -20775,7 +20775,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: Continue
         m_Mode: 1
         m_Arguments:
@@ -21890,7 +21890,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
@@ -22246,7 +22246,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: Graphicsettings
         m_Mode: 1
         m_Arguments:
@@ -22800,7 +22800,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: PauseMenu
         m_Mode: 1
         m_Arguments:
@@ -23049,7 +23049,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: ZoneMap
         m_Mode: 1
         m_Arguments:
@@ -24517,7 +24517,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: BackFromSettings
         m_Mode: 1
         m_Arguments:
@@ -25487,7 +25487,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 761878603}
         m_MethodName: InventoryMenu
         m_Mode: 1
         m_Arguments:
@@ -26590,6 +26590,8 @@ GameObject:
   - component: {fileID: 6400959534791882782}
   - component: {fileID: 6400959534791882783}
   - component: {fileID: 6400959534791882780}
+  - component: {fileID: 761878603}
+  - component: {fileID: 761878604}
   m_Layer: 5
   m_Name: In-Game UI
   m_TagString: Untagged
@@ -26683,6 +26685,51 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &761878603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400959534791882781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809b5b5328365bf4492a8fdbc9a2e53b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &761878604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400959534791882781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad30b0bec907fb84c8a99688373f8c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventoryUIWindow: {fileID: 6400959534023523869}
+  mainMenu: {fileID: 0}
+  loadGameMenu: {fileID: 0}
+  newsMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
+  inventorySlotHolder: {fileID: 0}
+  playerMenu: {fileID: 6400959533296030207}
+  mapMenu: {fileID: 6400959533116556672}
+  zoneMap: {fileID: 6400959533622013999}
+  worldMap: {fileID: 6400959534779033823}
+  inGamePopUp: {fileID: 6400959534830018354}
+  pausePopUp: {fileID: 6400959532750490680}
+  pauseScreen: {fileID: 6400959534086471557}
+  inGameOptionsMenu: {fileID: 6400959534719491588}
+  inGameSoundOptions: {fileID: 6400959533251658498}
+  inGameGraphicsOptions: {fileID: 6400959533788335444}
+  inGameControlsOptions: {fileID: 6400959532701782166}
+  gui: {fileID: 6400959534758844360}
+  Slots: []
+  healthSlider: {fileID: 6400959533249884872}
+  staminaSlider: {fileID: 6400959533106262353}
 --- !u!1 &6400959534798429620
 GameObject:
   m_ObjectHideFlags: 0

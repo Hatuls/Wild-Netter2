@@ -472,7 +472,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: Back
         m_Mode: 1
         m_Arguments:
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: OptionsMenu
         m_Mode: 1
         m_Arguments:
@@ -2308,7 +2308,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: NewsMenu
         m_Mode: 1
         m_Arguments:
@@ -2516,7 +2516,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
@@ -2962,7 +2962,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: Back
         m_Mode: 1
         m_Arguments:
@@ -4217,7 +4217,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: Back
         m_Mode: 1
         m_Arguments:
@@ -4661,7 +4661,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 935010669}
         m_MethodName: LoadGameMenu
         m_Mode: 1
         m_Arguments:
@@ -5352,13 +5352,15 @@ GameObject:
   - component: {fileID: 3636648892852514294}
   - component: {fileID: 3636648892852514295}
   - component: {fileID: 3636648892852514292}
+  - component: {fileID: 935010669}
+  - component: {fileID: 935010670}
   m_Layer: 5
   m_Name: Main Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3636648892852514281
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5444,6 +5446,51 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &935010669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3636648892852514293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4de42428b723204cbd76b6ce1bc8dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &935010670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3636648892852514293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad30b0bec907fb84c8a99688373f8c8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventoryUIWindow: {fileID: 0}
+  mainMenu: {fileID: 3636648892069546628}
+  loadGameMenu: {fileID: 3636648892521607764}
+  newsMenu: {fileID: 3636648892588163007}
+  optionsMenu: {fileID: 3636648891486609579}
+  inventorySlotHolder: {fileID: 0}
+  playerMenu: {fileID: 0}
+  mapMenu: {fileID: 0}
+  zoneMap: {fileID: 0}
+  worldMap: {fileID: 0}
+  inGamePopUp: {fileID: 0}
+  pausePopUp: {fileID: 0}
+  pauseScreen: {fileID: 0}
+  inGameOptionsMenu: {fileID: 0}
+  inGameSoundOptions: {fileID: 0}
+  inGameGraphicsOptions: {fileID: 0}
+  inGameControlsOptions: {fileID: 0}
+  gui: {fileID: 0}
+  Slots: []
+  healthSlider: {fileID: 0}
+  staminaSlider: {fileID: 0}
 --- !u!1 &3636648892865236057
 GameObject:
   m_ObjectHideFlags: 0
