@@ -10,8 +10,8 @@ Material:
   m_Name: Material.004
   m_Shader: {fileID: -6465566751694194690, guid: a962881e5171cb04383ca413b4a5fa69,
     type: 3}
-  m_ShaderKeywords: HARD_SHADING_ON TOON_EFFECTS_ON
-  m_LightmapFlags: 4
+  m_ShaderKeywords: TOON_EFFECTS_ON
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - HARD_SHADING: 1
+    - HARD_SHADING: 0
     - TOON_EFFECTS: 1
     - Vector1_6C6CFD2A: 0
     - Vector1_A38DD940: 1
@@ -90,7 +90,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
