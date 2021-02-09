@@ -14,6 +14,9 @@ public class GameUI : MonoBehaviour
     private bool inGameSoundSettings = false;
     private bool inGameGraphicsSettings = false;
     private bool inGameControlsSettings = false;
+    private bool mapMenuOn = false;
+    private bool zoneMapOn = false;
+    private bool worldMapOn = false;
     private void Start()
     {
         UiManager._Instance.ToggleGUIinScene(guiOn);
@@ -21,22 +24,54 @@ public class GameUI : MonoBehaviour
 
     public void PlayerMenu()
     {
+        mapMenuOn = false;
         playerMenuOn = true;
         inGamePopUpOn = true;
         inventoryMenuOn = false;
         UiManager._Instance.TogglePlayerMenu(playerMenuOn);
         UiManager._Instance.ToggleInGamePopUp(inGamePopUpOn);
         UiManager._Instance.ToggleInventoryMenu(inventoryMenuOn);
+        UiManager._Instance.ToggleMapUI(mapMenuOn);
+    }
+
+    public void MapMenu()
+    {
+        playerMenuOn = false;
+        inventoryMenuOn = false;
+        mapMenuOn = true;
+        zoneMapOn = true;
+        UiManager._Instance.ToggleMapUI(mapMenuOn);
+        UiManager._Instance.ToggleZoneMap(zoneMapOn);
+        UiManager._Instance.ToggleInventoryMenu(inventoryMenuOn);
+        UiManager._Instance.TogglePlayerMenu(playerMenuOn);
+    }
+
+    public void ZoneMap()
+    {
+        zoneMapOn = true;
+        worldMapOn = false;
+        UiManager._Instance.ToggleZoneMap(zoneMapOn);
+        UiManager._Instance.ToggleWorldMap(worldMapOn);
+    }
+
+    public void WorldMap()
+    {
+        zoneMapOn = false;
+        worldMapOn = true;
+        UiManager._Instance.ToggleWorldMap(worldMapOn);
+        UiManager._Instance.ToggleZoneMap(zoneMapOn);
     }
 
     public void InventoryMenu()
     {
+        mapMenuOn = false;
         playerMenuOn = false;
         inGamePopUpOn = true;
         inventoryMenuOn = true;
         UiManager._Instance.ToggleInGamePopUp(inGamePopUpOn);
         UiManager._Instance.ToggleInventoryMenu(inventoryMenuOn);
         UiManager._Instance.TogglePlayerMenu(playerMenuOn);
+        UiManager._Instance.ToggleMapUI(mapMenuOn);
     }
 
     public void PauseMenu()
@@ -47,6 +82,7 @@ public class GameUI : MonoBehaviour
         UiManager._Instance.TogglePauseMenuPopUp(pausePopUpOn);
         UiManager._Instance.TogglePauseMenu(pauseMenuOn);
         UiManager._Instance.ToggleInGameOptionsMenu(inGameSettingsOn);
+        Time.timeScale = 0f;
     }
     public void PauseMenuSettings()
     {
@@ -99,6 +135,18 @@ public class GameUI : MonoBehaviour
     {
         pausePopUpOn = false;
         UiManager._Instance.TogglePauseMenuPopUp(pausePopUpOn);
+        Time.timeScale = 1f;
+    }
+
+    public void StartOver()
+    {
+        UiManager._Instance.LoadLevel(1);
+    }
+
+    public void MainMenu()
+    {
+        UiManager._Instance.LoadLevel(0);
+
     }
 
     public void Exit()

@@ -3,6 +3,7 @@ using TMPro;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UiManager : MonoSingleton<UiManager>
 {
@@ -19,6 +20,9 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject optionsMenu;
     [SerializeField] GameObject inventorySlotHolder;
     [SerializeField] GameObject playerMenu;
+    [SerializeField] GameObject mapMenu;
+    [SerializeField] GameObject zoneMap;
+    [SerializeField] GameObject worldMap;
     [SerializeField] GameObject inGamePopUp;
     [SerializeField] GameObject pausePopUp;
     [SerializeField] GameObject pauseScreen;
@@ -28,6 +32,10 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject inGameControlsOptions;
     [SerializeField] GameObject gui;
     [SerializeField] GameObject[] Slots;
+    [SerializeField] Slider healthSlider;
+    [SerializeField] Slider staminaSlider;
+    //[SerializeField] Gradient gradient;
+    //[SerializeField] Image fill;
     TextMeshProUGUI currencyTMP;
     TextMeshProUGUI inventoryCapacityTMP;
     Sprite defaultSpriteForSlot;
@@ -103,6 +111,33 @@ public class UiManager : MonoSingleton<UiManager>
         }
     }
 
+    public void SetMaxHealth (float health)
+    {
+        healthSlider.maxValue = health;
+        healthSlider.value = health;
+
+        //fill.color = gradient.Evaluate(1f);
+    }
+
+    public void SetHealth (float health)
+    {
+        healthSlider.value = health;
+
+        //fill.color = gradient.Evaluate(healthSlider.normalizedValue);
+    }
+
+    public void SetMaxStamina (float stamina)
+    {
+        staminaSlider.maxValue = stamina;
+        staminaSlider.value = stamina;
+    }
+
+    public void SetStamina (float stamina)
+    {
+        staminaSlider.value = stamina;
+    }
+
+
     public void ToggleInventoryMenu(bool state)
     {
 
@@ -113,7 +148,18 @@ public class UiManager : MonoSingleton<UiManager>
         playerInventoryUIWindow.SetActive(state);
     }
     public void ToggleStatsMenu(bool state) { }
-    public void ToggleMapUI(bool state) { }
+    public void ToggleMapUI(bool state)
+    {
+        mapMenu.SetActive(state);
+    }
+    public void ToggleZoneMap(bool state)
+    {
+        zoneMap.SetActive(state);
+    }
+    public void ToggleWorldMap(bool state)
+    {
+        worldMap.SetActive(state);
+    }
     public void ToggleTotemModifierMSG(bool state) { }
     public void ToggleMissionMenu(bool state) { }
     public void ToggleInGamePopUp(bool state)
@@ -182,5 +228,9 @@ public class UiManager : MonoSingleton<UiManager>
         }
     }
 
+    public void LoadLevel(int sceneNumber)
+    {
+        SceneManager.LoadScene(sceneNumber);
+    }
 
 }
