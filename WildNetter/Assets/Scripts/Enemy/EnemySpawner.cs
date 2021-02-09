@@ -15,7 +15,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     [SerializeField]Camera mainCam;
     Dictionary<Vector3, GameObject> spawnQueue = new Dictionary<Vector3, GameObject>();
     Dictionary<Vector3, QueuedEnemy> queuedEnemies = new Dictionary<Vector3, QueuedEnemy>();
-    List<Vector3> queuedPoints = new List<Vector3>();
+    List<Vector3> queuedPoints ;
     [SerializeField]float distance;
 
 
@@ -25,7 +25,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     {
         _enemyManager = EnemyManager._Instance;
         _enemyManager._enemySpawner = this;
-
+        queuedPoints = new List<Vector3>();
 
 
 
@@ -88,7 +88,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
             return;
         try
         {
-            foreach (Vector3 position in queuedPoints)
+            foreach (Vector3 position in queuedPoints.ToArray())
             {
 
                 if (CheckDistance(position))
