@@ -5005,6 +5005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canPlayerMove: 1
   isPlayerRotateAble: 1
+  currectAttackType: 0
 --- !u!114 &126790575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5101,7 +5102,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: bcbca782147895c48ac2f545447ec32a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bcbca782147895c48ac2f545447ec32a,
         type: 3}
@@ -5272,7 +5273,7 @@ PrefabInstance:
     - target: {fileID: -5878263577387732535, guid: 47fc9f70eddee6e44a4bdcaed6152da4,
         type: 3}
       propertyPath: m_RenderingLayerMask
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -5878263577387732535, guid: 47fc9f70eddee6e44a4bdcaed6152da4,
         type: 3}
