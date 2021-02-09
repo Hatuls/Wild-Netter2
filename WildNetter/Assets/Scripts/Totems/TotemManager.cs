@@ -95,9 +95,9 @@ public class TotemManager : MonoSingleton<TotemManager>
             case TotemName.detection:
                 return totemMeshArr[2];
             case TotemName.stamina:
-                return totemMeshArr[3];
+                return totemMeshArr[2];
             case TotemName.shock:
-                return totemMeshArr[1];
+                return totemMeshArr[0];
          
         }
 
@@ -216,7 +216,7 @@ public class TotemManager : MonoSingleton<TotemManager>
             {
                 case TotemName.healing:
                 case TotemName.stamina:
-                case TotemName.shock:
+               // case TotemName.shock:
                     return true;
             }
         }
@@ -224,7 +224,8 @@ public class TotemManager : MonoSingleton<TotemManager>
         {
             switch (totemName)
             {
-                case TotemName.prey:
+                // case TotemName.prey:
+                case TotemName.shock:
                 case TotemName.detection:
                     return true;
             }

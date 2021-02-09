@@ -83,11 +83,9 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     }
 
     void SpawnPlayer(Vector3 position) {
-    
-       
         PlayerManager._Instance.GetPlayerTransform.position = position;
         InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
- 
+        currentPlayPhase = PlayPhase.BattlePhase;
     }
 
 
