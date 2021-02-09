@@ -21,8 +21,8 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         playerStats.ResetStats();
         playerStats.MaxStamina = staminaPerLevel * GetSetStaminaPoints;
         currentStamina = playerStats.MaxStamina;
-        //UiManager._Instance.SetMaxHealth(GetSetMaxHealth);
-        //UiManager._Instance.SetMaxStamina(GetSetMaxStamina);
+        UiManager._Instance.SetMaxHealth(GetSetMaxHealth);
+        UiManager._Instance.SetMaxStamina(GetSetMaxStamina);
 
         StopCoroutine(Regeneration());
         StartCoroutine(Regeneration());
@@ -121,7 +121,6 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         set 
         { 
             playerStats.maxHealth = value;
-            UiManager._Instance.SetMaxHealth(GetSetMaxHealth);
         }
     }
 
@@ -141,13 +140,14 @@ public class PlayerStats : MonoSingleton<PlayerStats>
             if (playerStats.currentHealth + (value - playerStats.currentHealth) >= playerStats.maxHealth) {
                
                 playerStats.currentHealth = playerStats.maxHealth;
+                UiManager._Instance.SetHealth(playerStats.currentHealth);
                 return;
             }
             if (value >playerStats.currentHealth )
                  TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value) * -1);
             
             playerStats.currentHealth = value;
-            UiManager._Instance.SetHealth(GetSetCurrentHealth);
+            UiManager._Instance.SetHealth(playerStats.currentHealth);
        
 
             if (playerStats.currentHealth <= 0)
@@ -225,7 +225,6 @@ public class PlayerStats : MonoSingleton<PlayerStats>
                 return;
 
             playerStats.MaxStamina = value;
-            UiManager._Instance.SetMaxStamina(GetSetMaxStamina);
         }
     }
 
