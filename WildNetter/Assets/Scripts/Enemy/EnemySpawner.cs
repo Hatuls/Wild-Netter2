@@ -86,14 +86,16 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
     {
         if (queuedPoints == null || queuedPoints.Count ==0)
             return;
-
+      
         foreach (Vector3 position in queuedPoints)
         {
             
             if (CheckDistance(position))
             {
                 Debug.Log("onView");
-               
+                if (spawnQueue != null&& queuedEnemies!= null)
+                {
+
                 Instantiate(spawnQueue[position], queuedEnemies[position].worldPosition, queuedEnemies[position].spawnQuaternion);
                 if (queuedEnemies.ContainsKey(position))
                  queuedEnemies.Remove(position);
@@ -103,6 +105,7 @@ public class EnemySpawner : MonoSingleton<EnemySpawner>
 
                 if (queuedPoints.Contains(position))
                    queuedPoints.Remove(position);
+                }
             }
         }
     }

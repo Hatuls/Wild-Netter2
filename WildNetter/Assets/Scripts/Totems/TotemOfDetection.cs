@@ -11,7 +11,10 @@ public class TotemOfDetection : TotemSO
     }
     public override void DoEffect(Vector3 totemLocation)
     {
-        SpawnDetectedEnemy(totemLocation);
+
+
+   
+        //SpawnDetectedEnemy(totemLocation);
        
     }
      void SpawnDetectedEnemy(Vector3 spawnPoint)
