@@ -16,10 +16,10 @@ public class TotemManager : MonoSingleton<TotemManager>
     public Vector3 totemOffset;
 
 
-    public  GameObject totem1;
+    public  GameObject totemOfDetection, totemOfShock , totemOfHealing , totemOfPrey,totemOfStamina;
     public LayerMask enemiesLayer;
     public  Transform TotemContainer;
-    public Mesh[] totemMeshArr;
+  
     
    // public List<Transform> ActiveTotem;
     public Dictionary<int, Totem> currentGameTotemDict;
@@ -83,21 +83,21 @@ public class TotemManager : MonoSingleton<TotemManager>
     }
 
 
-    Mesh AssignMeshToTotem(TotemName ttmName) {
+    GameObject AssignMeshToTotem(TotemName ttmName) {
 
         switch (ttmName)
         {
             
             case TotemName.prey:
-                return totemMeshArr[0];
+                return totemOfPrey;
             case TotemName.healing:
-                return totemMeshArr[1];
+                return totemOfHealing;
             case TotemName.detection:
-                return totemMeshArr[2];
+                return totemOfDetection;
             case TotemName.stamina:
-                return totemMeshArr[2];
+                return totemOfStamina;
             case TotemName.shock:
-                return totemMeshArr[0];
+                return totemOfShock;
          
         }
 
