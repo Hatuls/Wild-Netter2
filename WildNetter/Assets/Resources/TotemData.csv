@@ -1,6 +1,6 @@
 ID,TotemName,TotemType,Duration,Range(square),MinimumPlayerLevel,ItemsToBuild,effectAmountPrecentage,Amount
 40000,1,4,2-100000000,8,1,,,
-40001,2,2,1-10,8,3,,5,
+40001,2,2,1-16,8,3,,5,
 40002,3,1,1-7200,14,1,,,
 40003,4,2,1-28,10,5,,20,
 40004,5,3,1-500000000,8,1,,30,6-8
