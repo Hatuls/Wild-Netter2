@@ -30,14 +30,16 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject inGameSoundOptions;
     [SerializeField] GameObject inGameGraphicsOptions;
     [SerializeField] GameObject inGameControlsOptions;
+    [SerializeField] GameObject exitZonePopUp;
+    [SerializeField] GameObject exitZoneMap;
     [SerializeField] GameObject gui;
     [SerializeField] GameObject[] Slots;
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;
     //[SerializeField] Gradient gradient;
     //[SerializeField] Image fill;
-    TextMeshProUGUI currencyTMP;
-    TextMeshProUGUI inventoryCapacityTMP;
+    [SerializeField] TextMeshProUGUI currencyTMP;
+    [SerializeField] TextMeshProUGUI inventoryCapacityTMP;
     Sprite defaultSpriteForSlot;
     Item[] inventory;
     //SerializeField] TextMeshProUGUI inventoryCapacityText;
@@ -54,16 +56,16 @@ public class UiManager : MonoSingleton<UiManager>
         _playerInventory = PlayerInventory.GetInstance;
         inventory = _playerInventory.GetInventory;
         Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
-        currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-        inventoryCapacityTMP = playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
-        for (int i = 0; i < _playerInventory.maxCapacityOfItemsInList; i++)
-        {
+        //currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+        //inventoryCapacityTMP = playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
+        //for (int i = 0; i < _playerInventory.maxCapacityOfItemsInList; i++)
+        //{
 
-            Slots[i] = inventorySlotHolder.transform.GetChild(i).gameObject;
+        //    Slots[i] = inventorySlotHolder.transform.GetChild(i).gameObject;
 
-        }
-        defaultSpriteForSlot = inventorySlotHolder.transform.GetChild(0).GetComponent<Image>().sprite;
-        UpdateInventory();
+        //}
+        //defaultSpriteForSlot = inventorySlotHolder.transform.GetChild(0).GetComponent<Image>().sprite;
+        //UpdateInventory();
     }
     public void ToggleMainMenu(bool state) 
     {
@@ -213,6 +215,48 @@ public class UiManager : MonoSingleton<UiManager>
     {
         inGameOptionsMenu.SetActive(state);
     }
+
+    public void ExitZone()
+    {
+        if (exitZonePopUp.activeInHierarchy)
+        {
+            InputManager._Instance.GetSetCanPlayerRotate = true;
+            exitZonePopUp.SetActive(false);
+            Time.timeScale = 1f;
+        }
+
+        else
+        {
+            exitZonePopUp.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+
+    public void ExitZoneMap()
+    {
+        if(exitZoneMap.activeInHierarchy)
+        {
+            InputManager._Instance.GetSetCanPlayerRotate = true;
+            Time.timeScale = 1f;
+            exitZoneMap.SetActive(false);
+            exitZonePopUp.SetActive(false);
+        }
+
+        else
+        {
+            Time.timeScale = 0f;
+            exitZoneMap.SetActive(true);
+        }
+    }
+
+    public void ReturnBack()
+    {
+        exitZoneMap.SetActive(false);
+        exitZonePopUp.SetActive(false);
+        InputManager._Instance.ResetInputManager();
+        Time.timeScale = 1f;
+        SceneHandler._Instance.SetPlayerToScene(SceneHandler._Instance.spawningPoint);
+    }
     public void CloseAllMenus() { }
 
 
@@ -223,7 +267,7 @@ public class UiManager : MonoSingleton<UiManager>
             itemToDrop.amount = inventory[i].amount;
             PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager._Instance.GetPlayerTransform.position, PlayerManager._Instance.GetPlayerTransform);
             _playerInventory.RemoveItemFromInventory(inventory[i]);
-            UpdateInventory();
+            //UpdateInventory();
 
         }
     }

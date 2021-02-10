@@ -1,12 +1,12 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 public enum TriggerAreaEffect { OpenUI , GoToScene }
 public class TriggerArea : MonoBehaviour
 {
     bool flag = true;
     [SerializeField] internal int goToScene;
 
-    [SerializeField] TriggerAreaEffect TriggerType; 
+    [SerializeField] TriggerAreaEffect TriggerType;
+
     private void OnTriggerEnter(Collider other)
     {
         if (flag)

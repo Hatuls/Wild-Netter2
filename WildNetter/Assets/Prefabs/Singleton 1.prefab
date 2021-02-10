@@ -90,6 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canPlayerMove: 1
   isPlayerRotateAble: 1
+  currectAttackType: 0
 --- !u!114 &1915492428
 MonoBehaviour:
   m_ObjectHideFlags: 0
