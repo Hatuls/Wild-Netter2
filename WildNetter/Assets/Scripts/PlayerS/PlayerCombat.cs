@@ -44,16 +44,16 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
             case 1:
                 ttmcache = TotemName.prey;
                 break;
-            case 2:
+            case 0:
                 ttmcache = TotemName.healing;
                 break;
-            case 3:
+            case 2:
                 ttmcache = TotemName.detection;
                 break;
-            case 4:
+            case 3:
                 ttmcache = TotemName.stamina;
                 break;
-            case 5:
+            case 4:
                 ttmcache = TotemName.shock;
                 break; 
 
@@ -179,6 +179,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         switch (type)
         {
             case AttackType.Melee:
+                UiManager._Instance.UpdateTotemsFromGamePhase(SceneHandler._Instance.GetSetPlayPhase);
                 AttackAction += MeleeAttack; Debug.Log("MeleeAttack");
                 break;
             case AttackType.Ranged:

@@ -64,7 +64,7 @@ public class TotemManager : MonoSingleton<TotemManager>
         if (!CheckTotemPlacementLocation(location, totemCache))
             return false;
         totemID++;
-    var ttm =    Totem.DeployTotem(totemID,location, totemCache, AssignMeshToTotem(type));
+    var ttm =    Totem.DeployTotem(totemID,location, totemCache, AssignPreFabToTotem(type));
         currentGameTotemDict.Add(totemID, ttm);
 
             //Totem t = GetActiveTotem(location).GetComponent<Totem>();
@@ -83,7 +83,7 @@ public class TotemManager : MonoSingleton<TotemManager>
     }
 
 
-    GameObject AssignMeshToTotem(TotemName ttmName) {
+    GameObject AssignPreFabToTotem(TotemName ttmName) {
 
         switch (ttmName)
         {
@@ -216,7 +216,7 @@ public class TotemManager : MonoSingleton<TotemManager>
             {
                 case TotemName.healing:
                 case TotemName.stamina:
-               // case TotemName.shock:
+                case TotemName.shock:
                     return true;
             }
         }
@@ -224,7 +224,7 @@ public class TotemManager : MonoSingleton<TotemManager>
         {
             switch (totemName)
             {
-                // case TotemName.prey:
+                 case TotemName.prey:
                 case TotemName.shock:
                 case TotemName.detection:
                     return true;

@@ -23,6 +23,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
         {
             if (value == currentPlayPhase)
                 return;
+            UiManager._Instance.UpdateTotemsFromGamePhase(value);
             currentPlayPhase = value;
 
         }
@@ -88,7 +89,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
     void SpawnPlayer(Vector3 position) {
         PlayerManager._Instance.GetPlayerTransform.position = position;
-        InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
+       // InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
         currentPlayPhase = PlayPhase.BattlePhase;
     }
 
@@ -119,7 +120,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     public void SetPlayerToScene(Vector3 playerPos)
     {
         PlayerMovement._Instance.GetSetPlayerSpeed = 0;
-
+        GetSetPlayPhase = PlayPhase.BattlePhase;
         PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
         SpawnPlayer(playerPos);
     }

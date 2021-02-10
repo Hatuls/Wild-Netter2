@@ -102,8 +102,8 @@ public class InputManager : MonoSingleton<InputManager>
     }
     int totemSlotCounter = 1;
     void EquipTotem() {
-
-        PlayerCombat._Instance.SetCurrentTotemHolderByInt(totemSlotCounter);
+        UiManager._Instance.HighLightNextImage();
+        
         Debug.Log(totemSlotCounter);
         totemSlotCounter++;
 
