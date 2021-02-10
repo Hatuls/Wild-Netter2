@@ -101,9 +101,6 @@ public class UiManager : MonoSingleton<UiManager>
                 Slots[i].GetComponent<Image>().sprite = ItemFactory._Instance.GetItemSprite(inventory[i].ID);
                 if (inventory[i].amount > 1)
                 {
-
-
-
                     Slots[i].GetComponentInChildren<Text>().text = inventory[i].amount + text;
 
                 }

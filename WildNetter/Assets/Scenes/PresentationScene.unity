@@ -1222,8 +1222,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventoryUIWindow: {fileID: 1876434714}
+  mainMenu: {fileID: 0}
+  loadGameMenu: {fileID: 0}
+  newsMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
   inventorySlotHolder: {fileID: 1721875336}
+  playerMenu: {fileID: 0}
+  mapMenu: {fileID: 0}
+  zoneMap: {fileID: 0}
+  worldMap: {fileID: 0}
+  inGamePopUp: {fileID: 0}
+  pausePopUp: {fileID: 0}
+  pauseScreen: {fileID: 0}
+  inGameOptionsMenu: {fileID: 0}
+  inGameSoundOptions: {fileID: 0}
+  inGameGraphicsOptions: {fileID: 0}
+  inGameControlsOptions: {fileID: 0}
+  gui: {fileID: 0}
   Slots: []
+  healthSlider: {fileID: 0}
+  staminaSlider: {fileID: 0}
 --- !u!4 &281604770
 Transform:
   m_ObjectHideFlags: 0
