@@ -81,7 +81,7 @@ public class Totem : MonoBehaviour
             case TotemName.prey:
                 // preyVFX = transform.Find("PreyVFX").GetComponent<VisualEffect>();
                 //preyVFX.gameObject.SetActive(true);
-                VfxPref.Play();
+              //  VfxPref.Play();
 
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
@@ -111,7 +111,7 @@ public class Totem : MonoBehaviour
             case TotemName.stamina:
                 if (playerTransform == null)
                     playerTransform = PlayerManager._Instance.GetPlayerTransform;
-                VfxPref.Play();
+              //  VfxPref.Play();
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
