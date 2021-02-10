@@ -17,7 +17,7 @@ public class Totem : MonoBehaviour
     public VisualEffect preyVFX;
     public VisualEffect detectionVFX;
     public bool continueSpawning;
-    MeshFilter myMshFilter;
+ 
     // Getter & Setters:
     Transform rangeField;
     int totemID;
@@ -31,30 +31,27 @@ public class Totem : MonoBehaviour
         //relevantSO.StopCoroutines();
         TotemManager._Instance.RemoveTotem(totemID);
     }
-    void NeedToAssignComponenets() {
+    void NeedToAssignComponents() {
 
         if (!rangeField )
             rangeField = gameObject.transform.GetChild(0).GetComponent<Transform>();
 
-        if (!myMshFilter)
-        myMshFilter = GetComponent<MeshFilter>();
     }
 
-    public static Totem DeployTotem(int totemID ,Vector3 location, TotemSO totemSO, Mesh meshForTotem) {
-        var trnsfrm = Instantiate(TotemManager._Instance.totem1, location, Quaternion.identity, TotemManager._Instance.TotemContainer);
+    public static Totem DeployTotem(int totemID ,Vector3 location, TotemSO totemSO, GameObject GO) {
+        var trnsfrm = Instantiate(GO, location, Quaternion.identity, TotemManager._Instance.TotemContainer);
         var totem = trnsfrm.GetComponent<Totem>();
              
-        totem.Init(totemID, totemSO, meshForTotem);
+        totem.Init(totemID, totemSO);
         return totem; 
      }
 
 
 
-    public void Init(int id, TotemSO totemSO, Mesh meshForTotem)
+    public void Init(int id, TotemSO totemSO)
     {
-        NeedToAssignComponenets();
-        if (meshForTotem != null && myMshFilter != null)
-            myMshFilter.mesh = meshForTotem;
+        NeedToAssignComponents();
+       
 
         relevantSO = totemSO;
         totemID = id;
