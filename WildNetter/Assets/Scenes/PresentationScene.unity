@@ -10882,6 +10882,16 @@ PrefabInstance:
       propertyPath: m_Targets.Array.data[1].target
       value: 
       objectReference: {fileID: 153662145}
+    - target: {fileID: 1172607122498616306, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
+        type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172607122498616307, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.376667
+      objectReference: {fileID: 0}
     - target: {fileID: 1172607122498616319, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
         type: 3}
       propertyPath: mouseTransform
@@ -11249,6 +11259,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236694169144210708, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: m_Height
+      value: 1.4000013
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236694169144210708, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.32000172
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236694169144210708, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.48000404
+      objectReference: {fileID: 0}
+    - target: {fileID: 6236694169144210708, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.51000124
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
