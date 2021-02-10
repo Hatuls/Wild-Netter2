@@ -1214,7 +1214,7 @@ VisualEffectResource:
       1\n\t\t#define IS_TRANSPARENT_PARTICLE 1\n\t\t#define VFX_BLENDMODE_ADD 1\n\t\t#define
       VFX_PRIMITIVE_QUAD 1\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t#define VFX_LOCAL_SPACE
       1\n\t\t#include \"Packages/com.unity.visualeffectgraph/Shaders/RenderPipeline/Universal/VFXDefines.hlsl\"\n\t\t\n\n\t\tCBUFFER_START(parameters)\n\t\t   
-      float4 Scale_c;\n\t\t    float Color_d;\n\t\t    uint3 PADDING_0;\n\t\tCBUFFER_END\n\t\t\n\t\tstruct
+      float Color_c;\n\t\t    uint3 PADDING_0;\n\t\tCBUFFER_END\n\t\t\n\t\tstruct
       Attributes\n\t\t{\n\t\t    float lifetime;\n\t\t    float3 position;\n\t\t   
       float3 velocity;\n\t\t    float size;\n\t\t    float3 color;\n\t\t    float
       alpha;\n\t\t    bool alive;\n\t\t    float3 axisX;\n\t\t    float3 axisY;\n\t\t   
@@ -1268,20 +1268,14 @@ VisualEffectResource:
       axisX = normalize(cross(axisY,axisZ));\n\t\t\t    axisZ = cross(axisX,axisY);\n\t\t\t   
       \n\t\t\t}\n\t\t\tvoid SetAttribute_D5151644(inout float scaleX, float Scale)
       /*attribute:scale Composition:Overwrite Source:Slot Random:Off channels:X */\n\t\t\t{\n\t\t\t   
-      scaleX = Scale.x;\n\t\t\t}\n\t\t\tvoid AttributeFromCurve_5723D187(inout float
-      scaleY, float3 velocity, float4 Scale, float2 SpeedRange) /*attribute:scale
-      Composition:Overwrite AlphaComposition:Overwrite SampleMode:BySpeed Mode:Uniform
-      ColorMode:ColorAndAlpha channels:Y */\n\t\t\t{\n\t\t\t    float t = saturate((length(velocity)
-      - SpeedRange.x) * SpeedRange.y);\n\t\t\t    float value = 0.0f;\n\t\t\t   
-      value = SampleCurve(Scale, t);\n\t\t\t    scaleY = value.x;\n\t\t\t}\n\t\t\tvoid
-      AttributeFromCurve_48A86161(inout float3 color, inout float alpha, float age,
-      float lifetime, float Color) /*attribute:color Composition:Overwrite AlphaComposition:Overwrite
-      SampleMode:OverLife Mode:PerComponent ColorMode:ColorAndAlpha channels:XYZ
-      */\n\t\t\t{\n\t\t\t    float t = age / lifetime;\n\t\t\t    float4 value =
-      0.0f;\n\t\t\t    value = SampleGradient(Color, t);\n\t\t\t    color = value.rgb;\n\t\t\t   
-      alpha = value.a;\n\t\t\t}\n\t\t\t\n\n\t\t\t\n\t\t\t#if defined(HAS_STRIPS)
-      && !defined(VFX_PRIMITIVE_QUAD)\n\t\t\t#error VFX_PRIMITIVE_QUAD must be defined
-      when HAS_STRIPS is.\n\t\t\t#endif\n\t\t\t\n\t\t\tstruct vs_input\n\t\t\t{\n\t\t\t\tVFX_DECLARE_INSTANCE_ID\n\t\t\t};\n\t\t\t\n\t\t\t#if
+      scaleX = Scale.x;\n\t\t\t}\n\t\t\tvoid AttributeFromCurve_48A86161(inout float3
+      color, inout float alpha, float age, float lifetime, float Color) /*attribute:color
+      Composition:Overwrite AlphaComposition:Overwrite SampleMode:OverLife Mode:PerComponent
+      ColorMode:ColorAndAlpha channels:XYZ */\n\t\t\t{\n\t\t\t    float t = age /
+      lifetime;\n\t\t\t    float4 value = 0.0f;\n\t\t\t    value = SampleGradient(Color,
+      t);\n\t\t\t    color = value.rgb;\n\t\t\t    alpha = value.a;\n\t\t\t}\n\t\t\t\n\n\t\t\t\n\t\t\t#if
+      defined(HAS_STRIPS) && !defined(VFX_PRIMITIVE_QUAD)\n\t\t\t#error VFX_PRIMITIVE_QUAD
+      must be defined when HAS_STRIPS is.\n\t\t\t#endif\n\t\t\t\n\t\t\tstruct vs_input\n\t\t\t{\n\t\t\t\tVFX_DECLARE_INSTANCE_ID\n\t\t\t};\n\t\t\t\n\t\t\t#if
       HAS_STRIPS\n\t\t\t#define PARTICLE_IN_EDGE (id & 1)\n\t\t\t\n\t\t\tfloat3 GetParticlePosition(uint
       index)\n\t\t\t{\n\t\t\t\tstruct Attributes attributes = (Attributes)0;\n\t\t\t\tattributes.position
       = asfloat(attributeBuffer.Load3((index * 0x8 + 0x20000) << 2));\n\t\t\t\t\n\n\t\t\t\treturn
@@ -1345,11 +1339,9 @@ VisualEffectResource:
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tOrient_94A(
       /*inout */attributes.axisX,  /*inout */attributes.axisY,  /*inout */attributes.axisZ,
       attributes.position, attributes.velocity);\n\t\t\t\t{\n\t\t\t\t    SetAttribute_D5151644(
-      /*inout */attributes.scaleX, (float)0.300000012);\n\t\t\t\t}\n\t\t\t\t{\n\t\t\t\t   
-      AttributeFromCurve_5723D187( /*inout */attributes.scaleY, attributes.velocity,
-      Scale_c, float2(0, Infinity));\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_48A86161(
+      /*inout */attributes.scaleX, (float)0.300000012);\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_48A86161(
       /*inout */attributes.color,  /*inout */attributes.alpha, attributes.age, attributes.lifetime,
-      Color_d);\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn
+      Color_c);\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn
       o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if
       HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x =
       (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
@@ -1480,20 +1472,14 @@ VisualEffectResource:
       axisX = normalize(cross(axisY,axisZ));\n\t\t\t    axisZ = cross(axisX,axisY);\n\t\t\t   
       \n\t\t\t}\n\t\t\tvoid SetAttribute_D5151644(inout float scaleX, float Scale)
       /*attribute:scale Composition:Overwrite Source:Slot Random:Off channels:X */\n\t\t\t{\n\t\t\t   
-      scaleX = Scale.x;\n\t\t\t}\n\t\t\tvoid AttributeFromCurve_5723D187(inout float
-      scaleY, float3 velocity, float4 Scale, float2 SpeedRange) /*attribute:scale
-      Composition:Overwrite AlphaComposition:Overwrite SampleMode:BySpeed Mode:Uniform
-      ColorMode:ColorAndAlpha channels:Y */\n\t\t\t{\n\t\t\t    float t = saturate((length(velocity)
-      - SpeedRange.x) * SpeedRange.y);\n\t\t\t    float value = 0.0f;\n\t\t\t   
-      value = SampleCurve(Scale, t);\n\t\t\t    scaleY = value.x;\n\t\t\t}\n\t\t\tvoid
-      AttributeFromCurve_48A86161(inout float3 color, inout float alpha, float age,
-      float lifetime, float Color) /*attribute:color Composition:Overwrite AlphaComposition:Overwrite
-      SampleMode:OverLife Mode:PerComponent ColorMode:ColorAndAlpha channels:XYZ
-      */\n\t\t\t{\n\t\t\t    float t = age / lifetime;\n\t\t\t    float4 value =
-      0.0f;\n\t\t\t    value = SampleGradient(Color, t);\n\t\t\t    color = value.rgb;\n\t\t\t   
-      alpha = value.a;\n\t\t\t}\n\t\t\t\n\n\t\t\t\n\t\t\t#if defined(HAS_STRIPS)
-      && !defined(VFX_PRIMITIVE_QUAD)\n\t\t\t#error VFX_PRIMITIVE_QUAD must be defined
-      when HAS_STRIPS is.\n\t\t\t#endif\n\t\t\t\n\t\t\tstruct vs_input\n\t\t\t{\n\t\t\t\tVFX_DECLARE_INSTANCE_ID\n\t\t\t};\n\t\t\t\n\t\t\t#if
+      scaleX = Scale.x;\n\t\t\t}\n\t\t\tvoid AttributeFromCurve_48A86161(inout float3
+      color, inout float alpha, float age, float lifetime, float Color) /*attribute:color
+      Composition:Overwrite AlphaComposition:Overwrite SampleMode:OverLife Mode:PerComponent
+      ColorMode:ColorAndAlpha channels:XYZ */\n\t\t\t{\n\t\t\t    float t = age /
+      lifetime;\n\t\t\t    float4 value = 0.0f;\n\t\t\t    value = SampleGradient(Color,
+      t);\n\t\t\t    color = value.rgb;\n\t\t\t    alpha = value.a;\n\t\t\t}\n\t\t\t\n\n\t\t\t\n\t\t\t#if
+      defined(HAS_STRIPS) && !defined(VFX_PRIMITIVE_QUAD)\n\t\t\t#error VFX_PRIMITIVE_QUAD
+      must be defined when HAS_STRIPS is.\n\t\t\t#endif\n\t\t\t\n\t\t\tstruct vs_input\n\t\t\t{\n\t\t\t\tVFX_DECLARE_INSTANCE_ID\n\t\t\t};\n\t\t\t\n\t\t\t#if
       HAS_STRIPS\n\t\t\t#define PARTICLE_IN_EDGE (id & 1)\n\t\t\t\n\t\t\tfloat3 GetParticlePosition(uint
       index)\n\t\t\t{\n\t\t\t\tstruct Attributes attributes = (Attributes)0;\n\t\t\t\tattributes.position
       = asfloat(attributeBuffer.Load3((index * 0x8 + 0x20000) << 2));\n\t\t\t\t\n\n\t\t\t\treturn
@@ -1557,11 +1543,9 @@ VisualEffectResource:
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tOrient_94A(
       /*inout */attributes.axisX,  /*inout */attributes.axisY,  /*inout */attributes.axisZ,
       attributes.position, attributes.velocity);\n\t\t\t\t{\n\t\t\t\t    SetAttribute_D5151644(
-      /*inout */attributes.scaleX, (float)0.300000012);\n\t\t\t\t}\n\t\t\t\t{\n\t\t\t\t   
-      AttributeFromCurve_5723D187( /*inout */attributes.scaleY, attributes.velocity,
-      Scale_c, float2(0, Infinity));\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_48A86161(
+      /*inout */attributes.scaleX, (float)0.300000012);\n\t\t\t\t}\n\t\t\t\tAttributeFromCurve_48A86161(
       /*inout */attributes.color,  /*inout */attributes.alpha, attributes.age, attributes.lifetime,
-      Color_d);\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn
+      Color_c);\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif (!attributes.alive)\n\t\t\t\t\treturn
       o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if
       HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x =
       (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
@@ -6890,18 +6874,18 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: -1
-      - op: 74
+      - op: 1
         valueIndex: 2
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: -1
-      - op: 1
+        data[3]: 1
+      - op: 74
         valueIndex: 3
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
+        data[3]: -1
       - op: 74
         valueIndex: 4
         data[0]: -1
@@ -6916,20 +6900,20 @@ VisualEffectResource:
         data[3]: 1
       - op: 26
         valueIndex: 6
-        data[0]: 4
-        data[1]: 3
+        data[0]: 1
+        data[1]: 2
         data[2]: -1
         data[3]: 1
       - op: 26
         valueIndex: 7
         data[0]: 0
-        data[1]: 3
+        data[1]: 2
         data[2]: -1
         data[3]: 1
-      - op: 26
+      - op: 1
         valueIndex: 8
-        data[0]: 1
-        data[1]: 3
+        data[0]: -1
+        data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 1
@@ -6940,14 +6924,14 @@ VisualEffectResource:
         data[3]: 1
       - op: 26
         valueIndex: 10
-        data[0]: 2
-        data[1]: 3
+        data[0]: 3
+        data[1]: 2
         data[2]: -1
         data[3]: 1
-      - op: 1
+      - op: 26
         valueIndex: 11
-        data[0]: -1
-        data[1]: -1
+        data[0]: 4
+        data[1]: 2
         data[2]: -1
         data[3]: 1
       - op: 1
@@ -6956,30 +6940,30 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: 1
-      - op: 31
+      - op: 1
         valueIndex: 13
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 12
+      - op: 1
+        valueIndex: 29
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 12
+      - op: 1
+        valueIndex: 45
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 31
+        valueIndex: 46
         data[0]: 7
-        data[1]: 5
+        data[1]: 9
         data[2]: -1
         data[3]: 1
-      - op: 1
-        valueIndex: 14
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 15
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 12
-      - op: 1
-        valueIndex: 31
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 12
       - op: 1
         valueIndex: 47
         data[0]: -1
@@ -6991,65 +6975,65 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 12
+        data[3]: 14
       - op: 1
-        valueIndex: 79
+        valueIndex: 64
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 14
+        data[3]: 12
       - op: 1
         valueIndex: 80
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 14
+        data[3]: 12
       - op: 1
-        valueIndex: 81
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 13
-      - op: 1
-        valueIndex: 82
+        valueIndex: 96
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 14
       - op: 1
-        valueIndex: 83
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 14
-      - op: 1
-        valueIndex: 84
+        valueIndex: 97
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 12
       - op: 1
-        valueIndex: 100
+        valueIndex: 113
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 12
+        data[3]: 14
       - op: 31
-        valueIndex: 116
+        valueIndex: 114
         data[0]: 6
-        data[1]: 5
+        data[1]: 9
         data[2]: -1
         data[3]: 1
       - op: 1
-        valueIndex: 117
+        valueIndex: 115
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 14
+      - op: 1
+        valueIndex: 116
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 14
       - op: 31
+        valueIndex: 117
+        data[0]: 11
+        data[1]: 9
+        data[2]: -1
+        data[3]: 1
+      - op: 31
         valueIndex: 118
         data[0]: 10
-        data[1]: 5
+        data[1]: 9
         data[2]: -1
         data[3]: 1
       - op: 1
@@ -7064,30 +7048,54 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: 14
-      - op: 31
+      - op: 1
         valueIndex: 136
-        data[0]: 8
-        data[1]: 5
-        data[2]: -1
-        data[3]: 1
-      - op: 56
-        valueIndex: 137
-        data[0]: 21
+        data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 0
+        data[3]: 1
+      - op: 1
+        valueIndex: 137
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 138
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 139
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 140
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
       - op: 1
         valueIndex: 141
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 7
-      - op: 1
+        data[3]: 1
+      - op: 57
         valueIndex: 142
+        data[0]: 25
+        data[1]: -1
+        data[2]: -1
+        data[3]: 0
+      - op: 1
+        valueIndex: 143
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 2
+        data[3]: 7
       - op: 1
         valueIndex: 144
         data[0]: -1
@@ -7100,186 +7108,168 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: 1
-      - op: 57
+      - op: 1
         valueIndex: 146
-        data[0]: 20
+        data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 0
-      - op: 57
+        data[3]: 1
+      - op: 1
         valueIndex: 147
-        data[0]: 19
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 57
-        valueIndex: 148
-        data[0]: 27
-        data[1]: -1
-        data[2]: -1
-        data[3]: 2
-      - op: 1
-        valueIndex: 149
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 7
-      - op: 1
-        valueIndex: 150
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 3
-      - op: 1
-        valueIndex: 153
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 154
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 155
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 156
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 157
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 5
       - op: 1
-        valueIndex: 158
+        valueIndex: 148
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 57
-        valueIndex: 159
-        data[0]: 23
+        valueIndex: 149
+        data[0]: 18
         data[1]: -1
         data[2]: -1
-        data[3]: 3
+        data[3]: 1
       - op: 1
-        valueIndex: 160
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 3
-      - op: 1
-        valueIndex: 163
+        valueIndex: 150
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
+      - op: 1
+        valueIndex: 151
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 152
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 153
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 3
+      - op: 57
+        valueIndex: 156
+        data[0]: 26
+        data[1]: -1
+        data[2]: -1
+        data[3]: 2
+      - op: 1
+        valueIndex: 157
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 158
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 3
+      - op: 1
+        valueIndex: 161
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 3
       - op: 57
         valueIndex: 164
         data[0]: 30
         data[1]: -1
         data[2]: -1
-        data[3]: 4
+        data[3]: 3
       - op: 1
         valueIndex: 165
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
-      - op: 1
+        data[3]: 7
+      - op: 57
         valueIndex: 166
+        data[0]: 23
+        data[1]: -1
+        data[2]: -1
+        data[3]: 4
+      - op: 1
+        valueIndex: 167
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 3
+        data[3]: 1
+      - op: 1
+        valueIndex: 168
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
       - op: 1
         valueIndex: 169
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
-      - op: 1
+      - op: 57
         valueIndex: 170
-        data[0]: -1
+        data[0]: 21
         data[1]: -1
         data[2]: -1
-        data[3]: 1
-      - op: 1
+        data[3]: 5
+      - op: 2
         valueIndex: 171
-        data[0]: -1
-        data[1]: -1
+        data[0]: 16
+        data[1]: 16
         data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 172
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
+        data[3]: -1
       - op: 1
         valueIndex: 173
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 174
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
+        data[3]: 2
+      - op: 2
         valueIndex: 175
-        data[0]: -1
-        data[1]: -1
+        data[0]: 28
+        data[1]: 28
         data[2]: -1
-        data[3]: 1
+        data[3]: -1
       - op: 1
-        valueIndex: 176
+        valueIndex: 177
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 2
       - op: 2
-        valueIndex: 178
-        data[0]: 13
-        data[1]: 13
+        valueIndex: 179
+        data[0]: 24
+        data[1]: 24
         data[2]: -1
         data[3]: -1
       - op: 1
-        valueIndex: 180
+        valueIndex: 181
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 2
-      - op: 2
-        valueIndex: 182
-        data[0]: 26
-        data[1]: 26
-        data[2]: -1
-        data[3]: -1
       - op: 1
-        valueIndex: 184
+        valueIndex: 183
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 2
-      - op: 2
-        valueIndex: 186
-        data[0]: 31
-        data[1]: 31
+      - op: 1
+        valueIndex: 185
+        data[0]: -1
+        data[1]: -1
         data[2]: -1
-        data[3]: -1
+        data[3]: 3
       - op: 1
         valueIndex: 188
         data[0]: -1
@@ -7292,18 +7282,18 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: 3
-      - op: 2
-        valueIndex: 193
-        data[0]: 28
-        data[1]: 28
-        data[2]: -1
-        data[3]: -1
       - op: 1
-        valueIndex: 195
+        valueIndex: 193
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 2
+        data[3]: 3
+      - op: 1
+        valueIndex: 196
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
       - op: 1
         valueIndex: 197
         data[0]: -1
@@ -7316,72 +7306,66 @@ VisualEffectResource:
         data[1]: -1
         data[2]: -1
         data[3]: 3
-      - op: 1
+      - op: 2
         valueIndex: 203
+        data[0]: 27
+        data[1]: 27
+        data[2]: -1
+        data[3]: -1
+      - op: 1
+        valueIndex: 205
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 1
-        valueIndex: 204
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 3
-      - op: 1
-        valueIndex: 207
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 3
-      - op: 1
-        valueIndex: 210
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 211
+        valueIndex: 206
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 12
       - op: 1
-        valueIndex: 227
+        valueIndex: 222
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 12
       - op: 1
-        valueIndex: 243
+        valueIndex: 238
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 5
+      - op: 1
+        valueIndex: 239
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 1
-        valueIndex: 244
+        valueIndex: 240
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 7
-      - op: 57
+        data[3]: 1
+      - op: 1
+        valueIndex: 241
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 1
+        valueIndex: 242
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 3
+      - op: 1
         valueIndex: 245
-        data[0]: 22
-        data[1]: -1
-        data[2]: -1
-        data[3]: 5
-      - op: 1
-        valueIndex: 246
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 5
-      - op: 1
-        valueIndex: 247
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
+        data[3]: 3
       - op: 1
         valueIndex: 248
         data[0]: -1
@@ -7399,7 +7383,19 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 3
+        data[3]: 1
+      - op: 1
+        valueIndex: 251
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
+      - op: 6
+        valueIndex: 252
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: -1
       - op: 1
         valueIndex: 253
         data[0]: -1
@@ -7411,57 +7407,27 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 3
-      - op: 1
-        valueIndex: 257
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
         data[3]: 1
       - op: 1
-        valueIndex: 258
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 259
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 6
-        valueIndex: 260
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: -1
-      - op: 1
-        valueIndex: 261
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 262
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 263
+        valueIndex: 255
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 5
       - op: 1
-        valueIndex: 264
+        valueIndex: 256
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 1
-        valueIndex: 265
+        valueIndex: 257
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 7
+      - op: 1
+        valueIndex: 258
         data[0]: -1
         data[1]: -1
         data[2]: -1
@@ -7472,113 +7438,111 @@ VisualEffectResource:
     m_PropertySheet:
       m_Float:
         m_Array:
-        - m_ExpressionIndex: 3
+        - m_ExpressionIndex: 2
           m_Value: 0.8
         - m_ExpressionIndex: 5
-          m_Value: 0
-        - m_ExpressionIndex: 9
-          m_Value: 6.2831855
-        - m_ExpressionIndex: 11
-          m_Value: 0.5
-        - m_ExpressionIndex: 12
           m_Value: 1
-        - m_ExpressionIndex: 14
+        - m_ExpressionIndex: 8
+          m_Value: 0.5
+        - m_ExpressionIndex: 9
+          m_Value: 0
+        - m_ExpressionIndex: 12
+          m_Value: 6.2831855
+        - m_ExpressionIndex: 15
           m_Value: 10
-        - m_ExpressionIndex: 35
-          m_Value: 0.3
-        - m_ExpressionIndex: 36
-          m_Value: 8.86
-        - m_ExpressionIndex: 42
-          m_Value: 1.5
-        - m_ExpressionIndex: 43
+        - m_ExpressionIndex: 31
+          m_Value: 0.1
+        - m_ExpressionIndex: 32
           m_Value: 0.01
-        - m_ExpressionIndex: 44
+        - m_ExpressionIndex: 33
+          m_Value: -0.93
+        - m_ExpressionIndex: 34
+          m_Value: 0.3
+        - m_ExpressionIndex: 35
+          m_Value: 8.86
+        - m_ExpressionIndex: 36
+          m_Value: 1.5
+        - m_ExpressionIndex: 39
+          m_Value: 0.25
+        - m_ExpressionIndex: 40
           m_Value: 152.1
-        - m_ExpressionIndex: 45
-          m_Value: 0.68
-        - m_ExpressionIndex: 47
+        - m_ExpressionIndex: 41
+          m_Value: 10
+        - m_ExpressionIndex: 43
           m_Value: 119.03
+        - m_ExpressionIndex: 45
+          m_Value: 21.7
+        - m_ExpressionIndex: 46
+          m_Value: 10.2
+        - m_ExpressionIndex: 47
+          m_Value: 120
         - m_ExpressionIndex: 50
           m_Value: 40
-        - m_ExpressionIndex: 52
-          m_Value: 21.7
-        - m_ExpressionIndex: 54
-          m_Value: 0.25
-        - m_ExpressionIndex: 55
-          m_Value: 120
         - m_ExpressionIndex: 56
-          m_Value: 10.2
+          m_Value: 0.68
         - m_ExpressionIndex: 57
-          m_Value: 0.1
-        - m_ExpressionIndex: 58
-          m_Value: 10
-        - m_ExpressionIndex: 59
-          m_Value: 50
-        - m_ExpressionIndex: 60
           m_Value: 3
-        - m_ExpressionIndex: 73
+        - m_ExpressionIndex: 58
+          m_Value: 3.04
+        - m_ExpressionIndex: 71
           m_Value: 25000
-        - m_ExpressionIndex: 76
+        - m_ExpressionIndex: 75
           m_Value: 5
         - m_ExpressionIndex: 79
-          m_Value: 4.6
-        - m_ExpressionIndex: 83
           m_Value: 19.5
-        - m_ExpressionIndex: 84
+        - m_ExpressionIndex: 80
           m_Value: 11.4
-        - m_ExpressionIndex: 85
+        - m_ExpressionIndex: 81
           m_Value: 1.26
-        - m_ExpressionIndex: 87
-          m_Value: -0.93
-        - m_ExpressionIndex: 89
+        - m_ExpressionIndex: 84
+          m_Value: 50
+        - m_ExpressionIndex: 85
           m_Value: 81.4
-        - m_ExpressionIndex: 90
+        - m_ExpressionIndex: 86
           m_Value: 26.8
-        - m_ExpressionIndex: 91
+        - m_ExpressionIndex: 87
           m_Value: 30
-        - m_ExpressionIndex: 93
+        - m_ExpressionIndex: 89
           m_Value: 2
-        - m_ExpressionIndex: 94
+        - m_ExpressionIndex: 90
           m_Value: 0.8348661
-        - m_ExpressionIndex: 96
-          m_Value: 3.04
-        - m_ExpressionIndex: 97
+        - m_ExpressionIndex: 92
+          m_Value: 4.6
+        - m_ExpressionIndex: 94
           m_Value: 33.1
       m_Vector2f:
         m_Array:
-        - m_ExpressionIndex: 34
-          m_Value: {x: 0, y: Infinity}
         - m_ExpressionIndex: 61
-          m_Value: {x: 0, y: 0}
-        - m_ExpressionIndex: 63
           m_Value: {x: 0.7, y: 0.7}
-        - m_ExpressionIndex: 65
+        - m_ExpressionIndex: 63
           m_Value: {x: 1, y: 1}
-        - m_ExpressionIndex: 67
+        - m_ExpressionIndex: 65
           m_Value: {x: 20000, y: 20000}
-        - m_ExpressionIndex: 70
+        - m_ExpressionIndex: 66
+          m_Value: {x: 0, y: 0}
+        - m_ExpressionIndex: 68
           m_Value: {x: 10000, y: 10000}
       m_Vector3f:
         m_Array:
-        - m_ExpressionIndex: 41
-          m_Value: {x: -1, y: 0, z: 0}
-        - m_ExpressionIndex: 49
-          m_Value: {x: 0, y: 0.001, z: 0}
-        - m_ExpressionIndex: 53
+        - m_ExpressionIndex: 48
           m_Value: {x: 0, y: 0.01, z: 0.02}
-        - m_ExpressionIndex: 68
+        - m_ExpressionIndex: 51
+          m_Value: {x: 0, y: 0.001, z: 0}
+        - m_ExpressionIndex: 52
+          m_Value: {x: -1, y: 0, z: 0}
+        - m_ExpressionIndex: 67
           m_Value: {x: 1, y: 1, z: 1}
-        - m_ExpressionIndex: 71
+        - m_ExpressionIndex: 69
           m_Value: {x: 5, y: 5, z: 5}
-        - m_ExpressionIndex: 72
+        - m_ExpressionIndex: 70
           m_Value: {x: 0, y: 0, z: 0}
-        - m_ExpressionIndex: 74
+        - m_ExpressionIndex: 72
           m_Value: {x: 2, y: 3, z: 2}
-        - m_ExpressionIndex: 75
+        - m_ExpressionIndex: 73
           m_Value: {x: 0, y: 1, z: 0}
-        - m_ExpressionIndex: 86
+        - m_ExpressionIndex: 82
           m_Value: {x: 5, y: 4, z: 5}
-        - m_ExpressionIndex: 88
+        - m_ExpressionIndex: 83
           m_Value: {x: -5, y: 0, z: -5}
       m_Vector4f:
         m_Array: []
@@ -7586,15 +7550,33 @@ VisualEffectResource:
         m_Array: []
       m_Int:
         m_Array:
-        - m_ExpressionIndex: 46
+        - m_ExpressionIndex: 42
           m_Value: 6
-        - m_ExpressionIndex: 82
+        - m_ExpressionIndex: 78
           m_Value: 1
-        - m_ExpressionIndex: 95
+        - m_ExpressionIndex: 91
           m_Value: 3
       m_Matrix4x4f:
         m_Array:
-        - m_ExpressionIndex: 15
+        - m_ExpressionIndex: 13
+          m_Value:
+            e00: 1
+            e01: 0
+            e02: 0
+            e03: 0
+            e10: 0
+            e11: 0.000000059604645
+            e12: -0.99999994
+            e13: 0
+            e20: 0
+            e21: 0.99999994
+            e22: 0.000000059604645
+            e23: 0
+            e30: 0
+            e31: 0
+            e32: 0
+            e33: 1
+        - m_ExpressionIndex: 14
           m_Value:
             e00: 1
             e01: 0
@@ -7612,61 +7594,7 @@ VisualEffectResource:
             e31: 0
             e32: 0
             e33: 1
-        - m_ExpressionIndex: 16
-          m_Value:
-            e00: 1
-            e01: 0
-            e02: 0
-            e03: 0
-            e10: 0
-            e11: 0.000000059604645
-            e12: -0.99999994
-            e13: 0
-            e20: 0
-            e21: 0.99999994
-            e22: 0.000000059604645
-            e23: 0
-            e30: 0
-            e31: 0
-            e32: 0
-            e33: 1
         - m_ExpressionIndex: 17
-          m_Value:
-            e00: 1
-            e01: 0
-            e02: 0
-            e03: 0
-            e10: 0
-            e11: 0.000000059604645
-            e12: -0.99999994
-            e13: 0
-            e20: 0
-            e21: 0.99999994
-            e22: 0.000000059604645
-            e23: -0.55
-            e30: 0
-            e31: 0
-            e32: 0
-            e33: 1
-        - m_ExpressionIndex: 18
-          m_Value:
-            e00: 1
-            e01: 0
-            e02: 0
-            e03: 0
-            e10: 0
-            e11: 0.000000059604645
-            e12: -0.99999994
-            e13: 0
-            e20: 0
-            e21: 0.99999994
-            e22: 0.000000059604645
-            e23: 0.18
-            e30: 0
-            e31: 0
-            e32: 0
-            e33: 1
-        - m_ExpressionIndex: 24
           m_Value:
             e00: 1
             e01: 0
@@ -7684,25 +7612,25 @@ VisualEffectResource:
             e31: 0
             e32: 0
             e33: 1
-        - m_ExpressionIndex: 25
+        - m_ExpressionIndex: 19
           m_Value:
             e00: 1
-            e01: -0
+            e01: 0
             e02: 0
-            e03: -0
-            e10: -0
-            e11: 1
-            e12: -0
-            e13: -0
+            e03: 0
+            e10: 0
+            e11: 0.000000059604645
+            e12: -0.99999994
+            e13: 0
             e20: 0
-            e21: -0
-            e22: 1
-            e23: -0
+            e21: 0.99999994
+            e22: 0.000000059604645
+            e23: -0.55
             e30: 0
             e31: 0
             e32: 0
             e33: 1
-        - m_ExpressionIndex: 29
+        - m_ExpressionIndex: 20
           m_Value:
             e00: 1
             e01: 0
@@ -7720,7 +7648,43 @@ VisualEffectResource:
             e31: 0
             e32: 0
             e33: 1
-        - m_ExpressionIndex: 77
+        - m_ExpressionIndex: 22
+          m_Value:
+            e00: 1
+            e01: 0
+            e02: 0
+            e03: 0
+            e10: 0
+            e11: 0.000000059604645
+            e12: -0.99999994
+            e13: 0
+            e20: 0
+            e21: 0.99999994
+            e22: 0.000000059604645
+            e23: 0.18
+            e30: 0
+            e31: 0
+            e32: 0
+            e33: 1
+        - m_ExpressionIndex: 29
+          m_Value:
+            e00: 1
+            e01: -0
+            e02: 0
+            e03: -0
+            e10: -0
+            e11: 1
+            e12: -0
+            e13: -0
+            e20: 0
+            e21: -0
+            e22: 1
+            e23: -0
+            e30: 0
+            e31: 0
+            e32: 0
+            e33: 1
+        - m_ExpressionIndex: 76
           m_Value:
             e00: 3.333333
             e01: -0
@@ -7738,7 +7702,7 @@ VisualEffectResource:
             e31: 0
             e32: 0
             e33: 1
-        - m_ExpressionIndex: 78
+        - m_ExpressionIndex: 77
           m_Value:
             e00: 0.3
             e01: 0
@@ -7757,39 +7721,14 @@ VisualEffectResource:
             e32: 0
             e33: 1
       m_AnimationCurve:
-        m_Array:
-        - m_ExpressionIndex: 21
-          m_Value:
-            serializedVersion: 2
-            m_Curve:
-            - serializedVersion: 3
-              time: 0
-              value: 0
-              inSlope: 1
-              outSlope: 1
-              tangentMode: 34
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            - serializedVersion: 3
-              time: 1
-              value: 1
-              inSlope: 1
-              outSlope: 1
-              tangentMode: 34
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0
-            m_PreInfinity: 2
-            m_PostInfinity: 2
-            m_RotationOrder: 4
+        m_Array: []
       m_Gradient:
         m_Array:
-        - m_ExpressionIndex: 19
+        - m_ExpressionIndex: 18
           m_Value:
             serializedVersion: 2
-            key0: {r: 0.47551894, g: 0.7846063, b: 2.9006655, a: 1}
-            key1: {r: 0, g: 0.6830394, b: 0.98833734, a: 1}
+            key0: {r: 1, g: 1, b: 1, a: 0}
+            key1: {r: 0.4392157, g: 0.57254905, b: 1.9843137, a: 1}
             key2: {r: 0, g: 0, b: 0, a: 0}
             key3: {r: 0, g: 0, b: 0, a: 0}
             key4: {r: 0, g: 0, b: 0, a: 0}
@@ -7797,16 +7736,16 @@ VisualEffectResource:
             key6: {r: 0, g: 0, b: 0, a: 0}
             key7: {r: 0, g: 0, b: 0, a: 0}
             ctime0: 0
-            ctime1: 65535
+            ctime1: 34502
             ctime2: 0
             ctime3: 0
             ctime4: 0
             ctime5: 0
             ctime6: 0
             ctime7: 0
-            atime0: 0
-            atime1: 65535
-            atime2: 0
+            atime0: 19275
+            atime1: 36237
+            atime2: 48766
             atime3: 0
             atime4: 0
             atime5: 0
@@ -7814,38 +7753,8 @@ VisualEffectResource:
             atime7: 0
             m_Mode: 0
             m_NumColorKeys: 2
-            m_NumAlphaKeys: 2
-        - m_ExpressionIndex: 20
-          m_Value:
-            serializedVersion: 2
-            key0: {r: 0.57062274, g: 0.9510379, b: 3.031433, a: 1}
-            key1: {r: 0.1878208, g: 0.31398875, b: 1, a: 1}
-            key2: {r: 0, g: 0, b: 0, a: 0}
-            key3: {r: 0, g: 0, b: 0, a: 0}
-            key4: {r: 0, g: 0, b: 0, a: 0}
-            key5: {r: 0, g: 0, b: 0, a: 0}
-            key6: {r: 0, g: 0, b: 0, a: 0}
-            key7: {r: 0, g: 0, b: 0, a: 0}
-            ctime0: 0
-            ctime1: 65535
-            ctime2: 0
-            ctime3: 0
-            ctime4: 0
-            ctime5: 0
-            ctime6: 0
-            ctime7: 0
-            atime0: 0
-            atime1: 65535
-            atime2: 0
-            atime3: 0
-            atime4: 0
-            atime5: 0
-            atime6: 0
-            atime7: 0
-            m_Mode: 0
-            m_NumColorKeys: 2
-            m_NumAlphaKeys: 2
-        - m_ExpressionIndex: 22
+            m_NumAlphaKeys: 3
+        - m_ExpressionIndex: 21
           m_Value:
             serializedVersion: 2
             key0: {r: 0.47551894, g: 0.7846063, b: 2.9006655, a: 1}
@@ -7878,39 +7787,9 @@ VisualEffectResource:
         - m_ExpressionIndex: 23
           m_Value:
             serializedVersion: 2
-            key0: {r: 1, g: 1, b: 1, a: 0}
-            key1: {r: 0.4392157, g: 0.57254905, b: 1.9843137, a: 1}
+            key0: {r: 0.47551894, g: 0.7846063, b: 2.9006655, a: 1}
+            key1: {r: 0, g: 0.6830394, b: 0.98833734, a: 1}
             key2: {r: 0, g: 0, b: 0, a: 0}
-            key3: {r: 0, g: 0, b: 0, a: 0}
-            key4: {r: 0, g: 0, b: 0, a: 0}
-            key5: {r: 0, g: 0, b: 0, a: 0}
-            key6: {r: 0, g: 0, b: 0, a: 0}
-            key7: {r: 0, g: 0, b: 0, a: 0}
-            ctime0: 0
-            ctime1: 34502
-            ctime2: 0
-            ctime3: 0
-            ctime4: 0
-            ctime5: 0
-            ctime6: 0
-            ctime7: 0
-            atime0: 19275
-            atime1: 36237
-            atime2: 48766
-            atime3: 0
-            atime4: 0
-            atime5: 0
-            atime6: 0
-            atime7: 0
-            m_Mode: 0
-            m_NumColorKeys: 2
-            m_NumAlphaKeys: 3
-        - m_ExpressionIndex: 27
-          m_Value:
-            serializedVersion: 2
-            key0: {r: 0.14117648, g: 0.23529412, b: 0.7529412, a: 0}
-            key1: {r: 0.14117648, g: 0.23529412, b: 0.7529412, a: 0.61960787}
-            key2: {r: 0, g: 0, b: 0, a: 0.5921569}
             key3: {r: 0, g: 0, b: 0, a: 0}
             key4: {r: 0, g: 0, b: 0, a: 0}
             key5: {r: 0, g: 0, b: 0, a: 0}
@@ -7925,8 +7804,8 @@ VisualEffectResource:
             ctime6: 0
             ctime7: 0
             atime0: 0
-            atime1: 7132
-            atime2: 52428
+            atime1: 65535
+            atime2: 0
             atime3: 0
             atime4: 0
             atime5: 0
@@ -7934,8 +7813,38 @@ VisualEffectResource:
             atime7: 0
             m_Mode: 0
             m_NumColorKeys: 2
-            m_NumAlphaKeys: 3
-        - m_ExpressionIndex: 30
+            m_NumAlphaKeys: 2
+        - m_ExpressionIndex: 25
+          m_Value:
+            serializedVersion: 2
+            key0: {r: 0.57062274, g: 0.9510379, b: 3.031433, a: 1}
+            key1: {r: 0.1878208, g: 0.31398875, b: 1, a: 1}
+            key2: {r: 0, g: 0, b: 0, a: 0}
+            key3: {r: 0, g: 0, b: 0, a: 0}
+            key4: {r: 0, g: 0, b: 0, a: 0}
+            key5: {r: 0, g: 0, b: 0, a: 0}
+            key6: {r: 0, g: 0, b: 0, a: 0}
+            key7: {r: 0, g: 0, b: 0, a: 0}
+            ctime0: 0
+            ctime1: 65535
+            ctime2: 0
+            ctime3: 0
+            ctime4: 0
+            ctime5: 0
+            ctime6: 0
+            ctime7: 0
+            atime0: 0
+            atime1: 65535
+            atime2: 0
+            atime3: 0
+            atime4: 0
+            atime5: 0
+            atime6: 0
+            atime7: 0
+            m_Mode: 0
+            m_NumColorKeys: 2
+            m_NumAlphaKeys: 2
+        - m_ExpressionIndex: 26
           m_Value:
             serializedVersion: 2
             key0: {r: 0.1559265, g: 0.2581829, b: 0.9559735, a: 1}
@@ -7965,23 +7874,53 @@ VisualEffectResource:
             m_Mode: 0
             m_NumColorKeys: 2
             m_NumAlphaKeys: 2
+        - m_ExpressionIndex: 30
+          m_Value:
+            serializedVersion: 2
+            key0: {r: 0.14117648, g: 0.23529412, b: 0.7529412, a: 0}
+            key1: {r: 0.14117648, g: 0.23529412, b: 0.7529412, a: 0.61960787}
+            key2: {r: 0, g: 0, b: 0, a: 0.5921569}
+            key3: {r: 0, g: 0, b: 0, a: 0}
+            key4: {r: 0, g: 0, b: 0, a: 0}
+            key5: {r: 0, g: 0, b: 0, a: 0}
+            key6: {r: 0, g: 0, b: 0, a: 0}
+            key7: {r: 0, g: 0, b: 0, a: 0}
+            ctime0: 0
+            ctime1: 65535
+            ctime2: 0
+            ctime3: 0
+            ctime4: 0
+            ctime5: 0
+            ctime6: 0
+            ctime7: 0
+            atime0: 0
+            atime1: 7132
+            atime2: 52428
+            atime3: 0
+            atime4: 0
+            atime5: 0
+            atime6: 0
+            atime7: 0
+            m_Mode: 0
+            m_NumColorKeys: 2
+            m_NumAlphaKeys: 3
       m_NamedObject:
         m_Array:
-        - m_ExpressionIndex: 33
-          m_Value: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
-        - m_ExpressionIndex: 40
+        - m_ExpressionIndex: 38
           m_Value: {fileID: 2800000, guid: 49cb5aa34272b034d8b754c65d9cdbfa, type: 3}
-        - m_ExpressionIndex: 80
+        - m_ExpressionIndex: 54
+          m_Value: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
+        - m_ExpressionIndex: 93
           m_Value: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
       m_Bool:
         m_Array: []
     m_ExposedExpressions:
     - nameId: OutElecColor
-      index: 23
+      index: 18
     - nameId: OutherRadius
-      index: 14
+      index: 15
     - nameId: SpawnSpeedOut
-      index: 3
+      index: 2
     m_Buffers:
     - type: 1
       size: 140672
@@ -8889,9 +8828,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: nb
-        index: 65
+        index: 63
       - nameId: period
-        index: 65
+        index: 63
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -8909,7 +8848,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Rate
-        index: 58
+        index: 41
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -8927,9 +8866,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 65
+        index: 63
       - nameId: Delay
-        index: 61
+        index: 66
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -8947,9 +8886,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 65
+        index: 63
       - nameId: Delay
-        index: 61
+        index: 66
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -8969,9 +8908,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 67
+        index: 65
       - nameId: Delay
-        index: 62
+        index: 60
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -8991,9 +8930,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 67
+        index: 65
       - nameId: Delay
-        index: 63
+        index: 61
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -9013,9 +8952,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 67
+        index: 65
       - nameId: Delay
-        index: 64
+        index: 62
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -9035,9 +8974,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 67
+        index: 65
       - nameId: Delay
-        index: 66
+        index: 64
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -9057,9 +8996,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Count
-        index: 70
+        index: 68
       - nameId: Delay
-        index: 69
+        index: 74
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -9077,7 +9016,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Rate
-        index: 73
+        index: 71
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -9095,7 +9034,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Rate
-        index: 58
+        index: 41
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -9116,9 +9055,9 @@ VisualEffectResource:
       index: 11
     values:
     - nameId: bounds_center
-      index: 75
+      index: 73
     - nameId: bounds_size
-      index: 74
+      index: 72
     tasks:
     - type: 536870912
       buffers:
@@ -9136,9 +9075,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 75
+        index: 73
       - nameId: bounds_size
-        index: 74
+        index: 72
       processor: {fileID: 0}
       shaderSourceIndex: 0
     - type: 805306368
@@ -9154,7 +9093,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 1
@@ -9181,9 +9120,9 @@ VisualEffectResource:
     - nameId: particlePerStripCount
       index: 100
     - nameId: bounds_center
-      index: 75
+      index: 73
     - nameId: bounds_size
-      index: 74
+      index: 72
     tasks:
     - type: 536870912
       buffers:
@@ -9203,9 +9142,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 75
+        index: 73
       - nameId: bounds_size
-        index: 74
+        index: 72
       processor: {fileID: 0}
       shaderSourceIndex: 2
     - type: 805306368
@@ -9219,7 +9158,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 3
@@ -9232,9 +9171,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 81
+        index: 59
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9257,9 +9196,9 @@ VisualEffectResource:
       index: 10
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 71
+      index: 69
     tasks:
     - type: 536870912
       buffers:
@@ -9275,9 +9214,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 71
+        index: 69
       processor: {fileID: 0}
       shaderSourceIndex: 5
     - type: 805306368
@@ -9289,7 +9228,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 6
@@ -9299,12 +9238,10 @@ VisualEffectResource:
         index: 3
       temporaryBuffers: []
       values:
-      - nameId: Scale_c
-        index: 32
-      - nameId: Color_d
+      - nameId: Color_c
         index: 37
       - nameId: mainTexture
-        index: 40
+        index: 38
       params:
       - nameId: sortPriority
         index: 0
@@ -9327,9 +9264,9 @@ VisualEffectResource:
       index: 9
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9344,12 +9281,12 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: uniform_a
-        index: 14
+        index: 15
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 8
     - type: 805306368
@@ -9361,7 +9298,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 9
@@ -9372,9 +9309,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 48
+        index: 44
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9397,9 +9334,9 @@ VisualEffectResource:
       index: 8
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9414,12 +9351,12 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: uniform_a
-        index: 14
+        index: 15
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 11
     - type: 805306368
@@ -9431,7 +9368,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 12
@@ -9442,9 +9379,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 48
+        index: 44
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9467,9 +9404,9 @@ VisualEffectResource:
       index: 7
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9484,12 +9421,12 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: uniform_a
-        index: 14
+        index: 15
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 16
     - type: 805306368
@@ -9501,7 +9438,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 14
@@ -9512,9 +9449,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 48
+        index: 44
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9537,9 +9474,9 @@ VisualEffectResource:
       index: 6
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9554,12 +9491,12 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: uniform_a
-        index: 14
+        index: 15
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 19
     - type: 805306368
@@ -9571,7 +9508,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 17
@@ -9582,9 +9519,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 48
+        index: 44
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9607,9 +9544,9 @@ VisualEffectResource:
       index: 5
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9624,12 +9561,12 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: uniform_a
-        index: 14
+        index: 15
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 22
     - type: 805306368
@@ -9641,7 +9578,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 20
@@ -9652,9 +9589,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 48
+        index: 44
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9677,9 +9614,9 @@ VisualEffectResource:
       index: 4
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9695,9 +9632,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 23
     - type: 805306368
@@ -9709,7 +9646,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 24
@@ -9720,9 +9657,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_b
-        index: 51
+        index: 49
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9741,9 +9678,9 @@ VisualEffectResource:
       index: 3
     values:
     - nameId: bounds_center
-      index: 72
+      index: 70
     - nameId: bounds_size
-      index: 68
+      index: 67
     tasks:
     - type: 536870912
       buffers:
@@ -9755,9 +9692,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 72
+        index: 70
       - nameId: bounds_size
-        index: 68
+        index: 67
       processor: {fileID: 0}
       shaderSourceIndex: 26
     - type: 805306368
@@ -9767,7 +9704,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 27
@@ -9778,9 +9715,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_b
-        index: 39
+        index: 53
       - nameId: mainTexture
-        index: 33
+        index: 54
       params:
       - nameId: sortPriority
         index: 0
@@ -9809,9 +9746,9 @@ VisualEffectResource:
     - nameId: particlePerStripCount
       index: 100
     - nameId: bounds_center
-      index: 75
+      index: 73
     - nameId: bounds_size
-      index: 74
+      index: 72
     tasks:
     - type: 536870912
       buffers:
@@ -9831,9 +9768,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 75
+        index: 73
       - nameId: bounds_size
-        index: 74
+        index: 72
       processor: {fileID: 0}
       shaderSourceIndex: 29
     - type: 805306368
@@ -9847,7 +9784,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 30
@@ -9860,9 +9797,9 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Color_a
-        index: 38
+        index: 55
       - nameId: mainTexture
-        index: 80
+        index: 93
       params:
       - nameId: sortPriority
         index: 0
@@ -9885,9 +9822,9 @@ VisualEffectResource:
       index: 2
     values:
     - nameId: bounds_center
-      index: 75
+      index: 73
     - nameId: bounds_size
-      index: 74
+      index: 72
     tasks:
     - type: 536870912
       buffers:
@@ -9905,9 +9842,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 75
+        index: 73
       - nameId: bounds_size
-        index: 74
+        index: 72
       processor: {fileID: 0}
       shaderSourceIndex: 33
     - type: 805306368
@@ -9923,7 +9860,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: deltaTime_a
-        index: 92
+        index: 88
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 32
@@ -16834,7 +16771,6 @@ MonoBehaviour:
   m_Children:
   - {fileID: 8926484042661615385}
   - {fileID: 8926484042661615386}
-  - {fileID: 8926484042661615388}
   - {fileID: 8926484042661615393}
   m_UIPosition: {x: 5185, y: 4159}
   m_UICollapsed: 0
@@ -16985,177 +16921,6 @@ MonoBehaviour:
     m_Space: 2147483647
   m_Property:
     name: Scale
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-    attributes: []
-  m_Direction: 0
-  m_LinkedSlots: []
---- !u!114 &8926484042661615388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01ec2c1930009b04ea08905b47262415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Parent: {fileID: 8926484042661615382}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 187}
-  m_UICollapsed: 0
-  m_UISuperCollapsed: 0
-  m_InputSlots:
-  - {fileID: 8926484042661615389}
-  - {fileID: 8926484042661615390}
-  m_OutputSlots: []
-  m_Disabled: 0
-  attribute: scale
-  Composition: 0
-  AlphaComposition: 0
-  SampleMode: 1
-  Mode: 0
-  ColorMode: 3
-  channels: 1
---- !u!114 &8926484042661615389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c117b74c5c58db542bffe25c78fe92db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Parent: {fileID: 0}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615389}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661615388}
-    m_Value:
-      m_Type:
-        m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.0,"inTangent":1.0,"outTangent":1.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":1.0,"value":1.0,"inTangent":1.0,"outTangent":1.0,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
-    m_Space: 2147483647
-  m_Property:
-    name: Scale
-    m_serializedType:
-      m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    attributes: []
-  m_Direction: 0
-  m_LinkedSlots: []
---- !u!114 &8926484042661615390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2b751071c7fc14f9fa503163991826, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Parent: {fileID: 0}
-  m_Children:
-  - {fileID: 8926484042661615391}
-  - {fileID: 8926484042661615392}
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615390}
-  m_MasterData:
-    m_Owner: {fileID: 8926484042661615388}
-    m_Value:
-      m_Type:
-        m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":-14.300000190734864,"y":-7.610000133514404}'
-    m_Space: 2147483647
-  m_Property:
-    name: SpeedRange
-    m_serializedType:
-      m_SerializableType: UnityEngine.Vector2, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    attributes:
-    - m_Type: 1
-      m_Min: 0
-      m_Max: Infinity
-      m_Tooltip: 
-      m_Regex: 
-      m_RegexMaxLength: 0
-  m_Direction: 0
-  m_LinkedSlots: []
---- !u!114 &8926484042661615391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Parent: {fileID: 8926484042661615390}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615390}
-  m_MasterData:
-    m_Owner: {fileID: 0}
-    m_Value:
-      m_Type:
-        m_SerializableType: 
-      m_SerializableObject: 
-    m_Space: 2147483647
-  m_Property:
-    name: x
-    m_serializedType:
-      m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-    attributes: []
-  m_Direction: 0
-  m_LinkedSlots: []
---- !u!114 &8926484042661615392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f780aa281814f9842a7c076d436932e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Parent: {fileID: 8926484042661615390}
-  m_Children: []
-  m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
-  m_UISuperCollapsed: 0
-  m_MasterSlot: {fileID: 8926484042661615390}
-  m_MasterData:
-    m_Owner: {fileID: 0}
-    m_Value:
-      m_Type:
-        m_SerializableType: 
-      m_SerializableObject: 
-    m_Space: 2147483647
-  m_Property:
-    name: y
     m_serializedType:
       m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
