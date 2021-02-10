@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class TotemIconImageScript : MonoBehaviour
 {
    [SerializeField] TotemName thisTotem;
+ [SerializeField]  PlayPhase phaseToUnlock;
     public TotemName GetTotemImageSlot => thisTotem;
     [SerializeField] Sprite[] totemSprites;
     Image img;
   
- [SerializeField]  PlayPhase phaseToUnlock;
      bool isDark = false;
     public bool GetIsDark => isDark;
 
@@ -21,11 +21,13 @@ public class TotemIconImageScript : MonoBehaviour
     void SetSprite(int i) {
         if(img!= null && totemSprites!= null)
         img.sprite = totemSprites[i];
+        {
 
         if (i == 0)
             isDark = true;
         else
             isDark = false;
+        }
     }
 
     public void SetMySprite(PlayPhase currentPhase)

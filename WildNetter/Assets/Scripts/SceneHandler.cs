@@ -38,6 +38,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
         AssignTriggerAreasToSceneHandler();
         GetSetPlayPhase = PlayPhase.PlanningPhase;
+     
     }
 
 

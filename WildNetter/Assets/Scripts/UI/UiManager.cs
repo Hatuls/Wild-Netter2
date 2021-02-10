@@ -60,6 +60,7 @@ public class UiManager : MonoSingleton<UiManager>
         inventory = _playerInventory.GetInventory;
         Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
         lastSlot = totemIcons.Length - 1;
+        UpdateTotemsFromGamePhase(SceneHandler._Instance.GetSetPlayPhase);
         //currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
         //inventoryCapacityTMP = playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
         //for (int i = 0; i < _playerInventory.maxCapacityOfItemsInList; i++)
