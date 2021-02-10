@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public enum monsterParts {Tail,Leg,Groin,Chest, back, head }
+public enum monsterParts {Tail,RightLeg,LeftLeg,Groin,Chest, back, head }
 public class EnemyPart : MonoBehaviour
 {
     [SerializeField] PartSo _PartSo; 

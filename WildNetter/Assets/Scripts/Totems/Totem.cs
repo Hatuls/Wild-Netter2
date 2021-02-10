@@ -13,9 +13,8 @@ public class Totem : MonoBehaviour
     public float currentRealTime;
     public TotemName totemName;
     private Transform playerTransform;
-    public VisualEffect healVFX;
-    public VisualEffect preyVFX;
-    public VisualEffect detectionVFX;
+   
+    public VisualEffect VfxPref;
     public bool continueSpawning;
  
     // Getter & Setters:
@@ -82,7 +81,7 @@ public class Totem : MonoBehaviour
             case TotemName.prey:
                 // preyVFX = transform.Find("PreyVFX").GetComponent<VisualEffect>();
                 //preyVFX.gameObject.SetActive(true);
-                preyVFX.Play();
+              //  VfxPref.Play();
 
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
@@ -91,10 +90,10 @@ public class Totem : MonoBehaviour
             case TotemName.healing:
                 if (playerTransform == null)
                     playerTransform = PlayerManager._Instance.GetPlayerTransform;
-                
+
                 //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
                 // healVFX.gameObject.SetActive(true);
-                healVFX.Play();
+                VfxPref.Play();
 
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
@@ -103,7 +102,7 @@ public class Totem : MonoBehaviour
             case TotemName.detection:
                 // detectionVFX = transform.Find("DetectionVFX").GetComponent<VisualEffect>();
                 //detectionVFX.gameObject.SetActive(true);
-                detectionVFX.Play();
+                VfxPref.Play();
 
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(continueSpawning, this.gameObject));
@@ -112,12 +111,13 @@ public class Totem : MonoBehaviour
             case TotemName.stamina:
                 if (playerTransform == null)
                     playerTransform = PlayerManager._Instance.GetPlayerTransform;
-                
+              //  VfxPref.Play();
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 break;
 
             case TotemName.shock:
+                VfxPref.Play();
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(this.gameObject));
                 Debug.Log("Activate Shock");
