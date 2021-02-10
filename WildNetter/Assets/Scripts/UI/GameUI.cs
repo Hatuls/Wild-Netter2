@@ -72,6 +72,8 @@ public class GameUI : MonoBehaviour
         UiManager._Instance.ToggleInventoryMenu(inventoryMenuOn);
         UiManager._Instance.TogglePlayerMenu(playerMenuOn);
         UiManager._Instance.ToggleMapUI(mapMenuOn);
+
+        Time.timeScale = 0f;
     }
 
     public void PauseMenu()
@@ -152,5 +154,13 @@ public class GameUI : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+    }
+
+    public void ESCinventory()
+    {
+        inventoryMenuOn = false;
+        UiManager._Instance.ToggleInventoryMenu(inventoryMenuOn);
+
+        Time.timeScale = 1f;
     }
 }

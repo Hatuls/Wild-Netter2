@@ -33,6 +33,8 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject exitZonePopUp;
     [SerializeField] GameObject exitZoneMap;
     [SerializeField] GameObject gui;
+    [SerializeField] GameObject planningPhaseTxt;
+    [SerializeField] GameObject combatPhaseTxt;
     [SerializeField] GameObject[] Slots;
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;
@@ -56,6 +58,7 @@ public class UiManager : MonoSingleton<UiManager>
         _playerInventory = PlayerInventory.GetInstance;
         inventory = _playerInventory.GetInventory;
         Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
+        planningPhaseTxt.SetActive(true);
         //currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
         //inventoryCapacityTMP = playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
         //for (int i = 0; i < _playerInventory.maxCapacityOfItemsInList; i++)
@@ -213,6 +216,16 @@ public class UiManager : MonoSingleton<UiManager>
         inGameOptionsMenu.SetActive(state);
     }
 
+    public void TogglePlanningTxt(bool state)
+    {
+        planningPhaseTxt.SetActive(state);
+    }
+
+    public void ToggleCombatTxt(bool state)
+    {
+        combatPhaseTxt.SetActive(state);
+    }
+
     public void ExitZone()
     {
         if (exitZonePopUp.activeInHierarchy)
@@ -248,6 +261,8 @@ public class UiManager : MonoSingleton<UiManager>
 
     public void ReturnBack()
     {
+        planningPhaseTxt.SetActive(false);
+        combatPhaseTxt.SetActive(true);
         exitZoneMap.SetActive(false);
         exitZonePopUp.SetActive(false);
         InputManager._Instance.ResetInputManager();

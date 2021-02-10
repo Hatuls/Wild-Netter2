@@ -1241,6 +1241,8 @@ MonoBehaviour:
   exitZonePopUp: {fileID: 0}
   exitZoneMap: {fileID: 0}
   gui: {fileID: 0}
+  planningPhaseTxt: {fileID: 0}
+  combatPhaseTxt: {fileID: 0}
   Slots: []
   healthSlider: {fileID: 0}
   staminaSlider: {fileID: 0}
