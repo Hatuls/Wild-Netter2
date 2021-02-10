@@ -3,9 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Hobogoblin : Enemy
 {
+    //fake animation for Presentetion//
+    public GameObject[] FakeAnimObj;
     public Hobogoblin() : base()
     {
         
+    }
+    public void DeployMesh(int pos)
+    {
+        foreach(GameObject found in FakeAnimObj)
+        {
+            if (found == FakeAnimObj[pos])
+            {
+                found.gameObject.SetActive(true);
+            }
+            else
+            {
+                found.gameObject.SetActive(false);
+
+            }
+        }
+
     }
    
     public override IEnumerator Attack1()
@@ -27,11 +45,14 @@ public class Hobogoblin : Enemy
             Debug.Log("GotHitByGoblin1");
         }
         //animation time-timeInThread//
+        DeployMesh(1);
         yield return new WaitForSeconds(_enemySheet.attack1_animLenght - timeInThread);
+        DeployMesh(2);
         timeInThread += _enemySheet.attack1_animLenght - timeInThread;
         _enemySheet.enemyState = EnemyState.Chase;
         //coolDown-timeInThread
         yield return new WaitForSeconds(_enemySheet.Attack1_Cd-timeInThread);
+        DeployMesh(0);
         attack1_inCd = false;
     }
 
@@ -54,11 +75,14 @@ public class Hobogoblin : Enemy
             
         }
         //animation time-timeInThread//
+        DeployMesh(1);
         yield return new WaitForSeconds(_enemySheet.attack2_animLenght-timeInThread);
-        timeInThread+= _enemySheet.attack2_animLenght - timeInThread;
+        DeployMesh(2);
+        timeInThread += _enemySheet.attack2_animLenght - timeInThread;
         _enemySheet.enemyState = EnemyState.Chase;
         //coolDown-timeInThread
         yield return new WaitForSeconds(_enemySheet.Attack1_Cd - timeInThread);
+        DeployMesh(0);
         attack2_inCd = false;
     }
  
