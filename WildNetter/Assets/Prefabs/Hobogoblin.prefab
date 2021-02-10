@@ -562,7 +562,7 @@ MonoBehaviour:
   creatOnAwake: 0
   particleSystem: {fileID: 0}
   particleSystemGO: {fileID: 0}
-  thisPart: 1
+  thisPart: 2
   armor: 0
   isBroken: 0
 --- !u!1 &5658506011964736035
