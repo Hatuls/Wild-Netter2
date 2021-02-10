@@ -794,6 +794,8 @@ MonoBehaviour:
   exitZonePopUp: {fileID: 0}
   exitZoneMap: {fileID: 0}
   gui: {fileID: 0}
+  planningPhaseTxt: {fileID: 0}
+  combatPhaseTxt: {fileID: 0}
   Slots: []
   healthSlider: {fileID: 0}
   staminaSlider: {fileID: 0}
@@ -8172,6 +8174,11 @@ PrefabInstance:
     - target: {fileID: 564145149494636778, guid: 4ff78520c6dbb544fb3e0df1dfaae002,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639719308400802623, guid: 4ff78520c6dbb544fb3e0df1dfaae002,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6295056592479522928, guid: 4ff78520c6dbb544fb3e0df1dfaae002,
