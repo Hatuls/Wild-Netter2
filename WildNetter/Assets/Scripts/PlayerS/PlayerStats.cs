@@ -21,8 +21,8 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         playerStats.ResetStats();
         playerStats.MaxStamina = staminaPerLevel * GetSetStaminaPoints;
         currentStamina = playerStats.MaxStamina;
-
-
+        UiManager._Instance.SetMaxHealth(GetSetMaxHealth);
+        UiManager._Instance.SetMaxStamina(GetSetMaxStamina);
 
         StopCoroutine(Regeneration());
         StartCoroutine(Regeneration());
@@ -118,7 +118,10 @@ public class PlayerStats : MonoSingleton<PlayerStats>
     public float GetSetMaxHealth
     {
         get { return playerStats.maxHealth; }
-        set { playerStats.maxHealth = value; }
+        set 
+        { 
+            playerStats.maxHealth = value;
+        }
     }
 
 
@@ -137,12 +140,14 @@ public class PlayerStats : MonoSingleton<PlayerStats>
             if (playerStats.currentHealth + (value - playerStats.currentHealth) >= playerStats.maxHealth) {
                
                 playerStats.currentHealth = playerStats.maxHealth;
+                UiManager._Instance.SetHealth(playerStats.currentHealth);
                 return;
             }
             if (value >playerStats.currentHealth )
                  TextPopUp.Create(TextType.Healing, transform.root.position, (int)(playerStats.currentHealth - value) * -1);
             
             playerStats.currentHealth = value;
+            UiManager._Instance.SetHealth(playerStats.currentHealth);
        
 
             if (playerStats.currentHealth <= 0)
@@ -251,6 +256,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
 
         currentStamina += amount;
+        UiManager._Instance.SetStamina(currentStamina);
 
     }
 
@@ -460,20 +466,19 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         float totalAmount = staminaRegenerationAmount;
 
 
-       
 
-        if (buffsArr == null)
-            return;
-        if (buffsArr.Length > 0 && counter > 0)
-        {
-            for (int i = 0; i < buffsArr.Length; i++)
+
+            if (buffsArr != null &&buffsArr.Length > 0 && counter > 0)
             {
-                if (buffsArr[i] == null)
-                    break;
-                if (buffsArr[i].GetRegenerationType == RegenerationType.Stamina && buffsArr[i].SetGetBuffActive)
-                totalAmount += buffsArr[i].GetAmount;
+                for (int i = 0; i < buffsArr.Length; i++)
+                {
+                    if (buffsArr[i] == null)
+                        break;
+                    if (buffsArr[i].GetRegenerationType == RegenerationType.Stamina && buffsArr[i].SetGetBuffActive)
+                        totalAmount += buffsArr[i].GetAmount;
+                }
             }
-        }
+        
 
         Debug.Log("!" +totalAmount);
         AddStaminaAmount(totalAmount);

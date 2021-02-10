@@ -9,6 +9,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     List<TriggerArea> triggers;
    [SerializeField] Transform panel;
 
+    
     public static int currentSceneIndex;
 
     // Getter & Setters:
@@ -16,6 +17,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
    [SerializeField] PlayPhase currentPlayPhase;
 
+    public Vector3 spawningPoint { get; set; }
     public PlayPhase GetSetPlayPhase {
         set
         {
@@ -63,9 +65,11 @@ public class SceneHandler : MonoSingleton<SceneHandler>
         switch (theTriggered.GetTriggerType)
         {
             case TriggerAreaEffect.OpenUI:
-                Debug.Log("Open UI!!!!");  
-               // UiManager._Instance
-
+                Debug.Log("Open UI!!!!");
+                // UiManager._Instance
+                InputManager._Instance.GetSetCanPlayerRotate = false;
+                spawningPoint = theTriggered.gameObject.transform.position;
+                UiManager._Instance.ExitZone();
                 break;
             case TriggerAreaEffect.GoToScene:
                 Debug.Log("GoToNext Scene!!!");
@@ -83,11 +87,9 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     }
 
     void SpawnPlayer(Vector3 position) {
-    
-       
         PlayerManager._Instance.GetPlayerTransform.position = position;
         InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
- 
+        currentPlayPhase = PlayPhase.BattlePhase;
     }
 
 
@@ -112,5 +114,13 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
 
         TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation();
+    }
+
+    public void SetPlayerToScene(Vector3 playerPos)
+    {
+        PlayerMovement._Instance.GetSetPlayerSpeed = 0;
+
+        PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
+        SpawnPlayer(playerPos);
     }
 }

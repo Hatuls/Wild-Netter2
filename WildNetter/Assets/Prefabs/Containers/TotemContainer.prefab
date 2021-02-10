@@ -44,13 +44,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totemOffset: {x: 0, y: 0, z: -3}
-  totem1: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e, type: 3}
+  totemOfDetection: {fileID: 5882053726924375099, guid: 792fe610a5177e4498b3699bcf612a4b,
+    type: 3}
+  totemOfShock: {fileID: 5882053726924375099, guid: 7b7001168a79a974e92abd3ff8a62d6e,
+    type: 3}
+  totemOfHealing: {fileID: 5882053726924375099, guid: 2c20e9dce7aa04548ad4b631fc662d70,
+    type: 3}
+  totemOfPrey: {fileID: 5882053726924375099, guid: ccf45aae37dd0524e8281a99f636aab1,
+    type: 3}
+  totemOfStamina: {fileID: 5882053726924375099, guid: 51e7eed8acb58cc44a9a657bbd3eeddf,
+    type: 3}
   enemiesLayer:
     serializedVersion: 2
     m_Bits: 512
   TotemContainer: {fileID: 4921780675817557972}
-  totemMeshArr:
-  - {fileID: 4300000, guid: bdc96791136966f45bbfa4d77a71b69f, type: 3}
-  - {fileID: 4300000, guid: 1ba1ca7f46bcbd4409f255c9512af146, type: 3}
-  - {fileID: 4300000, guid: cb986909415711e40a6713970a0db28d, type: 3}
-  - {fileID: 4300000, guid: 2200b69c90f1c704b8cba034c8a862a8, type: 3}

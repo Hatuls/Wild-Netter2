@@ -147,7 +147,7 @@ public class InputManager : MonoSingleton<InputManager>
         //}
         //_playerMovement.RotateTowardsDirection(transform.forward);
         ////_playerMovement.RotatePlayer(transform.forward, CheckIfMouseIsOnPlayer());
-        _playerMovement.RotatePlayer(GetPointFromRayCast(), CheckIfMouseIsOnPlayer());
+           PlayerMovement._Instance.RotatePlayer(GetPointFromRayCast(), CheckIfMouseIsOnPlayer());
     }
 
 
@@ -280,5 +280,12 @@ public class InputManager : MonoSingleton<InputManager>
     public void FreezeCoroutineForShotPeriodOfTime(float time) {
         StopAllCoroutines();
         StartCoroutine(FreezeCoroutine(time));
+    }
+
+    public void ResetInputManager()
+    {
+        SetFreelyMoveAndRotate(true);
+        FreezeRB(false);
+        PlayerMovement._Instance.GetSetIsRunning = false;
     }
 }

@@ -15,7 +15,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     Vector3 rotationAngle;
     Vector3 input;
     [SerializeField] Transform HeadTransform;
-    public bool GetIsRunning => isRunning;
+    public bool GetSetIsRunning { get => isRunning; set { isRunning = value; } }
     // Component References:
      Rigidbody _RB;
     public Rigidbody GetPlayerRB => _RB;
@@ -193,7 +193,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         if (PlayerStats._Instance == null)
             return;
 
-        if (GetIsRunning)
+        if (GetSetIsRunning)
             PlayerStats._Instance.AddStaminaAmount(-10f * Time.deltaTime);
         if (!PlayerStats._Instance.CheckEnoughStamina(-5f))
             Sprint(false);
