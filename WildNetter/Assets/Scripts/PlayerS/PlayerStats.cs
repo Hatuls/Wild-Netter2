@@ -366,7 +366,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
     #region Regeneration Params
     const float healthRegenerationAmount = 0;
-    const float staminaRegenerationAmount = 2;
+    const float staminaRegenerationAmount = 5;
    // List<Buffs> RegenerationBuffs ;
 
     [SerializeField] bool stopStaminaRegeneration = false;

@@ -61,6 +61,7 @@ MonoBehaviour:
   itemPF: {fileID: 1411461080229871741, guid: d26f9447f705a984cab9254b0f7c5c9f, type: 3}
   itemSprites:
   - {fileID: 21300000, guid: 8766827530edba64196f9249bc491ad7, type: 3}
+  sprite: {fileID: 11400000, guid: 2b0cc0ef0710d7440a8ffe41f29fea8d, type: 2}
 --- !u!114 &1398032489
 MonoBehaviour:
   m_ObjectHideFlags: 0

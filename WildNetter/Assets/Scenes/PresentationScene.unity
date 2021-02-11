@@ -5388,12 +5388,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Singleton
       objectReference: {fileID: 0}
-    - target: {fileID: 4677179125194629511, guid: df0a0d7c6f6cf1f47a694d51057b3a63,
-        type: 3}
-      propertyPath: sprite
-      value: 
-      objectReference: {fileID: 11400000, guid: 2b0cc0ef0710d7440a8ffe41f29fea8d,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df0a0d7c6f6cf1f47a694d51057b3a63, type: 3}
 --- !u!1001 &6129027828117029952
@@ -5405,7 +5399,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 267789246, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: playerStats.currentHealth
-      value: 125
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2119429236, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: enemyHitVFX
@@ -5599,6 +5593,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6795702238290473361, guid: 87cf24c5de9928b478ba84f799f9116f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d76838f172b1786499de0e5ca74399b6,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87cf24c5de9928b478ba84f799f9116f, type: 3}
 --- !u!1001 &7037817608451477100

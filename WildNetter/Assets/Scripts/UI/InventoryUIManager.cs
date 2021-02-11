@@ -28,8 +28,8 @@ public class InventoryUIManager : MonoSingleton<InventoryUIManager>
 
             for (int i = 0; i < inventorySlots.Length; i++)
                 inventorySlots[i].Init(i);
-            
-        
+
+        InventoryUIManager._Instance.UpdateInventorySlots();
     }
 
 

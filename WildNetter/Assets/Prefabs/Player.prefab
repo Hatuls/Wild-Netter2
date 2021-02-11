@@ -4983,7 +4983,7 @@ MonoBehaviour:
     currentEXP: 0
     expToNextLevel: 0
     abilityPoints: 0
-    currentHealth: 10
+    currentHealth: 125
     maxHealth: 125
     armorPoints: 0
     MaxStamina: 0
