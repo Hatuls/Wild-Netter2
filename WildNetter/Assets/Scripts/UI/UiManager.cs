@@ -33,6 +33,7 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject exitZonePopUp;
     [SerializeField] GameObject exitZoneMap;
     [SerializeField] GameObject gui;
+    [SerializeField] GameObject InventroyHUD;
     [SerializeField] GameObject[] Slots;
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;
@@ -61,6 +62,7 @@ public class UiManager : MonoSingleton<UiManager>
         Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
         lastSlot = totemIcons.Length - 1;
         UpdateTotemsFromGamePhase(SceneHandler._Instance.GetSetPlayPhase);
+        inGamePopUp.SetActive(false);
         //currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
         //inventoryCapacityTMP = playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
         //for (int i = 0; i < _playerInventory.maxCapacityOfItemsInList; i++)

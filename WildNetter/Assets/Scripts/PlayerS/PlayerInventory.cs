@@ -1,7 +1,9 @@
 ﻿using System;
+using UnityEditor.Rendering;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class PlayerInventory 
+public class PlayerInventory
 {
     private static PlayerInventory _instance;
     //Inventory IInventory.GetInstance => GetInstance;
@@ -19,11 +21,24 @@ public class PlayerInventory
         }
     }
     internal int maxCapacityOfItemsInSlot = 40;
-    internal int maxCapacityOfItemsInList = 25;
+    internal int maxCapacityOfItemsInList = 21;
     bool checkForItem;
     int counter;
     int itemAmountCount;
-
+    public int GetAmountOfItemsInInventoryGetAmountOfItemsInInventory {
+        get {
+            int counter = 0;
+            for (int i = 0; i < inventoryList.Length; i++)
+            {
+                if (inventoryList[i] != null)
+                    counter++;
+            }
+            return counter;
+        }
+    
+    
+    
+    }
     Item[] inventoryList;
     private int nextAddOnAmountForInventory = 5;
 
@@ -199,7 +214,8 @@ public class PlayerInventory
         {
             itemAmountCount = 0;
             AddAmountOfItem(item);
-            //UiManager._Instance.UpdateInventory();
+            InventoryUIManager._Instance.UpdateInventorySlots();
+            Debug.Log("Added");
             return;
         }
         Debug.Log("Cant Add The Item");

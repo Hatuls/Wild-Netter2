@@ -36,7 +36,7 @@ public class PlayerWallet
     //Functions:
     void Init() {
 
-        GetSetPlayersCopper = 1001;
+        GetSetPlayersCopper = 0;
             GetSetPlayersSilver = 0;
             GetSetPlayersGold = 0;
     }

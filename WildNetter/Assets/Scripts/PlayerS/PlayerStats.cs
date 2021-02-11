@@ -480,7 +480,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
             }
         
 
-        Debug.Log("!" +totalAmount);
+       // Debug.Log("!" +totalAmount);
         AddStaminaAmount(totalAmount);
     }
     private void HealthRegeneration() {

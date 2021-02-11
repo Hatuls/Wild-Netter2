@@ -14,12 +14,12 @@ public abstract class Item {
     public CurrencyDefinition Price;
     public bool isStackable;
     public int amount;
-   
+    Sprite img;
     
     public Item(string[] itemData) {
         Price = new CurrencyDefinition(); 
         LoadItemData(itemData);
-       
+        GetRelevantSprite();
     }
 
     public void LoadItemData(string[] itemData)
@@ -148,5 +148,9 @@ public abstract class Item {
     
     }
 
-    
+   void GetRelevantSprite() {
+        GetSetSprite = ItemFactory._Instance.GetItemSprite(ID);
+    }
+
+    public Sprite GetSetSprite { get => img; set => img = value; }
 }

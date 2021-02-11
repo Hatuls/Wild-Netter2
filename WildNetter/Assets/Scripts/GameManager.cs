@@ -5,11 +5,13 @@ public class GameManager : MonoSingleton<GameManager>
     private void Start()
     {
         Init();
+        PlayerInventory.GetInstance.AddToInventory(ItemFactory._Instance.GenerateItem(40000));
+     
     }
 
     public override void Init()
     {
-        singletons = new ISingleton[14] {
+        singletons = new ISingleton[15] {
             SceneHandler._Instance,
             ItemFactory._Instance,
             MyCamera._Instance,
@@ -17,6 +19,7 @@ public class GameManager : MonoSingleton<GameManager>
             PlayerStats._Instance,
             TotemManager._Instance,
             UiManager._Instance,
+            InventoryUIManager._Instance,
             InputManager._Instance,
             PlayerCombat._Instance,
             PlayerMovement._Instance,

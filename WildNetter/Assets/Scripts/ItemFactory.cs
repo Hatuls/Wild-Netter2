@@ -6,7 +6,7 @@ public class ItemFactory : MonoSingleton<ItemFactory>
 
     public Transform itemPF;
     public Sprite[] itemSprites;
-
+  [SerializeField] SpriteSO sprite;
     public override void Init()
     {
      
@@ -14,9 +14,13 @@ public class ItemFactory : MonoSingleton<ItemFactory>
 
     public Sprite GetItemSprite(int _ID)
     {
-        // needed to add dictionary to search for those pictures
         Debug.Log(itemSprites.Length);
-        return itemSprites[_ID %10000];
+       //return sprite.SpriteByIMG[_ID % 10000];
+       return sprite.SpriteByIMG[0];
+        
+
+
+     //  return itemSprites[_ID %10000];
     }
 
     public Item GenerateItem(int id)
