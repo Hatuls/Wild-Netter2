@@ -773,7 +773,7 @@ MonoBehaviour:
     lookRange: 0
     rangeFromBody: 0
     stayInRangeTime: 0
-    lootDropsID: 
+    lootDropsID: 102700001127000012270000
     enemyAnim: []
     DamagedMat: {fileID: 0}
     Trails: {fileID: 0}

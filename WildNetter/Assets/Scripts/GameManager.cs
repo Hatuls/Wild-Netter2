@@ -5,7 +5,7 @@ public class GameManager : MonoSingleton<GameManager>
     private void Start()
     {
         Init();
-        PlayerInventory.GetInstance.AddToInventory(ItemFactory._Instance.GenerateItem(40000));
+     //   PlayerInventory.GetInstance.AddToInventory(ItemFactory._Instance.GenerateItem(40000));
      
     }
 

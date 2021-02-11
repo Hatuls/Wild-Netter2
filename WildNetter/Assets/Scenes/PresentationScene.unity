@@ -1745,11 +1745,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6400959534023523869, guid: 15ff07f18545d1b4d8fb436202eadd7f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6400959534791882777, guid: 15ff07f18545d1b4d8fb436202eadd7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1859,11 +1854,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: In-Game UI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6400959534830018354, guid: 15ff07f18545d1b4d8fb436202eadd7f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6559712104844116059, guid: 15ff07f18545d1b4d8fb436202eadd7f,
         type: 3}
@@ -5101,6 +5091,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.376667
+      objectReference: {fileID: 0}
+    - target: {fileID: 1172607122498616307, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 24.206665
       objectReference: {fileID: 0}
     - target: {fileID: 1172607122498616319, guid: 0d2d4fd67244f0842a2ed16b2993dc84,
         type: 3}

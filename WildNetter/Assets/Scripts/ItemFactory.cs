@@ -15,8 +15,16 @@ public class ItemFactory : MonoSingleton<ItemFactory>
     public Sprite GetItemSprite(int _ID)
     {
         Debug.Log(itemSprites.Length);
-       //return sprite.SpriteByIMG[_ID % 10000];
-       return sprite.SpriteByIMG[0];
+        Debug.Log("****" + _ID);
+
+        if (_ID % 10000 > sprite.SpriteByIMG.Length)
+        {
+            Debug.Log("Sprite Was not in Scriptable object");
+            return null;
+        }
+       return sprite.SpriteByIMG[_ID % 10000];
+     //  return sprite.SpriteByIMG[_ID % 10000];
+      // return sprite.SpriteByIMG[0];
         
 
 

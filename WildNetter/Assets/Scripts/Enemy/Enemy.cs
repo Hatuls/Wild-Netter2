@@ -138,12 +138,14 @@ public abstract class Enemy : MonoBehaviour
         {
             case Size.Small:
                 SizeMultiplayer = 1;
-                dropAmont = 1;
+                  dropAmont = 3;// <= used for presentation delete me and undo the next one
+                //  dropAmont = 1;
                 break;
 
             case Size.Medium:
                 SizeMultiplayer = 2;
-                dropAmont = 2;
+                dropAmont =3 ; // <= used for presentation delete me and undo the next one
+                //dropAmont = 2;
                 break;
 
             case Size.Large:
@@ -419,10 +421,16 @@ public abstract class Enemy : MonoBehaviour
                 TargetFinder();
                 
         }
-        var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory._Instance.GenerateItem(_enemySO.lootDropsID[dropLevel-1]), RetrieveDeathLocation(), TargetAquierd.transform);
 
-        Dropable.GetComponent<PickUpObject>().GetItem().amount = dropAmont;
 
+        for (int i = 0; i < dropAmont; i++)
+        {
+            var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory._Instance.GenerateItem(_enemySO.lootDropsID[Random.Range(0 , _enemySO.lootDropsID.Length)]), RetrieveDeathLocation(), TargetAquierd.transform);
+
+            Debug.Log("Deploy Me" + _enemySO.lootDropsID[dropLevel - 1]);
+
+            Dropable.GetComponent<PickUpObject>().GetItem().amount = dropAmont;
+        }
 
 
 
