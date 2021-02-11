@@ -33,8 +33,6 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject exitZonePopUp;
     [SerializeField] GameObject exitZoneMap;
     [SerializeField] GameObject gui;
-    [SerializeField] GameObject planningPhaseTxt;
-    [SerializeField] GameObject combatPhaseTxt;
     [SerializeField] GameObject[] Slots;
     [SerializeField] Slider healthSlider;
     [SerializeField] Slider staminaSlider;
@@ -42,6 +40,9 @@ public class UiManager : MonoSingleton<UiManager>
     //[SerializeField] Image fill;
     [SerializeField] TextMeshProUGUI currencyTMP;
     [SerializeField] TextMeshProUGUI inventoryCapacityTMP;
+
+
+
     Sprite defaultSpriteForSlot;
     Item[] inventory;
     //SerializeField] TextMeshProUGUI inventoryCapacityText;
@@ -58,7 +59,8 @@ public class UiManager : MonoSingleton<UiManager>
         _playerInventory = PlayerInventory.GetInstance;
         inventory = _playerInventory.GetInventory;
         Slots = new GameObject[_playerInventory.maxCapacityOfItemsInList];
-        planningPhaseTxt.SetActive(true);
+        lastSlot = totemIcons.Length - 1;
+        UpdateTotemsFromGamePhase(SceneHandler._Instance.GetSetPlayPhase);
         //currencyTMP = playerInventoryUIWindow.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
         //inventoryCapacityTMP = playerInventoryUIWindow.transform.Find("CapacityText").GetComponent<TextMeshProUGUI>();
         //for (int i = 0; i < _playerInventory.maxCapacityOfItemsInList; i++)
@@ -70,7 +72,7 @@ public class UiManager : MonoSingleton<UiManager>
         //defaultSpriteForSlot = inventorySlotHolder.transform.GetChild(0).GetComponent<Image>().sprite;
         //UpdateInventory();
     }
-    public void ToggleMainMenu(bool state) 
+    public void ToggleMainMenu(bool state)
     {
         mainMenu.SetActive(state);
     }
@@ -113,7 +115,7 @@ public class UiManager : MonoSingleton<UiManager>
         }
     }
 
-    public void SetMaxHealth (float health)
+    public void SetMaxHealth(float health)
     {
         healthSlider.maxValue = health;
         healthSlider.value = health;
@@ -121,20 +123,20 @@ public class UiManager : MonoSingleton<UiManager>
         //fill.color = gradient.Evaluate(1f);
     }
 
-    public void SetHealth (float health)
+    public void SetHealth(float health)
     {
         healthSlider.value = health;
 
         //fill.color = gradient.Evaluate(healthSlider.normalizedValue);
     }
 
-    public void SetMaxStamina (float stamina)
+    public void SetMaxStamina(float stamina)
     {
         staminaSlider.maxValue = stamina;
         staminaSlider.value = stamina;
     }
 
-    public void SetStamina (float stamina)
+    public void SetStamina(float stamina)
     {
         staminaSlider.value = stamina;
     }
@@ -168,19 +170,19 @@ public class UiManager : MonoSingleton<UiManager>
     {
         inGamePopUp.SetActive(state);
     }
-    public void TogglePlayerMenu (bool state)
+    public void TogglePlayerMenu(bool state)
     {
         playerMenu.SetActive(state);
     }
-    public void ToggleGUIinScene(bool state) 
+    public void ToggleGUIinScene(bool state)
     {
         gui.SetActive(state);
     }
-    public void ToggleOptionsMenu(bool state) 
+    public void ToggleOptionsMenu(bool state)
     {
         optionsMenu.SetActive(state);
     }
-    public void ToggleLoadGameMenu (bool state) 
+    public void ToggleLoadGameMenu(bool state)
     {
         loadGameMenu.SetActive(state);
     }
@@ -216,16 +218,6 @@ public class UiManager : MonoSingleton<UiManager>
         inGameOptionsMenu.SetActive(state);
     }
 
-    public void TogglePlanningTxt(bool state)
-    {
-        planningPhaseTxt.SetActive(state);
-    }
-
-    public void ToggleCombatTxt(bool state)
-    {
-        combatPhaseTxt.SetActive(state);
-    }
-
     public void ExitZone()
     {
         if (exitZonePopUp.activeInHierarchy)
@@ -244,7 +236,7 @@ public class UiManager : MonoSingleton<UiManager>
 
     public void ExitZoneMap()
     {
-        if(exitZoneMap.activeInHierarchy)
+        if (exitZoneMap.activeInHierarchy)
         {
             InputManager._Instance.GetSetCanPlayerRotate = true;
             Time.timeScale = 1f;
@@ -261,8 +253,6 @@ public class UiManager : MonoSingleton<UiManager>
 
     public void ReturnBack()
     {
-        planningPhaseTxt.SetActive(false);
-        combatPhaseTxt.SetActive(true);
         exitZoneMap.SetActive(false);
         exitZonePopUp.SetActive(false);
         InputManager._Instance.ResetInputManager();
@@ -289,4 +279,44 @@ public class UiManager : MonoSingleton<UiManager>
         SceneManager.LoadScene(sceneNumber);
     }
 
+
+
+
+
+
+
+
+
+
+    #region Totem Icons
+    [SerializeField] TotemIconImageScript[] totemIcons;
+    int currentHighlighted = 0;
+    int lastSlot ;
+    public void HighLightNextImage() {
+
+        currentHighlighted++;
+
+        if (currentHighlighted >= totemIcons.Length)
+            currentHighlighted = 0;
+
+
+        if (totemIcons[currentHighlighted].GetIsDark) {
+            HighLightNextImage();
+            return;
+        }
+        totemIcons[lastSlot].HighLightImage(false);
+        totemIcons[currentHighlighted].HighLightImage(true);
+        PlayerCombat._Instance.SetCurrentTotemHolderByInt(currentHighlighted);
+        lastSlot = currentHighlighted;
+    }
+
+
+
+
+  
+   public void UpdateTotemsFromGamePhase(PlayPhase playPhase) {
+        for (int i = 0; i < totemIcons.Length; i++)
+            totemIcons[i].SetMySprite(playPhase);
+    }
+    #endregion
 }
