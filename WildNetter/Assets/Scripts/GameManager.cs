@@ -11,7 +11,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public override void Init()
     {
-        singletons = new ISingleton[15] {
+        singletons = new ISingleton[16] {
             SceneHandler._Instance,
             ItemFactory._Instance,
             MyCamera._Instance,
@@ -26,7 +26,8 @@ public class GameManager : MonoSingleton<GameManager>
             SoundManager._Instance,
             EnemySpawner._Instance,
             EnemyManager._Instance,
-            TextPopUpHandler._Instance
+            TextPopUpHandler._Instance,
+            MiniCamScript._Instance
         };
 
         for (int i = 0; i < singletons.Length; i++)

@@ -21,7 +21,7 @@ TagManager:
   - PlayersWeapon
   - TextTop
   - TriggerArea
-  - 
+  - MiniMap
   - 
   - 
   - 
@@ -59,4 +59,7 @@ TagManager:
     locked: 0
   - name: TriggerArea
     uniqueID: 2284314257
+    locked: 0
+  - name: MIniMap
+    uniqueID: 1928849727
     locked: 0

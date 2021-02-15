@@ -21,10 +21,7 @@ public class InventorySlotsUI : Slot
     public void Init(int id)
     {
         GetSetButtonID = id;
-        if (true)
-        {
-
-        }
+      
         this.GetBtn.onClick.AddListener(this.GotClicked);
         txtMP = GetComponentInChildren<TextMeshProUGUI>();
     }
