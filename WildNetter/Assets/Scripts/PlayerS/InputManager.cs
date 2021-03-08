@@ -54,6 +54,10 @@ public class InputManager : MonoSingleton<InputManager>
     void Update()
     {
         PlayersInputs();
+        if (Input.GetKeyDown( KeyCode.Q))
+        {
+            PlayerInventory.GetInstance.PrintInventory();
+        }
     }
     void PlayersInputs()
     {

@@ -61,7 +61,7 @@ public class InventoryUIManager : MonoSingleton<InventoryUIManager>
   public void UpdateInventorySlots() {
         UpdateCurrencyTxt();
         for (int i = 0; i < inventorySlots.Length; i++)
-           UpdateSlotsSprite(i);
+           UpdateInventorySlots(i);
         
     }
 
@@ -70,7 +70,7 @@ public class InventoryUIManager : MonoSingleton<InventoryUIManager>
         Debug.Log("Button Id : " + buttonID + " Was Pressed");
     }
 
-    public void UpdateSlotsSprite(int i)
+    public void UpdateInventorySlots(int i)
     {
         if (inventoryData == null)
             return;
@@ -90,7 +90,7 @@ public class InventoryUIManager : MonoSingleton<InventoryUIManager>
 
 
 
-        if (!inventoryData[i].GetData.isStackable)
+        if (inventoryData[i].GetData.isStackable)
             (inventorySlots[i] as InventorySlotsUI).CleanTextSlot();
         else
             (inventorySlots[i] as InventorySlotsUI).SetTextSlot(inventoryData[i].amount + " / " + PlayerInventory.GetInstance. maxCapacityOfItemsInSlot);

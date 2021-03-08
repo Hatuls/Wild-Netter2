@@ -270,7 +270,7 @@ public class UiManager : MonoSingleton<UiManager>
         {
             var itemToDrop = ItemFactory._Instance.GenerateItem(inventory[i].GetData.ID);
             itemToDrop.amount = inventory[i].amount;
-            PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager._Instance.GetPlayerTransform.position, PlayerManager._Instance.GetPlayerTransform);
+          //  PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager._Instance.GetPlayerTransform.position, PlayerManager._Instance.GetPlayerTransform);
             _playerInventory.RemoveItemFromInventory(inventory[i]);
             //UpdateInventory();
 

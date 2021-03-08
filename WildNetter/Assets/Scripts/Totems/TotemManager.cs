@@ -203,7 +203,7 @@ public class TotemManager : MonoSingleton<TotemManager>
 
     }
 
-    private bool CheckPlayPhaseForTotem(TotemName totemName) {
+   private bool CheckPlayPhaseForTotem(TotemName totemName) {
 
         if (totemName == TotemName.None)
             return false;

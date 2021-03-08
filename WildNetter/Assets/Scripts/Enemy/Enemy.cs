@@ -425,11 +425,10 @@ public abstract class Enemy : MonoBehaviour
 
         for (int i = 0; i < dropAmont; i++)
         {
-            var Dropable = PickUpObject.SpawnItemInWorld(ItemFactory._Instance.GenerateItem(_enemySO.lootDropsID[Random.Range(0 , _enemySO.lootDropsID.Length)]), RetrieveDeathLocation(), TargetAquierd.transform);
+            var Dropable = PickUpObject.SpawnItemInWorld(_enemySO.lootDropsID[Random.Range(0 , _enemySO.lootDropsID.Length)], dropAmont, RetrieveDeathLocation(), TargetAquierd.transform);
 
             Debug.Log("Deploy Me" + _enemySO.lootDropsID[dropLevel - 1]);
 
-            Dropable.GetComponent<PickUpObject>().GetItem().amount = dropAmont;
         }
 
 

@@ -3,33 +3,27 @@ using UnityEngine;
 
 public class PickUpObject : MonoBehaviour
 {
-   [SerializeField]  static Transform pickUpContianer;
-   [SerializeField] GameObject ItemPrefab;
-    ItemData item;
+    [SerializeField] static Transform pickUpContianer;
+    [SerializeField] GameObject ItemPrefab;
+    // ItemData item;
     static Transform playerPos;
-    public static PickUpObject SpawnItemInWorld(ItemData item, Vector3 pos , Transform PlayerTransform) {
+    private int itemID;
+    private int amount;
+    public static PickUpObject SpawnItemInWorld(int itemID,int amount, Vector3 pos , Transform PlayerTransform) {
         playerPos = PlayerTransform;
-
-     Transform t =   Instantiate(ItemFactory._Instance.itemPF, pos, Quaternion.identity, pickUpContianer);
+      
+        Transform t =   Instantiate(ItemFactory._Instance.itemPF, pos, Quaternion.identity, pickUpContianer);
 
         PickUpObject pickUpObject = t.GetComponent<PickUpObject>();
-
-      pickUpObject.GetComponent<Rigidbody>().AddForce(ShootItemInRandomDirection(),ForceMode.Impulse);
-
-        pickUpObject.SetItem(item);
-
-       pickUpObject.SetSprite(item); 
-
+       
+        pickUpObject.itemID = itemID; 
+        pickUpObject.GetComponent<SpriteRenderer>().sprite =ItemFactory._Instance.GetItemSprite(itemID);
+        pickUpObject.amount = amount;
+        pickUpObject.GetComponent<Rigidbody>().AddForce(ShootItemInRandomDirection(),ForceMode.Impulse);
         pickUpObject.StartCoroutine(pickUpObject.CheckDistanceCoroutine());
 
         return pickUpObject;
     }
-    private void SetSprite(ItemData item)
-    { 
-        GetComponent<SpriteRenderer>().sprite =ItemFactory._Instance.GetItemSprite(item.GetData.ID); ;
-
-    }
-
 
   static  Vector3 ShootItemInRandomDirection() {
         float Amount= 10;
@@ -41,15 +35,14 @@ public class PickUpObject : MonoBehaviour
 
         return (new Vector3(x, y, z).normalized * Amount) ; 
     }
-    public void SetItem(ItemData item) { 
-        this.item = item;
-    }
-    public ItemData GetItem() { return item; }
+
     IEnumerator CheckDistanceCoroutine() {
         yield return new WaitForSeconds(0.5f);
         if (Vector3.Distance(transform.position , playerPos.position) < 2f)
         {
-           // need to add logic if the player can add this item or maybe he has max capcity on it
+            // need to add logic if the player can add this item or maybe he has max capcity on it
+            var item = ItemFactory._Instance.GenerateItem(itemID);
+            item.amount = amount;
             PlayerInventory.GetInstance.AddToInventory(item);
             Destroy(this.gameObject);
 
