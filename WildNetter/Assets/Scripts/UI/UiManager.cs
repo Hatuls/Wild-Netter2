@@ -45,7 +45,7 @@ public class UiManager : MonoSingleton<UiManager>
 
 
     Sprite defaultSpriteForSlot;
-    Item[] inventory;
+    ItemData[] inventory;
     //SerializeField] TextMeshProUGUI inventoryCapacityText;
 
 
@@ -104,10 +104,7 @@ public class UiManager : MonoSingleton<UiManager>
 
             if (i < inventory.Length)
             {
-
-
-
-                Slots[i].GetComponent<Image>().sprite = ItemFactory._Instance.GetItemSprite(inventory[i].ID);
+                Slots[i].GetComponent<Image>().sprite = ItemFactory._Instance.GetItemSprite(inventory[i].GetData.ID);
                 if (inventory[i].amount > 1)
                 {
                     Slots[i].GetComponentInChildren<Text>().text = inventory[i].amount + text;
@@ -227,6 +224,7 @@ public class UiManager : MonoSingleton<UiManager>
             InputManager._Instance.GetSetCanPlayerRotate = true;
             exitZonePopUp.SetActive(false);
             Time.timeScale = 1f;
+    
         }
 
         else
@@ -244,6 +242,7 @@ public class UiManager : MonoSingleton<UiManager>
             Time.timeScale = 1f;
             exitZoneMap.SetActive(false);
             exitZonePopUp.SetActive(false);
+            
         }
 
         else
@@ -260,6 +259,8 @@ public class UiManager : MonoSingleton<UiManager>
         InputManager._Instance.ResetInputManager();
         Time.timeScale = 1f;
         SceneHandler._Instance.SetPlayerToScene(SceneHandler._Instance.spawningPoint);
+        // deploy platypus?
+        TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation();
     }
     public void CloseAllMenus() { }
 
@@ -267,7 +268,7 @@ public class UiManager : MonoSingleton<UiManager>
     public void DropItemFromInventory(int i) {
         if (inventory[i] != null)
         {
-            var itemToDrop = ItemFactory._Instance.GenerateItem(inventory[i].ID);
+            var itemToDrop = ItemFactory._Instance.GenerateItem(inventory[i].GetData.ID);
             itemToDrop.amount = inventory[i].amount;
             PickUpObject.SpawnItemInWorld(itemToDrop, PlayerManager._Instance.GetPlayerTransform.position, PlayerManager._Instance.GetPlayerTransform);
             _playerInventory.RemoveItemFromInventory(inventory[i]);

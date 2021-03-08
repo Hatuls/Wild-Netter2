@@ -31,9 +31,9 @@ public class ItemFactory : MonoSingleton<ItemFactory>
      //  return itemSprites[_ID %10000];
     }
 
-    public Item GenerateItem(int id)
+    public ItemData GenerateItem(int id)
     {
-        Item itemToGenerate = null;
+        ItemData itemToGenerate = null;
         string[] data =LoadData.GetInstance().GetItemDataFromCSVFile(id);
         if (int.TryParse(data[1], out int Type))
         {
@@ -59,7 +59,7 @@ public class ItemFactory : MonoSingleton<ItemFactory>
         return itemToGenerate;
     }
 
-    public Item GenerateTotem(string[] itemData, string[] totemData)
+    public ItemData GenerateTotem(string[] itemData, string[] totemData)
     {
         if(int.TryParse(totemData[1], out int totemType))
         {

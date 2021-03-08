@@ -95,9 +95,6 @@ public class InputManager : MonoSingleton<InputManager>
             _playerCombat.SetAttackType(AttackType.Totem);
             else
                 EquipTotem();
-            
-            
-
         }
     }
     int totemSlotCounter = 1;

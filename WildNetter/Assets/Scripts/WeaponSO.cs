@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.UIElements;
+﻿
 using UnityEngine;
 
-public class WeaponSO : Item
+public class WeaponSO :ItemData
 {
-
+    public ItemStruct Data;
     public Vulnerability vulnerabilityActivator;
     public int MinimumPlayerLevel;
     public int minDMG, maxDMG;
@@ -23,8 +20,6 @@ public class WeaponSO : Item
     // the 6 first elements of the dataFiles go to item!
     public WeaponSO(string[] itemData, string[] weaponData): base(itemData)
     {
-      
-        this.isStackable = true;
 
         if (weaponData != null)
         {

@@ -29,7 +29,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         set { 
             
             _equippedWeaponSO = value;
-            currentWeaponName = _equippedWeaponSO.Name;
+            currentWeaponName = _equippedWeaponSO.GetData.Name;
         }
 
     }

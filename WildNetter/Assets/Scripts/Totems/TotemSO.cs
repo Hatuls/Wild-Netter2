@@ -1,13 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
 
-public abstract class TotemSO : Item
+public abstract class TotemSO :ItemData 
 {
     // Object References:
-    public Item[] itemsToBuildThis;
+    
+    public int[]IDToBuildThis;
     // Variables:
 
     public TotemName totemName;
@@ -23,8 +22,9 @@ public abstract class TotemSO : Item
     public float? effectAmountPrecentage = null;
     private int? minEffectAmount = null;
     private int? maxEffectAmount = null;
-    public TotemSO(string[] lootData, string[] totemData) : base(lootData)
+    public TotemSO(string[] lootData, string[] totemData) : base (lootData)
     {
+   
         if (totemData == null)
             return;
         if (totemData[1] != "")

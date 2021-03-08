@@ -1,17 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ElixersSO : Item
+﻿
+public class ElixersSO : ItemData
 {
    public enum ElixerType { };
    public ElixerType elixerType;
 
     public int AmountOfBuff;
-    Item[] ItemsToMakeThis;
+    ItemData[] ItemsToMakeThis;
 
 
-    public ElixersSO(string[] data) : base(data) { this.isStackable = true; }
+    public ElixersSO(string[] data) : base(data) { }
 
 
     

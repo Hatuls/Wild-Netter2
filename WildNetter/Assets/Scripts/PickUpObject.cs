@@ -5,9 +5,9 @@ public class PickUpObject : MonoBehaviour
 {
    [SerializeField]  static Transform pickUpContianer;
    [SerializeField] GameObject ItemPrefab;
-    Item item;
+    ItemData item;
     static Transform playerPos;
-    public static PickUpObject SpawnItemInWorld(Item item, Vector3 pos , Transform PlayerTransform) {
+    public static PickUpObject SpawnItemInWorld(ItemData item, Vector3 pos , Transform PlayerTransform) {
         playerPos = PlayerTransform;
 
      Transform t =   Instantiate(ItemFactory._Instance.itemPF, pos, Quaternion.identity, pickUpContianer);
@@ -24,9 +24,9 @@ public class PickUpObject : MonoBehaviour
 
         return pickUpObject;
     }
-    private void SetSprite(Item item)
+    private void SetSprite(ItemData item)
     { 
-        GetComponent<SpriteRenderer>().sprite =ItemFactory._Instance.GetItemSprite(item.ID); ;
+        GetComponent<SpriteRenderer>().sprite =ItemFactory._Instance.GetItemSprite(item.GetData.ID); ;
 
     }
 
@@ -41,10 +41,10 @@ public class PickUpObject : MonoBehaviour
 
         return (new Vector3(x, y, z).normalized * Amount) ; 
     }
-    public void SetItem(Item item) { 
+    public void SetItem(ItemData item) { 
         this.item = item;
     }
-    public Item GetItem() { return item; }
+    public ItemData GetItem() { return item; }
     IEnumerator CheckDistanceCoroutine() {
         yield return new WaitForSeconds(0.5f);
         if (Vector3.Distance(transform.position , playerPos.position) < 2f)

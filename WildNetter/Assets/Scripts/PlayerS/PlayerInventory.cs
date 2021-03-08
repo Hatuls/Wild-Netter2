@@ -1,6 +1,5 @@
 ﻿using System;
-using UnityEditor.Rendering;
-using UnityEditor.SceneManagement;
+
 using UnityEngine;
 
 public class PlayerInventory
@@ -25,26 +24,27 @@ public class PlayerInventory
     bool checkForItem;
     int counter;
     int itemAmountCount;
-    public int GetAmountOfItemsInInventoryGetAmountOfItemsInInventory {
-        get {
+    public int GetAmountOfItemsInInventoryGetAmountOfItemsInInventory
+    {
+        get
+        {
             int counter = 0;
             for (int i = 0; i < inventoryList.Length; i++)
             {
-                if (inventoryList[i] != null)
-                    counter++;
+                counter++;
             }
             return counter;
         }
-    
-    
-    
+
+
+
     }
-    Item[] inventoryList;
+    ItemData[] inventoryList;
     private int nextAddOnAmountForInventory = 5;
 
 
 
-    public Item[] GetInventory { get => inventoryList; }
+    public ItemData[] GetInventory { get => inventoryList; }
 
 
 
@@ -52,7 +52,7 @@ public class PlayerInventory
 
     private PlayerInventory()
     {
-        inventoryList = new Item[maxCapacityOfItemsInList];
+        inventoryList = new ItemData[maxCapacityOfItemsInList];
     }
 
 
@@ -64,13 +64,13 @@ public class PlayerInventory
         if (_newSize < maxCapacityOfItemsInList)
             return;
         maxCapacityOfItemsInList += _newSize;
-        Item[] newInventoryList = new Item[maxCapacityOfItemsInList];
+        ItemData[] newInventoryList = new ItemData[maxCapacityOfItemsInList];
 
         Array.Copy(inventoryList, newInventoryList, inventoryList.Length);
         inventoryList = newInventoryList;
     }
 
-    public bool CheckIfEnoughSpaceInInventory(Item item)
+    public bool CheckIfEnoughSpaceInInventory(ItemData item)
     {
         if (item == null)
             return false;
@@ -110,7 +110,7 @@ public class PlayerInventory
         {
             for (int i = 0; i < inventoryList.Length; i++)
             {
-                if (item.ID == inventoryList[i].ID)
+                if (item.GetData.ID == inventoryList[i].GetData.ID)
                 {
                     counter += maxCapacityOfItemsInSlot;
                 }
@@ -126,14 +126,14 @@ public class PlayerInventory
     }
 
 
-    void AddAmountOfItem(Item item)
+    void AddAmountOfItem(ItemData item)
     {
 
 
         if (item == null || item.amount <= 0)
             return;
 
-        if (!item.isStackable)
+        if (!item.GetData.isStackable)
         {
             if (item.amount <= GetAmountOfItem(null))
             {
@@ -170,7 +170,7 @@ public class PlayerInventory
             if (inventoryList[i] == null)
                 continue;
 
-            if (inventoryList[i].ID == item.ID)
+            if (inventoryList[i].GetData.ID == item.GetData.ID)
             {
                 if (inventoryList[i].amount == maxCapacityOfItemsInSlot)
                     continue;
@@ -198,14 +198,14 @@ public class PlayerInventory
         }
 
         //  inventoryList[GetItemIndexInArray(null)] = new ItemSlot(item.item, test); ;
-          item.amount = test;
-   
-    
+        item.amount = test;
+
+
         inventoryList[GetItemIndexInArray(null)] = item;
 
     }
 
-    public void AddToInventory(Item item)
+    public void AddToInventory(ItemData item)
     {
         if (item == null)
             return;
@@ -222,7 +222,7 @@ public class PlayerInventory
     }
 
 
-    private void RemoveObjectFromInventory(Item item)
+    private void RemoveObjectFromInventory(ItemData item)
     {
         if (item.amount < 0)
             item.amount *= -1;
@@ -233,13 +233,13 @@ public class PlayerInventory
             return;
 
         // if item is not stackable
-        if (!item.isStackable)
+        if (!item.GetData.isStackable)
         {
             for (int x = 0; x < item.amount; x++)
             {
                 for (int i = inventoryList.Length - 1; i >= 0; i--)
                 {
-                    if (inventoryList[i] != null && inventoryList[i].ID == item.ID)
+                    if (inventoryList[i] != null && inventoryList[i].GetData.ID == item.GetData.ID)
                     {
                         inventoryList[i] = null;
                         break;
@@ -267,7 +267,7 @@ public class PlayerInventory
             if (inventoryList[i] == null)
                 continue;
 
-            if (inventoryList[i].ID == item.ID)
+            if (inventoryList[i].GetData.ID == item.GetData.ID)
             {
 
                 if (itemAmountCount - inventoryList[i].amount > 0)
@@ -291,16 +291,16 @@ public class PlayerInventory
 
             }
         }
- 
+
     }
 
-    public void RemoveItemFromInventory(Item item)
+    public void RemoveItemFromInventory(ItemData item)
     {
         itemAmountCount = item.amount;
         RemoveObjectFromInventory(item);
     }
 
-    public bool CheckInventoryForItem(Item item)
+    public bool CheckInventoryForItem(ItemData item)
     {
 
         checkForItem = false;
@@ -313,7 +313,7 @@ public class PlayerInventory
                 break;
 
             }
-            else if (item.ID == inventoryList[i].ID)
+            else if (item.GetData.ID == inventoryList[i].GetData.ID)
             {
                 checkForItem = true;
                 break;
@@ -322,7 +322,7 @@ public class PlayerInventory
 
         return checkForItem;
     }
-    
+
     // this function will return true if crafting is ok ***************** run it on later stage
     //public bool CheckEnoughItemsForRecipe(RecipeSO recipe)
     //{
@@ -382,7 +382,7 @@ public class PlayerInventory
     //    return false;
     //}
 
-    public int GetAmountOfItem(Item item)
+    public int GetAmountOfItem(ItemData item)
     {
         counter = 0;
         for (int i = 0; i < inventoryList.Length; i++)
@@ -394,7 +394,7 @@ public class PlayerInventory
             }
             else if (item != null && inventoryList[i] != null)
             {
-                if (item.ID == inventoryList[i].ID)
+                if (item.GetData.ID == inventoryList[i].GetData.ID)
                 {
                     counter += inventoryList[i].amount;
                 }
@@ -403,7 +403,7 @@ public class PlayerInventory
         return counter;
 
     }
-    public int GetItemIndexInArray(Item item)
+    public int GetItemIndexInArray(ItemData item)
     {
 
         for (int i = 0; i < inventoryList.Length; i++)
@@ -414,7 +414,7 @@ public class PlayerInventory
                     return i;
             }
             else
-            if (inventoryList[i] != null && item.ID== inventoryList[i].ID)
+            if (inventoryList[i] != null && item.GetData.ID == inventoryList[i].GetData.ID)
             {
                 return i;
             }
@@ -435,7 +435,7 @@ public class PlayerInventory
                 Debug.Log("Inventory list in spot " + i + "is Null");
             }
             else
-                Debug.Log("Inventory list in spot " + i + " with the amount : " + inventoryList[i].amount + " of type: " + inventoryList[i].Name);
+                Debug.Log("Inventory list in spot " + i + " with the amount : " + inventoryList[i].amount + " of type: " + inventoryList[i].GetData.Name);
         }
 
     }
@@ -447,15 +447,15 @@ public class PlayerInventory
 public interface IInventory
 {
     PlayerInventory GetInstance { get; }
-    Item[] GetInventory { get; }
+    ItemData[] GetInventory { get; }
 
-    void AddToInventory(Item item);
-    bool CheckEnoughItemsForRecipe(Item recipe);
-    bool CheckIfEnoughSpaceInInventory(Item item);
-    bool CheckInventoryForItem(Item item);
-    int GetAmountOfItem(Item item);
-    int GetItemIndexInArray(Item item);
+    void AddToInventory(ItemData item);
+    bool CheckEnoughItemsForRecipe(ItemData recipe);
+    bool CheckIfEnoughSpaceInInventory(ItemData item);
+    bool CheckInventoryForItem(ItemData item);
+    int GetAmountOfItem(ItemData item);
+    int GetItemIndexInArray(ItemData item);
     void MakeInventoryBigger(int _newSize);
     void PrintInventory();
-    void RemoveObjectFromInventory(Item item);
+    void RemoveObjectFromInventory(ItemData item);
 }

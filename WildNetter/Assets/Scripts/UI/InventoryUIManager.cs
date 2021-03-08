@@ -9,7 +9,7 @@ public class InventoryUIManager : MonoSingleton<InventoryUIManager>
     [SerializeField] Transform SlotsContainer;
     [SerializeField] TextMeshProUGUI capacityTMP, copperTMP, silverTMP, goldTMP;
  
-    Item[] inventoryData;
+    ItemData[] inventoryData;
     PlayerInventory playerInventory;
     PlayerWallet playerWallet;
 
@@ -90,7 +90,7 @@ public class InventoryUIManager : MonoSingleton<InventoryUIManager>
 
 
 
-        if (!inventoryData[i].isStackable)
+        if (!inventoryData[i].GetData.isStackable)
             (inventorySlots[i] as InventorySlotsUI).CleanTextSlot();
         else
             (inventorySlots[i] as InventorySlotsUI).SetTextSlot(inventoryData[i].amount + " / " + PlayerInventory.GetInstance. maxCapacityOfItemsInSlot);

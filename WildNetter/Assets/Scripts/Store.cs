@@ -11,7 +11,7 @@ public class Store : MonoBehaviour
     public string openSentence;
     // Getter & Setters:
     // Collections:
-    List<Item> itemsToSell;
+    List<ItemData> itemsToSell;
 
     private void Awake()
     {
