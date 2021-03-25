@@ -131,11 +131,11 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     }
 
     //move to player manager
-    public void GetHit(int RecieveDMG, Vector3 Source)
+    public void GetHit(int RecieveDMG, Vector2 Source)
     {
-        PlayerGFX._Instance.ApplyPlayerVFX((transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
+        PlayerGFX._Instance.ApplyPlayerVFX(((Vector2)transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
         _playerStats.ApplyDMGToPlayer(RecieveDMG);
-        _playerMovement.GetPlayerRB.AddExplosionForce(100 * 15, new Vector3(Source.x, 0, Source.z), 4);
+        _playerMovement.GetPlayerRB.AddForce(new Vector2(Source.x, Source.y));
     }
     public void Attack() {  
         if (canAttack && !EventSystem.current.IsPointerOverGameObject())
@@ -163,12 +163,14 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     {
         if (isNotInCooldown)
         {
-            if (TotemManager._Instance.TryDeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), GetSetCurrentTotemToDeploy))
-            {
-                InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(1f);
-                //StartCoroutine(FreezeMovement(1f));
-                PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
-            } 
+            //if (TotemManager._Instance.TryDeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), GetSetCurrentTotemToDeploy))
+            //{
+            //    InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(1f);
+            //    //StartCoroutine(FreezeMovement(1f));
+            //    PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
+            //} 
+
+
         }
     }
    

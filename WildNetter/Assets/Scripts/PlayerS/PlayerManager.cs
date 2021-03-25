@@ -1,25 +1,52 @@
 ﻿
 using UnityEngine;
 
-public class PlayerManager : MonoSingleton<PlayerManager>
+public class PlayerManager : MonoBehaviour
 {
-
-
+    [SerializeField] Transform playerLegs;
+    
 
     //EventsAndAction
-
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        //if (collision.gameObject.tag == "manipulated")
+        //{
+        //    if (collision.gameObject.GetComponentInChildren<Transform>().position.y > playerLegs.position.y)
+        //    {
+        //        collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        //    }
+        //    else if (collision.gameObject.GetComponentInChildren<Transform>().position.y <= playerLegs.position.y)
+        //    {
+        //        collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = -1;
+        //    }
+        //    Debug.Log("Tree Pos: " + collision.gameObject.GetComponentInChildren<Transform>().position.y + " Player Pos: " + playerLegs.position.y);
+        //}
+    }
     //Getter And Setter
-
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "manipulated")
+        {
+            Transform legPos = collision.gameObject.transform.GetChild(0).gameObject.GetComponent<Transform>();
+            if (legPos.position.y < playerLegs.position.y)
+            {
+                if(collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder != 1)
+                collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+            }
+            else if (legPos.position.y >= playerLegs.position.y)
+            {
+                if (collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder != -1)
+                    collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            }
+            Debug.Log("Tree Pos: " + legPos.position.y + " Player Pos: " + playerLegs.position.y);
+        }
+    }
     public Transform GetPlayerTransform { get { return transform; } }
 
     //Functions:
+    
 
-
-    public override void Init()
-    {
-
-
-    }
+   
 
     public void Respawn() { }
 

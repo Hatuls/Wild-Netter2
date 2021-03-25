@@ -5,16 +5,16 @@ using UnityEngine;
 public class InputManager : MonoSingleton<InputManager>
 {
 
-    PlayerCombat _playerCombat;
-    PlayerMovement _playerMovement;
+    [SerializeField]PlayerCombat _playerCombat;
+    [SerializeField]PlayerMovement _playerMovement;
     float playerRadius = 1.5f;
     Vector3 inputVector;
     Vector3 mousePos;
    [SerializeField] private bool canPlayerMove = true;
     [SerializeField] private bool isPlayerRotateAble = true;
    public AttackType currectAttackType;
-    enum MovementState { followAndMoveTowardMouse, MoveTowardWASD}
-    MovementState movementState;
+    //enum MovementState { followAndMoveTowardMouse, MoveTowardWASD}
+    //MovementState movementState;
     public bool GetSetCanPlayerRotate
     {
         get => isPlayerRotateAble;
@@ -44,7 +44,7 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     public override void Init() {
-        movementState = MovementState.followAndMoveTowardMouse;
+        //movementState = MovementState.followAndMoveTowardMouse;
         _playerMovement = PlayerMovement._Instance;
         _playerCombat = PlayerCombat._Instance;
         currectAttackType = AttackType.Melee;
@@ -62,7 +62,7 @@ public class InputManager : MonoSingleton<InputManager>
     void PlayersInputs()
     {
         AssignMovementState();
-        MouseInput();
+        //MouseInput();
         Movements();
         CombatInput();
     }
@@ -124,7 +124,7 @@ public class InputManager : MonoSingleton<InputManager>
         //           SetLookState();
 
 
-        mousePos = GetPointFromRayCast();
+        //mousePos = GetPointFromRayCast();
 
 
 
@@ -148,7 +148,7 @@ public class InputManager : MonoSingleton<InputManager>
         //}
         //_playerMovement.RotateTowardsDirection(transform.forward);
         ////_playerMovement.RotatePlayer(transform.forward, CheckIfMouseIsOnPlayer());
-           PlayerMovement._Instance.RotatePlayer(GetPointFromRayCast(), CheckIfMouseIsOnPlayer());
+        //playermovement._instance.rotateplayer(getpointfromraycast(), checkifmouseisonplayer());
     }
 
 
@@ -163,48 +163,9 @@ public class InputManager : MonoSingleton<InputManager>
 
         return dirtoMouse;
     }
-    void SetLookState() {
-        LookState lookingNowToward = LookState.Default;
-        float xInput = inputVector.x
-            , zInput = inputVector.z;
+   
 
-        //
-
-        if (xInput == 0 && zInput == 0)
-            lookingNowToward = LookState.Default;
-        else if (zInput != 0)
-            lookingNowToward = LookState.Forward;
-        else if (zInput == 0 && xInput > 0)
-            lookingNowToward = LookState.LookRight;
-        else if (zInput == 0 && xInput < 0)
-            lookingNowToward = LookState.LookLeft;
-
-
-        //if (lookingNowToward == lookingToward)
-        //      return;
-        switch (lookingNowToward)
-            {
-                case LookState.Default:
-                case LookState.LookForwardLeft:
-                case LookState.LookForwardRight:
-                case LookState.Forward:
-                    _playerMovement.RotatePlayer(mousePos, CheckIfMouseIsOnPlayer());
-                    break;
-                case LookState.Backward:
-                    break;
-                case LookState.LookLeft:
-                    _playerMovement.RotateTowardsDirection(-transform.right);
-                    break;
-
-
-                case LookState.LookRight:
-                    _playerMovement.RotateTowardsDirection(transform.right);
-                    break;
-            }
-
-    }
-
-    bool CheckIfMouseIsOnPlayer() => Vector3.Distance(mousePos, transform.position) < playerRadius;
+    //bool CheckIfMouseIsOnPlayer() => Vector3.Distance(mousePos, transform.position) < playerRadius;
 
 
 
@@ -212,12 +173,12 @@ public class InputManager : MonoSingleton<InputManager>
     void AssignMovementState() {
 
 
-        if (!MyCamera._Instance.SetGetMouseMove && inputVector != Vector3.zero)
-            movementState = MovementState.MoveTowardWASD;
+        //if (!MyCamera._Instance.SetGetMouseMove && inputVector != Vector3.zero)
+        //    movementState = MovementState.MoveTowardWASD;
 
 
-        else if (MyCamera._Instance.SetGetMouseMove && (inputVector != Vector3.zero || inputVector == Vector3.zero))
-            movementState = MovementState.followAndMoveTowardMouse;
+        //else if (MyCamera._Instance.SetGetMouseMove && (inputVector != Vector3.zero || inputVector == Vector3.zero))
+        //    movementState = MovementState.followAndMoveTowardMouse;
 
 
         // Debug.Log("movementState " + movementState);
@@ -231,7 +192,7 @@ public class InputManager : MonoSingleton<InputManager>
     void Movements()
     {
 
-        inputVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        inputVector = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
 
 
@@ -258,9 +219,9 @@ public class InputManager : MonoSingleton<InputManager>
     public void FreezeRB(bool ToFreeAllOnRB) { 
 
             if (ToFreeAllOnRB)
-                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints.FreezeAll;
+                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints2D.FreezeAll;
             else
-                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints.FreezeRotation;
+                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
         
     }
     public void SetFreelyMoveAndRotate(bool CanFreelyMove)

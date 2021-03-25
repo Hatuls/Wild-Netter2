@@ -258,7 +258,7 @@ public class UiManager : MonoSingleton<UiManager>
         exitZonePopUp.SetActive(false);
         InputManager._Instance.ResetInputManager();
         Time.timeScale = 1f;
-        SceneHandler._Instance.SetPlayerToScene(SceneHandler._Instance.spawningPoint);
+       //SceneHandler._Instance.SetPlayerToScene(SceneHandler._Instance.spawningPoint);
         // deploy platypus?
         TotemManager._Instance.CheckIfToSpawnBeastAtDetectionLocation();
     }

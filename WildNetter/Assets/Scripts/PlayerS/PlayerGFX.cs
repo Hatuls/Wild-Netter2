@@ -50,7 +50,7 @@ public class PlayerGFX : MonoSingleton<PlayerGFX>
         Debug.Log("End");
     }
 
-    public void ApplyPlayerVFX(Vector3 position, VFXWorldType vFXWorldType)
+    public void ApplyPlayerVFX(Vector2 position, VFXWorldType vFXWorldType)
     {
 
         var effect = GetVisualEffectFromEnum(vFXWorldType);

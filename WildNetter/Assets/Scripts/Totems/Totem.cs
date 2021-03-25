@@ -88,8 +88,8 @@ public class Totem : MonoBehaviour
                 break;
 
             case TotemName.healing:
-                if (playerTransform == null)
-                    playerTransform = PlayerManager._Instance.GetPlayerTransform;
+                //if (playerTransform == null)
+                //    playerTransform = PlayerManager._Instance.GetPlayerTransform;
 
                 //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
                 // healVFX.gameObject.SetActive(true);
@@ -109,8 +109,8 @@ public class Totem : MonoBehaviour
                 break;
 
             case TotemName.stamina:
-                if (playerTransform == null)
-                    playerTransform = PlayerManager._Instance.GetPlayerTransform;
+                //if (playerTransform == null)
+                //    playerTransform = PlayerManager._Instance.GetPlayerTransform;
               //  VfxPref.Play();
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));
                 StartCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));

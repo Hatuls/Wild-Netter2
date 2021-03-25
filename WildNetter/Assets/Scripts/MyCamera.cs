@@ -21,7 +21,7 @@ public class MyCamera : MonoSingleton<MyCamera>
     [SerializeField] Transform playerTransform;
     [SerializeField] Transform walkablePlane;
   
-  [SerializeField]  CinemachineVirtualCamera cmv;
+  //[SerializeField]  CinemachineVirtualCamera cmv;
     //Ray And RayCast:
     Ray _Ray;
     public RaycastHit _HitInfo;
@@ -37,12 +37,12 @@ public class MyCamera : MonoSingleton<MyCamera>
         }
     }
     public override void Init() {
-        playerTransform = PlayerManager._Instance.GetPlayerTransform;
+        //playerTransform = PlayerManager._Instance.GetPlayerTransform;
         _Ray = new Ray();
         _HitInfo = new RaycastHit();
         lastMousePos = Input.mousePosition;
 
-          currentZoom = cmv.m_Lens.OrthographicSize;
+          //currentZoom = cmv.m_Lens.OrthographicSize;
     
     }
 
@@ -65,47 +65,31 @@ public class MyCamera : MonoSingleton<MyCamera>
     }
     private void Update()
     {
-        CheckIfMouseMoved();
-        mouseTransform.position = AdjustCameraFromMouse();
-        ZoomFunction();
-    }
-
-    private void CheckIfMouseMoved()
-    {
-        if (Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
-            SetGetMouseMove = true;
-        else
-            SetGetMouseMove = false;
-    }
-    void ZoomFunction() {
-        if (Input.mouseScrollDelta.y != 0)
-        {
-            StopCoroutine(ZoomTween());
-            StartCoroutine(ZoomTween());
-        }
-    }
-    IEnumerator ZoomTween() {
-        currentZoom = cmv.m_Lens.OrthographicSize;
-        currentZoom -= Input.mouseScrollDelta.y * zoomAmount;
-
-        currentZoom = Mathf.Clamp(currentZoom, maxZoomIn, maxZoomOut);
-        yield return new WaitForSeconds(smoothTime);
-        cmv.m_Lens.OrthographicSize = Mathf.Lerp(cmv.m_Lens.OrthographicSize, currentZoom, Time.deltaTime * zoomSpeed);
-
-
+        //CheckIfMouseMoved();
+        //mouseTransform.position = AdjustCameraFromMouse();
 
     }
-    Vector3 AdjustCameraFromMouse() {
-        float clampRange =10f;
 
-        _HitInfo = GetRayHitInfo();
+    //private void CheckIfMouseMoved()
+    //{
+    //    if (Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)
+    //        SetGetMouseMove = true;
+    //    else
+    //        SetGetMouseMove = false;
+    //}
+   
+  
+    //Vector3 AdjustCameraFromMouse() {
+    //    float clampRange =10f;
 
-        Vector3 mousePos = new Vector3(Mathf.Clamp(_HitInfo.point.x, playerTransform.position.x - clampRange, playerTransform.position.x + clampRange), _HitInfo.point.y, Mathf.Clamp(_HitInfo.point.z, playerTransform.position.z - clampRange, playerTransform.position.z + clampRange));
+    //    _HitInfo = GetRayHitInfo();
+
+    //    Vector3 mousePos = new Vector3(Mathf.Clamp(_HitInfo.point.x, playerTransform.position.x - clampRange, playerTransform.position.x + clampRange), _HitInfo.point.y, Mathf.Clamp(_HitInfo.point.z, playerTransform.position.z - clampRange, playerTransform.position.z + clampRange));
 
 
-        return Vector3.Lerp(mouseTransform.position, mousePos, smoothTime); 
+    //    return Vector3.Lerp(mouseTransform.position, mousePos, smoothTime); 
         
-    }
+    //}
 
 
 

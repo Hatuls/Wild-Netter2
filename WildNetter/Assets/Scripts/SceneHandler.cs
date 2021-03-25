@@ -78,7 +78,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
                 //LoadScene(theTriggered.goToScene);
                 PlayerMovement._Instance.GetSetPlayerSpeed = 0;
           
-                PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
+                //layerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
                 SpawnPlayer(theTriggered.gameObject.transform.position);
                 break;
             default:
@@ -89,7 +89,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     }
 
     void SpawnPlayer(Vector3 position) {
-        PlayerManager._Instance.GetPlayerTransform.position = position;
+      //  PlayerManager._Instance.GetPlayerTransform.position = position;
        // InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(3f);
         currentPlayPhase = PlayPhase.BattlePhase;
     }
@@ -122,7 +122,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
     {
         PlayerMovement._Instance.GetSetPlayerSpeed = 0;
         GetSetPlayPhase = PlayPhase.BattlePhase;
-        PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
+        //PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
         SpawnPlayer(playerPos);
     }
 }

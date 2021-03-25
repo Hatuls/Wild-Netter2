@@ -8,7 +8,7 @@ public class MiniCamScript : MonoSingleton<MiniCamScript>
 
 
     public override void Init() {
-            playerPos = PlayerManager._Instance.GetPlayerTransform;
+           // playerPos = PlayerManager._Instance.GetPlayerTransform;
     }
 
     private void FixedUpdate()

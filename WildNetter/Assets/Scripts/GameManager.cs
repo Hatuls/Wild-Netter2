@@ -11,11 +11,10 @@ public class GameManager : MonoSingleton<GameManager>
 
     public override void Init()
     {
-        singletons = new ISingleton[16] {
+        singletons = new ISingleton[15] {
             SceneHandler._Instance,
             ItemFactory._Instance,
             MyCamera._Instance,
-            PlayerManager._Instance,
             PlayerStats._Instance,
             TotemManager._Instance,
             UiManager._Instance,

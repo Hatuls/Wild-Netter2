@@ -1525,7 +1525,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd871ebee9f92ca4c80915b39a25e0f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 1
+  playerStats:
+    strengh: 0
+    wisdom: 0
+    agility: 0
+    stamina: 0
+    currentEXP: 0
+    expToNextLevel: 0
+    abilityPoints: 0
+    currentHealth: 10
+    maxHealth: 10
+    armorPoints: 0
+    MaxStamina: 0
+  playerLevel: 0
+  currentStamina: 0
+  stopStaminaRegeneration: 0
+  stopHealthRegeneration: 0
 --- !u!4 &267789247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6129027829125652424, guid: 25fe12de0e000b149b1fe9614fa61a42,
@@ -1562,8 +1577,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventoryUIWindow: {fileID: 1876434714}
+  mainMenu: {fileID: 0}
+  loadGameMenu: {fileID: 0}
+  newsMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
   inventorySlotHolder: {fileID: 1721875336}
+  playerMenu: {fileID: 0}
+  mapMenu: {fileID: 0}
+  zoneMap: {fileID: 0}
+  worldMap: {fileID: 0}
+  inGamePopUp: {fileID: 0}
+  pausePopUp: {fileID: 0}
+  pauseScreen: {fileID: 0}
+  inGameOptionsMenu: {fileID: 0}
+  inGameSoundOptions: {fileID: 0}
+  inGameGraphicsOptions: {fileID: 0}
+  inGameControlsOptions: {fileID: 0}
+  exitZonePopUp: {fileID: 0}
+  exitZoneMap: {fileID: 0}
+  gui: {fileID: 0}
+  InventroyHUD: {fileID: 0}
   Slots: []
+  healthSlider: {fileID: 0}
+  staminaSlider: {fileID: 0}
+  currencyTMP: {fileID: 0}
+  inventoryCapacityTMP: {fileID: 0}
+  totemIcons: []
 --- !u!4 &281604770
 Transform:
   m_ObjectHideFlags: 0
@@ -1818,7 +1857,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1936143517
-  m_SortingLayer: -2
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0f8489d6f85f6a3438ad1a356d04e2c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9398,7 +9437,6 @@ MonoBehaviour:
   mouseTransform: {fileID: 153662145}
   playerTransform: {fileID: 267789247}
   walkablePlane: {fileID: 713316388}
-  groupCamera: {fileID: 1912259270}
   cmv: {fileID: 857829890}
   currentZoom: 0
   maxZoomIn: 10
@@ -10002,6 +10040,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5940bb82bbb1348b6fb4d6db0f8d2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  currentPlayPhase: 0
 --- !u!114 &1861541502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10050,6 +10090,7 @@ MonoBehaviour:
   - {fileID: 2846765102052107800, guid: 67a8cef4883ed40488a266073d95e578, type: 3}
   - {fileID: -52351881565457898, guid: 67a8cef4883ed40488a266073d95e578, type: 3}
   - {fileID: -3310936545943845739, guid: 67a8cef4883ed40488a266073d95e578, type: 3}
+  sprite: {fileID: 0}
 --- !u!1 &1865542648
 GameObject:
   m_ObjectHideFlags: 0

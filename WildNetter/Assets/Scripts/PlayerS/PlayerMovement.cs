@@ -11,15 +11,13 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     InputManager _inputManager; 
    [SerializeField] bool isRunning , canDash;
     [SerializeField] float rotaionSpeed;
-    Vector3 direction;
-    Vector3 rotationAngle;
-    Vector3 input;
+    Vector2 input;
     [SerializeField] Transform HeadTransform;
     public bool GetSetIsRunning { get => isRunning; set { isRunning = value; } }
     // Component References:
-     Rigidbody _RB;
-    public Rigidbody GetPlayerRB => _RB;
-    public Vector3 SetInput
+    Rigidbody2D _RB;
+    public Rigidbody2D GetPlayerRB => _RB;
+    public Vector2 SetInput
     {
         set
         {
@@ -46,7 +44,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     public override void Init()
     {
         _inputManager = InputManager._Instance;
-        _RB = GetComponent<Rigidbody>();
+        _RB = GetComponent<Rigidbody2D>();
         input = Vector3.zero;
         canDash = true;
         isRunning = false;
@@ -56,46 +54,12 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         MovePlayer();
     }
 
-    public Vector3 GetAngleDirection() {
-        if (rotationAngle == null)
-            return Vector2.zero;
-
-        return rotationAngle.normalized; 
-    
-    } 
-    public void RotatePlayer(Vector3 mousePos , bool mouseOnPlayer)
- {
-        
-
-       
-        if (!mouseOnPlayer )
-        {
-        rotationAngle = new Vector3(mousePos.x - transform.position.x, 0, mousePos.z - transform.position.z);
-        transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
-        }
-
-        // PlayerGFX._instance._Animator.rootRotation = Quaternion.LookRotation(newrotates);
+ 
+    public void RotatePlayer(Vector3 mousePos)
+    { 
 
     }
-    void HeadRotation(Vector3 rotation,bool toRotate) {
-        if (toRotate)
-        {
-            HeadTransform.rotation = Quaternion.LookRotation(rotation.normalized);
-        }
-        else
-        {
-            HeadTransform.rotation = Quaternion.LookRotation(transform.rotation * Vector3.one);
-        }
-        
-    }
-    public void RotateTowardsDirection(Vector3 mousePos)
-    {
-        rotationAngle = new Vector3(mousePos.x, 0, mousePos.z );
-
-
-       // HeadRotation(rotationAngle, true);
-        transform.rotation = Quaternion.LookRotation(rotationAngle.normalized);
-    }
+  
 
    private void InputIntoMovement()
     {
@@ -108,14 +72,16 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         {
             currentSpeed += 200f * Time.deltaTime;
         }
-        currentSpeed = Mathf.Clamp(currentSpeed, 1, maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed, 0.1f, maxSpeed);
 
 
         input *= GetSetPlayerSpeed;
+        //input.Normalize();
+        transform.Translate(new Vector2(input.x, input.y));
 
 
-        if (direction.magnitude > 1f)
-            direction.Normalize();
+        //if (direction.magnitude > 1f)
+        //    direction.Normalize();
     }
 
     public void Sprint(bool toSprint) {
@@ -144,7 +110,7 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
     }
 
-    internal void Dash(Vector3 dashInput)
+    internal void Dash(Vector2 dashInput)
     {
         if (!PlayerStats._Instance.CheckEnoughStamina(dashAmount)||!canDash)
             return;
@@ -159,14 +125,14 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         PlayerGFX._Instance.SetAnimationTrigger("DoDash");
 
         // if (dashVector.magnitude <= 0.1f)
-        Vector3 dashVector = -transform.forward;
+        Vector2 dashVector = -transform.forward;
         
 
         //RotateTowardsDirection(dashVector);
         float dashStrength = 30;
         dashVector *= dashStrength;
 
-        _RB.AddForce(dashVector, ForceMode.Impulse);
+        _RB.AddForce(dashVector, ForceMode2D.Impulse);
 
         StartDashCooldown(1f);
     }
@@ -176,12 +142,12 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
             return;
 
         
-        Vector3 moveVector = input.z * transform.forward +
+        Vector2 moveVector = input.y * transform.forward +
                              input.x * transform.right;
 
      
         if (_RB.velocity.magnitude < forceLimit)
-            _RB.AddForce(moveVector , ForceMode.Force);
+            _RB.AddForce(moveVector , ForceMode2D.Force);
 
         if (PlayerGFX._Instance!=null)
                 PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
