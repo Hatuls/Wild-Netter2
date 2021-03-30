@@ -4,9 +4,9 @@ using System.Net.Http.Headers;
 using UnityEngine;
 public class InputManager : MonoSingleton<InputManager>
 {
-
-    [SerializeField]PlayerCombat _playerCombat;
-    [SerializeField]PlayerMovement _playerMovement;
+    [SerializeField] PlayerManager playerManager;
+    //[SerializeField]PlayerCombat _playerCombat;
+    //[SerializeField]PlayerMovement _playerMovement;
     float playerRadius = 1.5f;
     Vector3 inputVector;
     Vector3 mousePos;
@@ -45,8 +45,8 @@ public class InputManager : MonoSingleton<InputManager>
 
     public override void Init() {
         //movementState = MovementState.followAndMoveTowardMouse;
-        _playerMovement = PlayerMovement._Instance;
-        _playerCombat = PlayerCombat._Instance;
+        //_playerMovement = PlayerMovement._Instance;
+        //_playerCombat = PlayerCombat._Instance;
         currectAttackType = AttackType.Melee;
     }
 
@@ -58,10 +58,17 @@ public class InputManager : MonoSingleton<InputManager>
         {
             PlayerInventory.GetInstance.PrintInventory();
         }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            playerManager.getPlayerCombat.GetHit(10, new Vector2(0, 0));
+        }
+
+
     }
     void PlayersInputs()
     {
-        AssignMovementState();
+        //AssignMovementState();
         //MouseInput();
         Movements();
         CombatInput();
@@ -72,7 +79,7 @@ public class InputManager : MonoSingleton<InputManager>
         SetAttackType();
 
         if (Input.GetMouseButtonDown(0))
-            _playerCombat.Attack();
+            playerManager.getPlayerCombat.Attack();
 
 
 
@@ -84,26 +91,26 @@ public class InputManager : MonoSingleton<InputManager>
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _playerCombat.SetAttackType(AttackType.Melee);
+            playerManager.getPlayerCombat.SetAttackType(AttackType.Melee);
 
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _playerCombat.SetAttackType(AttackType.Ranged);
+            playerManager.getPlayerCombat.SetAttackType(AttackType.Ranged);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             if (currectAttackType != AttackType.Totem)
-            _playerCombat.SetAttackType(AttackType.Totem);
+                playerManager.getPlayerCombat.SetAttackType(AttackType.Totem);
             else
                 EquipTotem();
         }
     }
     int totemSlotCounter = 1;
     void EquipTotem() {
-        UiManager._Instance.HighLightNextImage();
+       // UiManager._Instance.HighLightNextImage();
         
         Debug.Log(totemSlotCounter);
         totemSlotCounter++;
@@ -197,32 +204,32 @@ public class InputManager : MonoSingleton<InputManager>
 
 
         if (Input.GetKeyDown(KeyCode.Space))
-            _playerMovement.Dash(inputVector);
+            playerManager.getPlayerMovement.Dash(inputVector);
 
 
         if (!GetSetCanPlayerRotate)
             return;
 
-        _playerMovement.SetInput = inputVector;
+        playerManager.getPlayerMovement.SetInput = inputVector;
 
 
         if (Input.GetButtonDown("Sprint"))
-            _playerMovement.Sprint(true);
+            playerManager.getPlayerMovement.Sprint(true);
 
 
         if (Input.GetButtonUp("Sprint"))
-            _playerMovement.Sprint(false);
+            playerManager.getPlayerMovement.Sprint(false);
 
 
 
     }
-    public void FreezeRB(bool ToFreeAllOnRB) { 
+    public void FreezeRB(bool ToFreeAllOnRB) {
 
-            if (ToFreeAllOnRB)
-                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints2D.FreezeAll;
-            else
-                PlayerMovement._Instance.GetPlayerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
-        
+        if (ToFreeAllOnRB)
+            playerManager.getPlayerMovement.GetPlayerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+        else
+            playerManager.getPlayerMovement.GetPlayerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
+
     }
     public void SetFreelyMoveAndRotate(bool CanFreelyMove)
     {

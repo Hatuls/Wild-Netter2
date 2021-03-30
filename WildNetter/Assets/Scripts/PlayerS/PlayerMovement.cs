@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class PlayerMovement : MonoSingleton<PlayerMovement>
 {
+    [SerializeField]
+    private PlayerManager playerManager;
     // Config parameters:
     [SerializeField] float walkingSpeed = 70f, runningSpeed = 120f, currentSpeed , maxSpeed =70f;
     float dashAmount = 20f;
     float forceLimit = 5f;
-    InputManager _inputManager; 
+    InputManager _inputManager;
+
+
+
    [SerializeField] bool isRunning , canDash;
     [SerializeField] float rotaionSpeed;
     Vector2 input;
     [SerializeField] Transform HeadTransform;
     public bool GetSetIsRunning { get => isRunning; set { isRunning = value; } }
     // Component References:
-    Rigidbody2D _RB;
+    [SerializeField] Rigidbody2D _RB;
     public Rigidbody2D GetPlayerRB => _RB;
     public Vector2 SetInput
     {
@@ -25,6 +30,9 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
             InputIntoMovement();
         }
     }
+    //static PlayerMovement _instance;
+    //public static PlayerMovement getInstance => _instance;
+
     //Getter And Setters:
     public float GetSetPlayerSpeed
     {
@@ -181,13 +189,16 @@ StopCoroutine(DashCooldown(amount));
     
     }
     IEnumerator DashCooldown(float amount) {
-        _inputManager.SetFreelyMoveAndRotate(false);
+        playerManager.getInputManager.SetFreelyMoveAndRotate(false);
+        //_inputManager.SetFreelyMoveAndRotate(false);
         GetSetCanDash = false;
-        _inputManager.FreezeRB(false);
+        //_inputManager.FreezeRB(false);
+        playerManager.getInputManager.FreezeRB(false);
         yield return new WaitForSeconds(amount);
         
         InputManager._Instance.FreezeRB(false);
-        _inputManager.SetFreelyMoveAndRotate(true);
+        //_inputManager.SetFreelyMoveAndRotate(true);
+        playerManager.getInputManager.SetFreelyMoveAndRotate(true);
         flag = false;
         GetSetCanDash = true;
     }

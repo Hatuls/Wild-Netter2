@@ -4454,7 +4454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857829889}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 9.41, y: 21.534725, z: 19.43594}
+  m_LocalPosition: {x: 4.41, y: 30.60418, z: 14.085822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 320650000}
@@ -9437,7 +9437,6 @@ MonoBehaviour:
   mouseTransform: {fileID: 153662145}
   playerTransform: {fileID: 267789247}
   walkablePlane: {fileID: 713316388}
-  cmv: {fileID: 857829890}
   currentZoom: 0
   maxZoomIn: 10
   maxZoomOut: 14
@@ -9534,7 +9533,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1845471540}
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 9.41, y: 21.534725, z: 19.43594}
+  m_LocalPosition: {x: 4.41, y: 30.60418, z: 14.085822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10090,7 +10089,7 @@ MonoBehaviour:
   - {fileID: 2846765102052107800, guid: 67a8cef4883ed40488a266073d95e578, type: 3}
   - {fileID: -52351881565457898, guid: 67a8cef4883ed40488a266073d95e578, type: 3}
   - {fileID: -3310936545943845739, guid: 67a8cef4883ed40488a266073d95e578, type: 3}
-  sprite: {fileID: 0}
+  sprite: {fileID: 11400000, guid: 2b0cc0ef0710d7440a8ffe41f29fea8d, type: 2}
 --- !u!1 &1865542648
 GameObject:
   m_ObjectHideFlags: 0
@@ -10510,7 +10509,7 @@ MonoBehaviour:
   m_RotationMode: 0
   m_UpdateMethod: 2
   m_Targets:
-  - target: {fileID: 1955429595}
+  - target: {fileID: 0}
     weight: 1
     radius: 0
   - target: {fileID: 153662145}
@@ -10527,18 +10526,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912259269}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.41, y: 4.534726, z: 35.30594}
+  m_LocalPosition: {x: 4.41, y: 13.604178, z: 29.955822}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1955429595 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5945902883541790451, guid: 25fe12de0e000b149b1fe9614fa61a42,
-    type: 3}
-  m_PrefabInstance: {fileID: 6129027828117029952}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1957397460
 GameObject:
   m_ObjectHideFlags: 0

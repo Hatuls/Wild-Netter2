@@ -12,6 +12,7 @@ public class Totem : MonoBehaviour
     // Variables:
     public float currentRealTime;
     public TotemName totemName;
+
     private Transform playerTransform;
    
     public VisualEffect VfxPref;
@@ -37,17 +38,19 @@ public class Totem : MonoBehaviour
 
     }
 
-    public static Totem DeployTotem(int totemID ,Vector3 location, TotemSO totemSO, GameObject GO) {
-        var trnsfrm = Instantiate(GO, location, Quaternion.identity, TotemManager._Instance.TotemContainer);
+    public static Totem DeployTotem(int totemID ,Vector2 location, TotemSO totemSO, GameObject GO,Transform playerTrans) {
+        Debug.Log("Deploying at: " + location);
+        var trnsfrm = Instantiate(GO, new Vector3(location.x,location.y,0), GO.transform.rotation, TotemManager._Instance.TotemContainer);
         var totem = trnsfrm.GetComponent<Totem>();
-             
-        totem.Init(totemID, totemSO);
+       
+        //Debug.Log(totem.transform.position);
+        totem.Init(totemID, totemSO, playerTrans);
         return totem; 
      }
 
 
 
-    public void Init(int id, TotemSO totemSO)
+    public void Init(int id, TotemSO totemSO,Transform playertrans)
     {
         NeedToAssignComponents();
        
@@ -55,7 +58,7 @@ public class Totem : MonoBehaviour
         relevantSO = totemSO;
         totemID = id;
       
-        rangeField.localScale = new Vector3(relevantSO.range / 2, relevantSO.range / 2, 1);
+        rangeField.localScale = new Vector2(relevantSO.range / 2, relevantSO.range / 2);
         gameObject.SetActive(true);
         totemName = relevantSO.totemName;
         if (relevantSO.duration > 0)
@@ -68,13 +71,13 @@ public class Totem : MonoBehaviour
             //Active only in relevant zone
         }
 
-        ApplyingEffect();
+        ApplyingEffect(playertrans);
     }
     public Buffs GetBuff => relevantSO.GetBuff();
 
     
     
-    private void ApplyingEffect ()
+    private void ApplyingEffect (Transform playerTrans)
     {
         switch (totemName)
         {
@@ -88,11 +91,11 @@ public class Totem : MonoBehaviour
                 break;
 
             case TotemName.healing:
-                //if (playerTransform == null)
-                //    playerTransform = PlayerManager._Instance.GetPlayerTransform;
+                if (playerTransform == null)
+                    playerTransform = playerTrans;
 
-                //  healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
-                // healVFX.gameObject.SetActive(true);
+                //healVFX = transform.Find("HealVFX").GetComponent<VisualEffect>();
+                //healVFX.gameObject.SetActive(true);
                 VfxPref.Play();
 
                 StopCoroutine(this.relevantSO.ActivateTotemEffect(playerTransform, this.gameObject));

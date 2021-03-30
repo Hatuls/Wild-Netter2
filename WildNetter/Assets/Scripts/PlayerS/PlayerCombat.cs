@@ -8,21 +8,22 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
 {
     // Script References:
     WeaponSO _equippedWeaponSO;
-    PlayerMovement _playerMovement;
-    PlayerStats _playerStats;
+    [SerializeField] PlayerManager playerManager;
+    //[SerializeField] PlayerMovement _playerMovement;
+    //[SerializeField]PlayerStats _playerStats;
     // Component References:
     
-   [SerializeField] Collider _weaponCollider;
-    [SerializeField]GameObject _weaponGO;
+   //[SerializeField] Collider _weaponCollider;
+   // [SerializeField]GameObject _weaponGO;
    
    
     // Variables:
-    bool canAttack;
+    [SerializeField]bool canAttack;
      int  attackDMG;
     public string currentWeaponName;
     event Action AttackAction;
 
-    TotemName currentTotemHolder;
+    [SerializeField]TotemName currentTotemHolder;
     // Getter & Setters:
     public WeaponSO GetSetWeaponSO {
         get { return _equippedWeaponSO; }
@@ -33,6 +34,9 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
         }
 
     }
+    AttackType playerCurAtkType;
+
+
     public void SetCurrentTotemHolderByInt(int index) {
         TotemName ttmcache = TotemName.None;
         if (index < 0 || index > 5)
@@ -93,12 +97,13 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
 
     public override void Init() //WeaponSO startingWeapon
     {
-        ToggleWeaponCollider(false);
-        _playerStats = PlayerStats._Instance;
-        _playerMovement = PlayerMovement._Instance;
+        //ToggleWeaponCollider(false);
+        //_playerStats = PlayerStats._Instance;
+        //_playerMovement = PlayerMovement._Instance;
         currentTotemHolder = TotemName.None;
         canAttack = true;
-        GetSetWeaponSO = ItemFactory._Instance.GenerateItem(20000) as WeaponSO; 
+        GetSetWeaponSO = ItemFactory._Instance.GenerateItem(20000) as WeaponSO;
+        playerCurAtkType = AttackType.Melee;
         ResetAttackAction();
         AttackAction += MeleeAttack;
     }
@@ -134,19 +139,24 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     public void GetHit(int RecieveDMG, Vector2 Source)
     {
         PlayerGFX._Instance.ApplyPlayerVFX(((Vector2)transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
-        _playerStats.ApplyDMGToPlayer(RecieveDMG);
-        _playerMovement.GetPlayerRB.AddForce(new Vector2(Source.x, Source.y));
+        playerManager.getPlayerStats.ApplyDMGToPlayer(RecieveDMG);
+        playerManager.getPlayerMovement.GetPlayerRB.AddForce(new Vector2(Source.x, Source.y));
     }
     public void Attack() {  
-        if (canAttack && !EventSystem.current.IsPointerOverGameObject())
+
+
+        if (canAttack)
         {
-            AttackAction?.Invoke();
+            
+            //AttackAction?.Invoke();
+            AttackByWeaponType(playerCurAtkType);
+            Debug.Log("invoke");
         }
     }
      void MeleeAttack() {
         Debug.Log("SWord AttacK");
         if (isNotInCooldown) {   
-            PlayerGFX._Instance.SetAnimationTrigger("Attack");
+           // PlayerGFX._Instance.SetAnimationTrigger("Attack");
             StartCoroutine(MeleeAttackCoroutine());
         }
     // apply GFX Anim, sound
@@ -161,19 +171,40 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     }
     void DeployTotem()
     {
+        Debug.Log("trying to deploy");
         if (isNotInCooldown)
         {
-            //if (TotemManager._Instance.TryDeployAtLocation((transform.position + _playerMovement.GetAngleDirection() * 2f), GetSetCurrentTotemToDeploy))
-            //{
-            //    InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(1f);
-            //    //StartCoroutine(FreezeMovement(1f));
-            //    PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
-            //} 
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (TotemManager._Instance.TryDeployAtLocation(mousePos, GetSetCurrentTotemToDeploy))
+            {
+                InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(1f);
+                //StartCoroutine(FreezeMovement(1f));
+                //PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
+            }
 
 
         }
     }
    
+
+    void AttackByWeaponType(AttackType type)
+    {
+        switch (type)
+        {
+            case AttackType.Melee:
+                MeleeAttack();
+                break;
+            case AttackType.Ranged:
+                RangeAttack();
+                break;
+            case AttackType.Totem:
+                DeployTotem();
+                break;
+            default:
+                break;
+        }
+    }
+
     public void SetAttackType(AttackType type) {
     
      ResetAttackAction();
@@ -181,14 +212,18 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         switch (type)
         {
             case AttackType.Melee:
-                UiManager._Instance.UpdateTotemsFromGamePhase(SceneHandler._Instance.GetSetPlayPhase);
+                playerCurAtkType = AttackType.Melee;
+
+                // UiManager._Instance.UpdateTotemsFromGamePhase(SceneHandler._Instance.GetSetPlayPhase);
                 AttackAction += MeleeAttack; Debug.Log("MeleeAttack");
                 break;
             case AttackType.Ranged:
+                playerCurAtkType = AttackType.Ranged;
                 AttackAction += RangeAttack;
                 Debug.Log("Range");
                 break;
             case AttackType.Totem:
+                playerCurAtkType = AttackType.Totem;
                 AttackAction += DeployTotem;
                 Debug.Log("Deploy Totem");
                 break;
@@ -205,26 +240,26 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         AttackAction -= MeleeAttack;
     }
 //  private Vector3 LockOnEnemy() { } <- will be used later on
-    private void ToggleWeaponCollider(bool state) => _weaponCollider.enabled = state;
+   // private void ToggleWeaponCollider(bool state) => _weaponCollider.enabled = state;
 
     // ienumerators:
     IEnumerator  MeleeAttackCoroutine() {
        
         canAttack = false;
-        ToggleWeaponCollider(true);
+        //ToggleWeaponCollider(true);
         InputManager._Instance.SetFreelyMoveAndRotate(false);
         InputManager._Instance.FreezeRB(true);
            yield return new WaitForSeconds(.3f);
        
-        _playerMovement.GetSetCanDash = false;
+        //_playerMovement.GetSetCanDash = false;
         yield return new WaitForSeconds(1f);
-        _playerMovement.GetSetCanDash = true;
+        //_playerMovement.GetSetCanDash = true;
 
         InputManager._Instance.SetFreelyMoveAndRotate(true) ;
             InputManager._Instance.FreezeRB(false);
         
 
-        ToggleWeaponCollider(false);
+        //ToggleWeaponCollider(false);
         canAttack = true;
     
 
@@ -249,8 +284,8 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (_weaponCollider.enabled)
-            CalculateDMGToEnemy(other.gameObject.GetComponent<EnemyPart>());
+        //if (_weaponCollider.enabled)
+        //    CalculateDMGToEnemy(other.gameObject.GetComponent<EnemyPart>());
         
     }
    public void CalculateDMGToEnemy(EnemyPart enemy) {
@@ -259,7 +294,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
             return;
 
         int finalDmg = GetAttackDMG;
-        int StrengthAgainstArmour = _playerStats.GetSetStrength - enemy.armor;
+        int StrengthAgainstArmour = playerManager.getPlayerStats.GetSetStrength - enemy.armor;
 
         if (StrengthAgainstArmour < 0)
             StrengthAgainstArmour = 0;

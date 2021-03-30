@@ -97,10 +97,6 @@ public class WeaponSO :ItemData
             + "\n CritChance : " + this.CritChance
             + "\n HitSpeed : " + this.HitSpeed
             + "\n weaponType : " + this.weaponType);
-
-
-
-       
 }
 
 

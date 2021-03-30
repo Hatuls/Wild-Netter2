@@ -4,7 +4,27 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField] Transform playerLegs;
-    
+
+    [SerializeField]
+    private PlayerMovement playermovement;
+    public PlayerMovement getPlayerMovement => playermovement;
+
+    [SerializeField]
+    private PlayerCombat playerCombat;
+    public PlayerCombat getPlayerCombat => playerCombat;
+
+    [SerializeField]
+    private InputManager inputManager;
+    public InputManager getInputManager;
+
+    [SerializeField]
+    private PlayerStats playerStats;
+    public PlayerStats getPlayerStats => playerStats;
+
+    [SerializeField]
+    private PlayerGFX playerGfx;
+    public PlayerGFX getPlayerGfx;
+
 
     //EventsAndAction
     void OnTriggerEnter2D(Collider2D collision)
@@ -38,7 +58,7 @@ public class PlayerManager : MonoBehaviour
                 if (collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder != -1)
                     collision.gameObject.GetComponent<SpriteRenderer>().sortingOrder = -1;
             }
-            Debug.Log("Tree Pos: " + legPos.position.y + " Player Pos: " + playerLegs.position.y);
+           
         }
     }
     public Transform GetPlayerTransform { get { return transform; } }
