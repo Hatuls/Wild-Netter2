@@ -2,19 +2,19 @@
 using UnityEngine;
 
 
-public class PlayerMovement : MonoSingleton<PlayerMovement>
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField]
     private PlayerManager playerManager;
     // Config parameters:
-    [SerializeField] float walkingSpeed = 70f, runningSpeed = 120f, currentSpeed , maxSpeed =70f;
+    [SerializeField] float walkingSpeed = 70f, runningSpeed = 120f, currentSpeed, maxSpeed = 70f;
     float dashAmount = 20f;
     float forceLimit = 5f;
     InputManager _inputManager;
 
 
 
-   [SerializeField] bool isRunning , canDash;
+    [SerializeField] bool isWalking, isRunning, canDash;
     [SerializeField] float rotaionSpeed;
     Vector2 input;
     [SerializeField] Transform HeadTransform;
@@ -22,14 +22,14 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     // Component References:
     [SerializeField] Rigidbody2D _RB;
     public Rigidbody2D GetPlayerRB => _RB;
-    public Vector2 SetInput
-    {
-        set
-        {
-            input = value;
-            InputIntoMovement();
-        }
-    }
+    //public Vector2 SetInput
+    //{
+    //    set
+    //    {
+    //        input = value;
+    //        InputIntoMovement();
+    //    }
+    //}
     //static PlayerMovement _instance;
     //public static PlayerMovement getInstance => _instance;
 
@@ -40,7 +40,9 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
         set { currentSpeed = value; }
     }
-    public bool GetSetCanDash { set
+    public bool GetSetCanDash
+    {
+        set
         {
             if (value != canDash)
                 canDash = value;
@@ -48,10 +50,10 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         get => canDash;
     }
     //functions
- 
-    public override void Init()
+
+    public void Init()
     {
-        _inputManager = InputManager._Instance;
+        _inputManager = playerManager.getInputManager;
         _RB = GetComponent<Rigidbody2D>();
         input = Vector3.zero;
         canDash = true;
@@ -59,68 +61,103 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
     }
     private void FixedUpdate()
     {
-        MovePlayer();
+        StaminaConsumptionWhileRunning();
     }
 
- 
-    public void RotatePlayer(Vector3 mousePos)
-    { 
 
-    }
-  
 
-   private void InputIntoMovement()
+    //private void InputIntoMovement()
+    //{
+
+    //    if (input.magnitude <= .1f)
+    //    {
+    //        currentSpeed -= 200f * Time.deltaTime;
+    //    }
+    //    else
+    //    {
+    //        currentSpeed += 200f * Time.deltaTime;
+    //    }
+    //    currentSpeed = Mathf.Clamp(currentSpeed, 0, maxSpeed);
+
+
+    //    input *= GetSetPlayerSpeed;
+    //    //input.Normalize();
+    //    transform.Translate(new Vector2(input.x, input.y));
+
+
+    //    //if (direction.magnitude > 1f)
+    //    //    direction.Normalize();
+    //}
+
+    public void WalkHorizontally(bool IsWalkingRight)
     {
-
-        if (input.magnitude <= .1f)
+        isWalking = true;
+        if (IsWalkingRight)
         {
-            currentSpeed -= 200f * Time.deltaTime;
+            GetPlayerRB.velocity = new Vector2(maxSpeed * Time.deltaTime, GetPlayerRB.velocity.y);
         }
         else
         {
-            currentSpeed += 200f * Time.deltaTime;
+            GetPlayerRB.velocity = new Vector2(-maxSpeed * Time.deltaTime, GetPlayerRB.velocity.y);
         }
-        currentSpeed = Mathf.Clamp(currentSpeed, 0.1f, maxSpeed);
 
 
-        input *= GetSetPlayerSpeed;
-        //input.Normalize();
-        transform.Translate(new Vector2(input.x, input.y));
+    }
+    public void WalkVertically(bool IsWalkingUpward)
+    {
+        isWalking = true;
 
+        if (IsWalkingUpward)
+        {
+            GetPlayerRB.velocity = new Vector2(GetPlayerRB.velocity.x, maxSpeed * Time.deltaTime);
+        }
+        else
+        {
+            GetPlayerRB.velocity = new Vector2(GetPlayerRB.velocity.x, -maxSpeed * Time.deltaTime);
+        }
 
-        //if (direction.magnitude > 1f)
-        //    direction.Normalize();
+    }
+    public void NotMoving()
+    {
+        isWalking = false;
     }
 
-    public void Sprint(bool toSprint) {
+    public void MovePlayer(Vector2 movement)
+    {
 
+        GetPlayerRB.velocity = new Vector2( (movement.x * maxSpeed) * Time.deltaTime, (movement.y * maxSpeed) * Time.deltaTime);
+    }
 
-        if (toSprint && !isRunning )
+    public void Sprint(bool toSprint)
+    {
+      
+
+        if (toSprint && !isRunning)
         {
-          
+
 
             isRunning = true;
             maxSpeed = runningSpeed;
 
-            forceLimit = 10f;
+            //forceLimit = 10f;
 
         }
 
         if (!toSprint)
         {
-            
+
             isRunning = false;
             maxSpeed = walkingSpeed;
-            forceLimit = 6f;
+            //forceLimit = 6f;
         }
 
-        
+
 
     }
 
     internal void Dash(Vector2 dashInput)
     {
-        if (!PlayerStats._Instance.CheckEnoughStamina(dashAmount)||!canDash)
+        if (!playerManager.getPlayerStats.CheckEnoughStamina(dashAmount) || !canDash)
             return;
 
 
@@ -128,13 +165,13 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
         //Vector3 dashVector = dashInput.z * transform.forward +
         //                   dashInput.x * transform.right;
 
-        
+
         GetSetCanDash = false;
-        PlayerGFX._Instance.SetAnimationTrigger("DoDash");
+        //PlayerGFX._Instance.SetAnimationTrigger("DoDash");
 
         // if (dashVector.magnitude <= 0.1f)
         Vector2 dashVector = -transform.forward;
-        
+
 
         //RotateTowardsDirection(dashVector);
         float dashStrength = 30;
@@ -144,63 +181,61 @@ public class PlayerMovement : MonoSingleton<PlayerMovement>
 
         StartDashCooldown(1f);
     }
-    private void MovePlayer()
+    private void StaminaConsumptionWhileRunning()
     {
-        if (_RB == null)
-            return;
-
-        
-        Vector2 moveVector = input.y * transform.forward +
-                             input.x * transform.right;
-
-     
-        if (_RB.velocity.magnitude < forceLimit)
-            _RB.AddForce(moveVector , ForceMode2D.Force);
-
-        if (PlayerGFX._Instance!=null)
-                PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
+        //if (_RB == null)
+        //    return;
 
 
+        //Vector2 moveVector = input.y * transform.forward +
+        //                     input.x * transform.right;
 
 
+        //if (_RB.velocity.magnitude < forceLimit)
+        //    _RB.AddForce(moveVector, ForceMode2D.Force);
 
-        if (PlayerStats._Instance == null)
-            return;
+        //if (PlayerGFX._Instance != null)
+        //    PlayerGFX._Instance.SetAnimationFloat(GetSetPlayerSpeed, "Forward");
+
+        //if (PlayerStats._Instance == null)
+        //    return;
 
         if (GetSetIsRunning)
-            PlayerStats._Instance.AddStaminaAmount(-10f * Time.deltaTime);
-        if (!PlayerStats._Instance.CheckEnoughStamina(-5f))
+            playerManager.getPlayerStats.AddStaminaAmount(-10f * Time.deltaTime);
+        if (!playerManager.getPlayerStats.CheckEnoughStamina(-5f))
             Sprint(false);
-        
+
     }
 
- 
+
 
     bool flag;
-    public void StartDashCooldown(float amount) {
+    public void StartDashCooldown(float amount)
+    {
         if (flag == false)
         {
             flag = true;
-StopCoroutine(DashCooldown(amount));
-        StartCoroutine(DashCooldown(amount));
+            StopCoroutine(DashCooldown(amount));
+            StartCoroutine(DashCooldown(amount));
 
         }
-        
-    
+
+
     }
-    IEnumerator DashCooldown(float amount) {
+    IEnumerator DashCooldown(float amount)
+    {
         playerManager.getInputManager.SetFreelyMoveAndRotate(false);
         //_inputManager.SetFreelyMoveAndRotate(false);
         GetSetCanDash = false;
         //_inputManager.FreezeRB(false);
         playerManager.getInputManager.FreezeRB(false);
         yield return new WaitForSeconds(amount);
-        
-        InputManager._Instance.FreezeRB(false);
+
+        playerManager.getInputManager.FreezeRB(false);
         //_inputManager.SetFreelyMoveAndRotate(true);
         playerManager.getInputManager.SetFreelyMoveAndRotate(true);
         flag = false;
         GetSetCanDash = true;
     }
- 
+
 }

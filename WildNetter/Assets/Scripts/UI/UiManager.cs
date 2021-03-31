@@ -41,7 +41,8 @@ public class UiManager : MonoSingleton<UiManager>
     //[SerializeField] Image fill;
     [SerializeField] TextMeshProUGUI currencyTMP;
     [SerializeField] TextMeshProUGUI inventoryCapacityTMP;
-
+    //player
+    [SerializeField] PlayerManager player;
 
 
     Sprite defaultSpriteForSlot;
@@ -221,7 +222,7 @@ public class UiManager : MonoSingleton<UiManager>
     {
         if (exitZonePopUp.activeInHierarchy)
         {
-            InputManager._Instance.GetSetCanPlayerRotate = true;
+            //InputManager._Instance.GetSetCanPlayerRotate = true;
             exitZonePopUp.SetActive(false);
             Time.timeScale = 1f;
     
@@ -238,7 +239,7 @@ public class UiManager : MonoSingleton<UiManager>
     {
         if (exitZoneMap.activeInHierarchy)
         {
-            InputManager._Instance.GetSetCanPlayerRotate = true;
+            //player.getInputManager.GetSetCanPlayerRotate = true;
             Time.timeScale = 1f;
             exitZoneMap.SetActive(false);
             exitZonePopUp.SetActive(false);
@@ -256,7 +257,7 @@ public class UiManager : MonoSingleton<UiManager>
     {
         exitZoneMap.SetActive(false);
         exitZonePopUp.SetActive(false);
-        InputManager._Instance.ResetInputManager();
+        player.getInputManager.ResetInputManager();
         Time.timeScale = 1f;
        //SceneHandler._Instance.SetPlayerToScene(SceneHandler._Instance.spawningPoint);
         // deploy platypus?
@@ -309,7 +310,7 @@ public class UiManager : MonoSingleton<UiManager>
         }
         totemIcons[lastSlot].HighLightImage(false);
         totemIcons[currentHighlighted].HighLightImage(true);
-        PlayerCombat._Instance.SetCurrentTotemHolderByInt(currentHighlighted);
+        PlayerManager._Instance.getPlayerCombat.SetCurrentTotemHolderByInt(currentHighlighted);
         lastSlot = currentHighlighted;
     }
 

@@ -15,7 +15,7 @@ public class TotemOfHealing : TotemSO
     public void DisableBuff() {
         toBreakOut = true;
        this.isCurrentlyInRange = false;
-        PlayerStats._Instance.RemoveBuffRegeneration(this.buff); }
+        PlayerManager._Instance.getPlayerStats.RemoveBuffRegeneration(this.buff); }
    bool SetIsCurrenltlyInRange {
         set {
             if (this.isCurrentlyInRange == value)
@@ -25,12 +25,12 @@ public class TotemOfHealing : TotemSO
 
             if (this.isCurrentlyInRange)
             {
-                PlayerStats._Instance.AddBuffRegeneration(this.buff);
+                PlayerManager._Instance.getPlayerStats.AddBuffRegeneration(this.buff);
                 buff.SetGetBuffActive = true;
             }
             else {
                 buff.SetGetBuffActive = false;
-                PlayerStats._Instance.RemoveBuffRegeneration(this.buff);
+                PlayerManager._Instance.getPlayerStats.RemoveBuffRegeneration(this.buff);
             }
         }    
     
@@ -40,7 +40,7 @@ public class TotemOfHealing : TotemSO
     {
         buff = new Buffs
             (RegenerationType.Health ,
-            (this.effectAmountPrecentage.GetValueOrDefault() * PlayerStats._Instance.GetSetMaxHealth) / 100f,
+            (this.effectAmountPrecentage.GetValueOrDefault() * PlayerManager._Instance.getPlayerStats.GetSetMaxHealth) / 100f,
             Mathf.Infinity);
     }
 

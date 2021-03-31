@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Net.Http.Headers;
 using UnityEngine;
-public class InputManager : MonoSingleton<InputManager>
+public class InputManager : MonoBehaviour
 {
     [SerializeField] PlayerManager playerManager;
     //[SerializeField]PlayerCombat _playerCombat;
@@ -15,17 +15,17 @@ public class InputManager : MonoSingleton<InputManager>
    public AttackType currectAttackType;
     //enum MovementState { followAndMoveTowardMouse, MoveTowardWASD}
     //MovementState movementState;
-    public bool GetSetCanPlayerRotate
-    {
-        get => isPlayerRotateAble;
-        set
-        {
-            if (isPlayerRotateAble != value)
-            {
-                isPlayerRotateAble = value;
-            }
-        }
-    }
+    //public bool GetSetCanPlayerRotate
+    //{
+    //    get => isPlayerRotateAble;
+    //    set
+    //    {
+    //        if (isPlayerRotateAble != value)
+    //        {
+    //            isPlayerRotateAble = value;
+    //        }
+    //    }
+    //}
     public bool GetSetCanPlayerMove
     {
         set
@@ -43,7 +43,7 @@ public class InputManager : MonoSingleton<InputManager>
 
     }
 
-    public override void Init() {
+    public void Init() {
         //movementState = MovementState.followAndMoveTowardMouse;
         //_playerMovement = PlayerMovement._Instance;
         //_playerCombat = PlayerCombat._Instance;
@@ -121,8 +121,8 @@ public class InputManager : MonoSingleton<InputManager>
     }
     void MouseInput()
     {
-        if (!GetSetCanPlayerRotate)
-            return;
+        //if (!GetSetCanPlayerRotate)
+        //    return;
         //if (Input.GetKey(KeyCode.W))
         //    _playerMovement.RotatePlayer(GetDirectionTowardTheMouse(), CheckIfMouseIsOnPlayer());
 
@@ -206,18 +206,16 @@ public class InputManager : MonoSingleton<InputManager>
         if (Input.GetKeyDown(KeyCode.Space))
             playerManager.getPlayerMovement.Dash(inputVector);
 
+        //playerManager.getPlayerMovement.SetInput = inputVector;
 
-        if (!GetSetCanPlayerRotate)
-            return;
-
-        playerManager.getPlayerMovement.SetInput = inputVector;
+        playerManager.getPlayerMovement.MovePlayer(inputVector);
 
 
-        if (Input.GetButtonDown("Sprint"))
+        if (Input.GetKey(KeyCode.LeftShift))
             playerManager.getPlayerMovement.Sprint(true);
 
 
-        if (Input.GetButtonUp("Sprint"))
+        if (Input.GetKeyUp(KeyCode.LeftShift))
             playerManager.getPlayerMovement.Sprint(false);
 
 
@@ -234,7 +232,7 @@ public class InputManager : MonoSingleton<InputManager>
     public void SetFreelyMoveAndRotate(bool CanFreelyMove)
     {
 
-            GetSetCanPlayerRotate = CanFreelyMove;
+            //GetSetCanPlayerRotate = CanFreelyMove;
 
             GetSetCanPlayerMove = CanFreelyMove;
 
@@ -255,6 +253,6 @@ public class InputManager : MonoSingleton<InputManager>
     {
         SetFreelyMoveAndRotate(true);
         FreezeRB(false);
-        PlayerMovement._Instance.GetSetIsRunning = false;
+        PlayerManager._Instance.getPlayerMovement.GetSetIsRunning = false;
     }
 }

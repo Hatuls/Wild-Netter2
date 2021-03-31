@@ -16,8 +16,8 @@ public class ItemFactory : MonoSingleton<ItemFactory>
     {
         Debug.Log(itemSprites.Length);
         Debug.Log("****" + _ID);
-
-        if (_ID % 10000 > sprite.SpriteByIMG.Length)
+        Debug.Log(_ID % 10000 + " > " + sprite.SpriteByIMG.Length);
+        if (_ID % 10000 >= sprite.SpriteByIMG.Length)
         {
             Debug.Log("Sprite Was not in Scriptable object");
             return null;

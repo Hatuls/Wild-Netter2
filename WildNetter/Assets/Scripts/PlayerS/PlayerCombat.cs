@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 
 public enum AttackType {Melee , Ranged, Totem };
-public class PlayerCombat : MonoSingleton<PlayerCombat>
+public class PlayerCombat : MonoBehaviour
 {
     // Script References:
     WeaponSO _equippedWeaponSO;
@@ -95,7 +95,7 @@ public class PlayerCombat : MonoSingleton<PlayerCombat>
    
     }
 
-    public override void Init() //WeaponSO startingWeapon
+    public void Init() //WeaponSO startingWeapon
     {
         //ToggleWeaponCollider(false);
         //_playerStats = PlayerStats._Instance;
@@ -138,7 +138,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     //move to player manager
     public void GetHit(int RecieveDMG, Vector2 Source)
     {
-        PlayerGFX._Instance.ApplyPlayerVFX(((Vector2)transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
+        PlayerManager._Instance.getPlayerGfx.ApplyPlayerVFX(((Vector2)transform.position + Source)/2f, VFXWorldType.PlayerGotHit);
         playerManager.getPlayerStats.ApplyDMGToPlayer(RecieveDMG);
         playerManager.getPlayerMovement.GetPlayerRB.AddForce(new Vector2(Source.x, Source.y));
     }
@@ -177,7 +177,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (TotemManager._Instance.TryDeployAtLocation(mousePos, GetSetCurrentTotemToDeploy))
             {
-                InputManager._Instance.FreezeCoroutineForShotPeriodOfTime(1f);
+                PlayerManager._Instance.getInputManager.FreezeCoroutineForShotPeriodOfTime(1f);
                 //StartCoroutine(FreezeMovement(1f));
                 //PlayerGFX._Instance.SetAnimationTrigger("PlaceTotem");
             }
@@ -230,7 +230,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
             default:
                 break;
         }
-       InputManager._Instance.currectAttackType = type;
+        PlayerManager._Instance.getInputManager.currectAttackType = type;
 
     }
     private void ResetAttackAction()
@@ -247,16 +247,16 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
        
         canAttack = false;
         //ToggleWeaponCollider(true);
-        InputManager._Instance.SetFreelyMoveAndRotate(false);
-        InputManager._Instance.FreezeRB(true);
+        PlayerManager._Instance.getInputManager.SetFreelyMoveAndRotate(false);
+        PlayerManager._Instance.getInputManager.FreezeRB(true);
            yield return new WaitForSeconds(.3f);
        
         //_playerMovement.GetSetCanDash = false;
         yield return new WaitForSeconds(1f);
         //_playerMovement.GetSetCanDash = true;
 
-        InputManager._Instance.SetFreelyMoveAndRotate(true) ;
-            InputManager._Instance.FreezeRB(false);
+        PlayerManager._Instance.getInputManager.SetFreelyMoveAndRotate(true) ;
+        PlayerManager._Instance.getInputManager.FreezeRB(false);
         
 
         //ToggleWeaponCollider(false);
@@ -269,13 +269,13 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
     IEnumerator FreezeMovement(float duration) {
         isNotInCooldown = false;
 
-        InputManager._Instance.FreezeRB(true);
-            InputManager._Instance.SetFreelyMoveAndRotate(false);
+        PlayerManager._Instance.getInputManager.FreezeRB(true);
+        PlayerManager._Instance.getInputManager.SetFreelyMoveAndRotate(false);
      
 
         yield return new WaitForSeconds(duration);
-        InputManager._Instance.FreezeRB(false);
-        InputManager._Instance.SetFreelyMoveAndRotate(true);
+        PlayerManager._Instance.getInputManager.FreezeRB(false);
+        PlayerManager._Instance.getInputManager.SetFreelyMoveAndRotate(true);
         isNotInCooldown = true;
     }
     private void OnDestroy()
@@ -303,7 +303,7 @@ GetSetCurrentTotemToDeploy = TotemName.shock;
         finalDmg += Convert.ToInt32(  finalDmg * (StrengthAgainstArmour) * .1f);
 
          TextPopUp.Create(TextType.NormalDMG, ( transform.position + enemy.transform.root.position)/2f, finalDmg);
-         PlayerGFX._Instance.ApplyPlayerVFX((enemy.transform.parent.position + transform.position) / 2f, VFXWorldType.EnemyGotHit);
+         PlayerManager._Instance.getPlayerGfx.ApplyPlayerVFX((enemy.transform.parent.position + transform.position) / 2f, VFXWorldType.EnemyGotHit);
         enemy.GetDamage(finalDmg, transform.position, GetSetWeaponSO.vulnerabilityActivator);
     }
 

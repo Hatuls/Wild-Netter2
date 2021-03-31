@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentRealTime: 0
-  totemName: 0
+  totemName: 4
   VfxPref: {fileID: 0}
   continueSpawning: 0
 --- !u!1001 &1962826573925524387

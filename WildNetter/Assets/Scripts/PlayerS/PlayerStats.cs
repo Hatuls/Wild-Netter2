@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEngine;
 
 
-public class PlayerStats : MonoSingleton<PlayerStats>
+public class PlayerStats : MonoBehaviour
 {
 
 
@@ -16,8 +16,9 @@ public class PlayerStats : MonoSingleton<PlayerStats>
     //Getters & Setters:
 
 
-    public override void Init()
+    public void Init()
     {
+        Debug.Log("PlayerStat Init");
         playerStats.ResetStats();
         playerStats.MaxStamina = staminaPerLevel * GetSetStaminaPoints;
         currentStamina = playerStats.MaxStamina;
@@ -237,7 +238,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
     public void AddStaminaAmount(float amount)
     {
-
+        Debug.Log("Using Stamina");
         if (amount == 0)
             return;
 

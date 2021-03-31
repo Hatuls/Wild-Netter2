@@ -76,7 +76,7 @@ public class TotemManager : MonoSingleton<TotemManager>
     {
         if (currentGameTotemDict.ContainsKey(totemID))
         {
-            PlayerStats._Instance.RemoveBuff(currentGameTotemDict[totemID].GetBuff);
+            PlayerManager._Instance.getPlayerStats.RemoveBuff(currentGameTotemDict[totemID].GetBuff);
             currentGameTotemDict[totemID].UnsubscibeBuffs();
             currentGameTotemDict.Remove(totemID);
 

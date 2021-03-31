@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TotemOfStamina : TotemSO
 {
-
     Buffs buff;
     bool isCurrentlyInRange;
     bool toStopCoroutine;
@@ -18,7 +17,7 @@ public class TotemOfStamina : TotemSO
     public void DisableBuff() {
         toStopCoroutine = true;
         isCurrentlyInRange = false;
-        PlayerStats._Instance.RemoveBuffRegeneration(buff);
+        PlayerManager._Instance.getPlayerStats.RemoveBuffRegeneration(buff);
     }
     bool SetIsCurrenltlyInRange
     {
@@ -30,13 +29,13 @@ public class TotemOfStamina : TotemSO
             isCurrentlyInRange = value;
             if (this.isCurrentlyInRange)
             {
-                PlayerStats._Instance.AddBuffRegeneration(this.buff);
+                PlayerManager._Instance.getPlayerStats.AddBuffRegeneration(this.buff);
                 buff.SetGetBuffActive = true;
             }
             else
             {
                 buff.SetGetBuffActive = false;
-                PlayerStats._Instance.RemoveBuffRegeneration(this.buff);
+                PlayerManager._Instance.getPlayerStats.RemoveBuffRegeneration(this.buff);
             }
         }
     }
@@ -44,7 +43,7 @@ public class TotemOfStamina : TotemSO
     public TotemOfStamina(string[] lootData, string[] totemData) : base(lootData, totemData)
     {
       buff = new Buffs(RegenerationType.Stamina,
-          (this.effectAmountPrecentage.GetValueOrDefault() * PlayerStats._Instance.GetSetMaxStamina / 100)
+          (this.effectAmountPrecentage.GetValueOrDefault() * PlayerManager._Instance.getPlayerStats.GetSetMaxStamina / 100)
           ,Mathf.Infinity );
     }
 

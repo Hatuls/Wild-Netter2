@@ -69,14 +69,14 @@ public class SceneHandler : MonoSingleton<SceneHandler>
             case TriggerAreaEffect.OpenUI:
                 Debug.Log("Open UI!!!!");
                 // UiManager._Instance
-                InputManager._Instance.GetSetCanPlayerRotate = false;
+                //InputManager._Instance.GetSetCanPlayerRotate = false;
                 spawningPoint = theTriggered.gameObject.transform.position;
                 UiManager._Instance.ExitZone();
                 break;
             case TriggerAreaEffect.GoToScene:
                 Debug.Log("GoToNext Scene!!!");
                 //LoadScene(theTriggered.goToScene);
-                PlayerMovement._Instance.GetSetPlayerSpeed = 0;
+                PlayerManager._Instance.getPlayerMovement.GetSetPlayerSpeed = 0;
           
                 //layerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
                 SpawnPlayer(theTriggered.gameObject.transform.position);
@@ -120,7 +120,7 @@ public class SceneHandler : MonoSingleton<SceneHandler>
 
     public void SetPlayerToScene(Vector3 playerPos)
     {
-        PlayerMovement._Instance.GetSetPlayerSpeed = 0;
+        PlayerManager._Instance.getPlayerMovement.GetSetPlayerSpeed = 0;
         GetSetPlayPhase = PlayPhase.BattlePhase;
         //PlayerMovement._Instance.RotateTowardsDirection(panel.position - PlayerManager._Instance.GetPlayerTransform.position);
         SpawnPlayer(playerPos);

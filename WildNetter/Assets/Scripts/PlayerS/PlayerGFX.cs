@@ -6,7 +6,7 @@ using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
 
 public enum VFXWorldType {PlayerGotHit, EnemyGotHit};
-public class PlayerGFX : MonoSingleton<PlayerGFX>
+public class PlayerGFX : MonoBehaviour
 {
 
     //Variables:
@@ -17,7 +17,7 @@ public class PlayerGFX : MonoSingleton<PlayerGFX>
 
     //Functions:
 
-    public override void Init()
+    public void Init()
     {
         UpdateAnimClipTimes();
 
@@ -33,13 +33,13 @@ public class PlayerGFX : MonoSingleton<PlayerGFX>
     }
     public void SetAnimationTrigger(string paramName)
     {
-        _Animator.SetTrigger(paramName);
+       // _Animator.SetTrigger(paramName);
 
-        StartCoroutine(AnimCoru());
+       // StartCoroutine(AnimCoru());
     }
     public void SetAnimationFloat(float value, string paramName)
     {
-        _Animator.SetFloat(paramName, value);
+        //_Animator.SetFloat(paramName, value);
 
     }
     IEnumerator AnimCoru()

@@ -402,7 +402,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void FlatDamage(int Damage)
     {
-        PlayerGFX._Instance.ApplyPlayerVFX( transform.position , VFXWorldType.EnemyGotHit);
+        PlayerManager._Instance.getPlayerGfx.ApplyPlayerVFX( transform.position , VFXWorldType.EnemyGotHit);
         OnRecieveDmg(Damage);
     }
     public virtual void EnemyKilled() 

@@ -1273,6 +1273,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6400959532743813391, guid: 15ff07f18545d1b4d8fb436202eadd7f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -5.399994
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400959533106262353, guid: 15ff07f18545d1b4d8fb436202eadd7f,
+        type: 3}
+      propertyPath: m_Value
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6400959533296030207, guid: 15ff07f18545d1b4d8fb436202eadd7f,
         type: 3}
       propertyPath: m_IsActive
@@ -2148,6 +2158,10 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 267789258}
+    - target: {fileID: 267789246, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: playerStats.MaxStamina
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1924940592, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
       propertyPath: playerManager
       value: 
@@ -2160,6 +2174,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: walkingSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6129027829125652422, guid: 25fe12de0e000b149b1fe9614fa61a42,
+        type: 3}
+      propertyPath: currentSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6129027829125652424, guid: 25fe12de0e000b149b1fe9614fa61a42,
         type: 3}

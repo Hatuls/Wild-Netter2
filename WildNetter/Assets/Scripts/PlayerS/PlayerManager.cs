@@ -1,8 +1,10 @@
 ﻿
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoSingleton<PlayerManager>
 {
+    
+
     [SerializeField] Transform playerLegs;
 
     [SerializeField]
@@ -23,7 +25,8 @@ public class PlayerManager : MonoBehaviour
 
     [SerializeField]
     private PlayerGFX playerGfx;
-    public PlayerGFX getPlayerGfx;
+    public PlayerGFX getPlayerGfx => playerGfx;
+
 
 
     //EventsAndAction
@@ -64,9 +67,22 @@ public class PlayerManager : MonoBehaviour
     public Transform GetPlayerTransform { get { return transform; } }
 
     //Functions:
-    
-
    
+
+    public override void Init()
+    {
+        InitPlayerComponents();
+    }
+
+        public void InitPlayerComponents()
+    {
+        //order are important here
+        playermovement.Init();
+        playerCombat.Init();
+        inputManager.Init();
+        playerStats.Init();
+        playerGfx.Init();
+    }
 
     public void Respawn() { }
 
