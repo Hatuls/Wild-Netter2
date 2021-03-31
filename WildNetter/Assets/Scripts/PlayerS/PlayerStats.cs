@@ -365,7 +365,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
 
 
     #region Regeneration Params
-    const float healthRegenerationAmount = 0;
+    const float healthRegenerationAmount = 1;
     const float staminaRegenerationAmount = 5;
    // List<Buffs> RegenerationBuffs ;
 
@@ -435,7 +435,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         if (!stopStaminaRegeneration)
             StaminaRegeneration();
 
-        if (stopHealthRegeneration)
+        if (!stopHealthRegeneration)
             HealthRegeneration();
       
         yield return new WaitForSeconds(1f);
@@ -466,7 +466,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
         float totalAmount = staminaRegenerationAmount;
 
 
-
+        Debug.Log("Stamina");
 
             if (buffsArr != null &&buffsArr.Length > 0 && counter > 0)
             {
@@ -485,7 +485,7 @@ public class PlayerStats : MonoSingleton<PlayerStats>
     }
     private void HealthRegeneration() {
         float totalAmount = healthRegenerationAmount;
-
+        Debug.Log("REgeneration");
         if (buffsArr == null)
             return;
         if (buffsArr.Length > 0 && counter > 0)

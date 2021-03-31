@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TotemOfHealing : TotemSO
 {
-  
+    private List<GameObject> playerHealed = new List<GameObject>();
     Buffs buff;
     bool isCurrentlyInRange;
     bool toBreakOut;
@@ -45,10 +46,23 @@ public class TotemOfHealing : TotemSO
 
     public override void DoEffect(Vector3 totemLocation, Vector3 targetLocation)
     {
+
         if (CheckRange(totemLocation, targetLocation, range))
+        {
             this.SetIsCurrenltlyInRange = true;
+            
+
+
+
+            Debug.Log("Heal Effect: " + true);
+        }
         else
+        {
             this.SetIsCurrenltlyInRange = false;
+            Debug.Log("Heal Effect: " + false);
+        }
+
+        
     }
     public override IEnumerator ActivateTotemEffect(Transform targetPos, GameObject totem)
     {
@@ -57,7 +71,7 @@ public class TotemOfHealing : TotemSO
         while (GetCurrentTime() < timeToDestroy)
         {
 
-            //this.DoEffect(totem.transform.position, targetPos.position);
+            this.DoEffect(totem.transform.position, targetPos.position);
              
             if (toBreakOut)
                 break;

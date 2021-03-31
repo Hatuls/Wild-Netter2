@@ -2152,6 +2152,10 @@ PrefabInstance:
       propertyPath: playerManager
       value: 
       objectReference: {fileID: 267789258}
+    - target: {fileID: 1924940592, guid: 25fe12de0e000b149b1fe9614fa61a42, type: 3}
+      propertyPath: currentTotemHolder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6129027829125652421, guid: 25fe12de0e000b149b1fe9614fa61a42,
         type: 3}
       propertyPath: m_Name
