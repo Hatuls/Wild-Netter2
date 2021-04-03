@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldMapManager : MonoBehaviour
+public class WorldMapManager : MonoSingleton<WorldMapManager>
 {
+    
+
     [SerializeField] RectTransform playerToken;
     [SerializeField] RectTransform[] mapLocations;
     [SerializeField] bool isMovingToward;
-    [SerializeField]RectTransform choosenLocation
+    [SerializeField] RectTransform choosenLocation;
+
+
+    public override void Init()
     {
-        set
-        {
-            if (value != null)
-            {
-                isMovingToward = true;
-            }
-            else
-            {
-                isMovingToward = false;
-            }
-            choosenLocation = value;
-        }
+        NoChoosenLocation();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,27 +26,24 @@ public class WorldMapManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isMovingToward)
-            GoTowardLocation();
-    }
 
-    void GoTowardLocation()
-    {
-       
     }
 
     public void OnClickGoToMapLocation(int index)
     {
+        Debug.Log("Go to Location: " + index + " " + mapLocations[index].gameObject.name) ;
+        
         //make playertoken go to map location that he clicked on
         choosenLocation = mapLocations[index];
+        LeanTween.move(playerToken, choosenLocation.localPosition, 0.5f);
     }
 
-    void NoChoosenLocation()
+    public void NoChoosenLocation()
     {
         choosenLocation = null;
     }
 
-    void ChangeToMapScene(string SceneName)
+    public void ChangeToMapScene(string SceneName)
     {
         Debug.Log("Go to Location: " + SceneName);
         //when the player arrives to his destination change the scene

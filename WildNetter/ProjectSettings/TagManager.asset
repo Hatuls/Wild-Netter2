@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AreaTriggers
   - manipulated
+  - PlayerToken
   layers:
   - Default
   - TransparentFX
