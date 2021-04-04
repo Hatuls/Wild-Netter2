@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WorldMapManager : MonoSingleton<WorldMapManager>
 {
-    
+    [SerializeField] PathManager pathManager;
 
     [SerializeField] RectTransform playerToken;
     [SerializeField] RectTransform[] mapLocations;
@@ -20,7 +18,7 @@ public class WorldMapManager : MonoSingleton<WorldMapManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -31,16 +29,23 @@ public class WorldMapManager : MonoSingleton<WorldMapManager>
 
     public void OnClickGoToMapLocation(int index)
     {
-        Debug.Log("Go to Location: " + index + " " + mapLocations[index].gameObject.name) ;
-        
-        //make playertoken go to map location that he clicked on
-        choosenLocation = mapLocations[index];
-        LeanTween.move(playerToken, choosenLocation.localPosition, 0.5f);
+        if (!isMovingToward)
+        {
+            isMovingToward = true;
+            Debug.Log("Go to Location: " + index + " " + mapLocations[index].gameObject.name);
+
+            //make playertoken go to map location that he clicked on
+            choosenLocation = mapLocations[index];
+            // pathManager.StartGoingOnPath();
+            pathManager.CheckPath(pathManager.getStartZone, choosenLocation.GetComponent<Zone>(), playerToken.gameObject);
+            //LeanTween.move(playerToken, choosenLocation.localPosition, 0.5f);
+        }
     }
 
     public void NoChoosenLocation()
     {
         choosenLocation = null;
+        isMovingToward = false;
     }
 
     public void ChangeToMapScene(string SceneName)
